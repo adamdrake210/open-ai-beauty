@@ -1,6 +1,8 @@
 import React from "react";
-import Image from "next/image";
 import { Post } from "@prisma/client";
+import Link from "next/link";
+
+import { PostCard } from "@/components/common/PostCard";
 
 async function getOpenAiPosts() {
   const response = await fetch("http://localhost:3000/api/open-ai/get-all", {
@@ -13,25 +15,18 @@ async function getOpenAiPosts() {
 }
 
 export default async function Page() {
-  const posts = await getOpenAiPosts();
-
-  const firstPost: Post = posts[1];
+  const posts: Post[] = await getOpenAiPosts();
 
   return (
-    <div>
-      <h2 className="text-3xl font-bold underline">{firstPost.title}</h2>
-      {firstPost.imageUrl && (
-        <Image
-          src={firstPost.imageUrl}
-          alt={`Picture of ${firstPost.title}`}
-          width={500}
-          height={500}
-        />
-      )}
-      <p>{firstPost.content}</p>
-      <p>By {firstPost.author}</p>
-      {/* @ts-ignore */}
-      <p>By: {firstPost.createdAt}</p>
+    <div className="text-gray-600">
+      <h1 className="text-3xl font-light my-4">Poems by AI</h1>
+      <div className="grid grid-cols-3 gap-4 my-6">
+        {posts.reverse().map((post: Post) => (
+          <Link key={post.id} href={`/poems/${post.id}`}>
+            <PostCard post={post} />
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

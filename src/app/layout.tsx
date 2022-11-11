@@ -9,7 +9,7 @@ export default function RootLayout({
     <html>
       <head></head>
       <body>
-        <div className="container mx-auto">{children}</div>
+        <div className="container mx-auto max-w-screen-lg">{children}</div>
       </body>
     </html>
   );
