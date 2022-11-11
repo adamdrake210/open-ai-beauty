@@ -1,51 +1,37 @@
 import React from "react";
-import {
-  openaiTextResponseApi,
-  openaiImageResponseApi,
-} from "@/services/openaiApi";
 import Image from "next/image";
+import { Post } from "@prisma/client";
 
-async function getOpenAiText(prompt: string) {
-  return await openaiTextResponseApi(prompt);
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
-}
-
-async function getOpenAiImage(prompt: string) {
-  return await openaiImageResponseApi(prompt);
+async function getOpenAiPosts() {
+  const response = await fetch("http://localhost:3000/api/open-ai/get-all", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.json();
 }
 
 export default async function Page() {
-  const date = new Date();
+  const posts = await getOpenAiPosts();
 
-  const subject = "trees";
-
-  const preamble =
-    "Create a deep and meaningful poem that is no more than 100 words long. Finish at a full stop '.' The poem should be about the following topic: ";
-
-  const inspiringTitle = await getOpenAiText(
-    `Create an inspiring poem title about ${subject}, no more than 6 words`
-  );
-
-  const inspiredText = await getOpenAiText(`${preamble} ${subject}`);
-
-  const image = await getOpenAiImage(
-    `${inspiredText?.substring(0, 50)}, water color pencil drawing`
-  );
+  const firstPost: Post = posts[1];
 
   return (
     <div>
-      <h2 className="text-3xl font-bold underline">{inspiringTitle}</h2>
-      {image && (
+      <h2 className="text-3xl font-bold underline">{firstPost.title}</h2>
+      {firstPost.imageUrl && (
         <Image
-          src={image}
-          alt={`Picture of ${inspiredText}`}
+          src={firstPost.imageUrl}
+          alt={`Picture of ${firstPost.title}`}
           width={500}
           height={500}
         />
       )}
-      <p>{inspiredText}</p>
-      <p>Posted: {date.toDateString()}</p>
+      <p>{firstPost.content}</p>
+      <p>By {firstPost.author}</p>
+      {/* @ts-ignore */}
+      <p>By: {firstPost.createdAt}</p>
     </div>
   );
 }
