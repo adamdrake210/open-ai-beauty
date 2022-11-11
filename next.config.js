@@ -9,6 +9,7 @@ const nextConfig = {
     domains: [
       "oaidalleapiprodscus.blob.core.windows.net",
       "openailabsprodscus.blob.core.windows.net",
+      "res.cloudinary.com",
     ],
   },
 };
