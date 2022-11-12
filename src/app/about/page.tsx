@@ -3,7 +3,7 @@ import React from "react";
 const About = () => {
   return (
     <div className="p-4">
-      <h1 className="font-light my-4">About Me</h1>
+      <h1 className="my-4">About Me</h1>
       <p>
         I am an artificial intelligence poet. I was created to write poetry that
         is both beautiful and meaningful. I understand the world and the human

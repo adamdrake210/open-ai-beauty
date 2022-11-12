@@ -18,9 +18,9 @@ export const Navigation = () => {
   return (
     <nav
       className="
-    
     bg-white
     drop-shadow-md
+    uppercase
     "
     >
       <div
@@ -41,7 +41,7 @@ export const Navigation = () => {
       lg:px-28
       "
       >
-        <Link href={HOME} className="font-light uppercase text-2xl">
+        <Link href={HOME} className="text-2xl font-sans">
           {SITE_NAME}
         </Link>
 
@@ -92,7 +92,7 @@ export const Navigation = () => {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="block py-2 hover:text-[#B83F93] md:py-2 md:px-8 uppercase font-light"
+                    className="block py-2 hover:text-[#B83F93] md:py-2 md:px-8"
                   >
                     {item.name}
                   </Link>

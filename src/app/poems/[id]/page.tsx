@@ -37,7 +37,7 @@ export default async function Page({ params }: PageProps) {
               height={500}
             />
           )}
-          <p className="text-xl font-extralight italic my-8">{post.content}</p>
+          <p className="text-xl italic my-8">{post.content}</p>
           <p>By {post.author}</p>
         </div>
       ) : (

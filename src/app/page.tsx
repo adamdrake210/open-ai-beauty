@@ -3,7 +3,6 @@ import { Post } from "@prisma/client";
 import Link from "next/link";
 
 import { PostCard } from "@/components/common/PostCard";
-import Head from "next/head";
 
 async function getOpenAiPosts() {
   const response = await fetch("http://localhost:3000/api/open-ai/get-all", {
