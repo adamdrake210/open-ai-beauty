@@ -1,29 +1,36 @@
 import React from "react";
-import { openaiApi } from "@/services/openaiApi";
+import { Post } from "@prisma/client";
+import Link from "next/link";
 
-async function getOpenAiText(prompt: string) {
-  return await openaiApi(prompt);
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
+import { PostCard } from "@/components/common/PostCard";
+
+async function getOpenAiPosts() {
+  const response = await fetch("http://localhost:3000/api/open-ai/get-all", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.json();
 }
 
 export default async function Page() {
-  const inspiredText = await getOpenAiText("Say something inspiring");
-  const birthdayText = await getOpenAiText(
-    "Name one famous person who has their birthday today"
-  );
-  const historicalFactText = await getOpenAiText(
-    "Write one interesting fact about 5th november from history"
-  );
+  const posts: Post[] = await getOpenAiPosts();
 
   return (
-    <div>
-      <h2>Inspiration</h2>
-      <p>{inspiredText}</p>
-      <h2>Historical Fact</h2>
-      <p>{historicalFactText}</p>
-      <h2>Birthday</h2>
-      <p>{birthdayText} was born today.</p>
-    </div>
+    <section className="p-4">
+      <h1 className="my-4">Poems by AI</h1>
+      <div className="grid my-6 grid-cols-1 lg:grid-cols-3 lg:gap-8">
+        {posts.reverse().map((post: Post) => (
+          <Link
+            key={post.id}
+            href={`/poems/${post.id}`}
+            className="max-w-md flex justify-self-center"
+          >
+            <PostCard post={post} />
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
