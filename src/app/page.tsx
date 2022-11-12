@@ -5,8 +5,9 @@ import Link from "next/link";
 import { PostCard } from "@/components/common/PostCard";
 
 async function getOpenAiPosts() {
-  const response = await fetch("http://localhost:3000/api/open-ai/get-all", {
+  const response = await fetch(`${process.env.API_URL}/api/open-ai/get-all`, {
     method: "GET",
+    cache: "no-store",
     headers: {
       "Content-Type": "application/json",
     },
