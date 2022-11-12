@@ -1,3 +1,4 @@
+import { Navigation } from "@/components/Navigation";
 import "./globals.css";
 
 export default function RootLayout({
@@ -9,7 +10,10 @@ export default function RootLayout({
     <html>
       <head></head>
       <body>
-        <div className="container mx-auto max-w-screen-lg">{children}</div>
+        <Navigation />
+        <div className="container mx-auto max-w-screen-lg text-gray-600 font-light">
+          {children}
+        </div>
       </body>
     </html>
   );

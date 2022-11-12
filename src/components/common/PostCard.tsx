@@ -10,7 +10,7 @@ export const PostCard = ({ post }: PostCardProps) => {
   const { imageUrl, title, content } = post;
 
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg">
+    <div className="rounded mb-8 overflow-hidden shadow-lg lg:h-[450px]">
       {imageUrl && (
         <Image
           src={imageUrl}
@@ -20,7 +20,10 @@ export const PostCard = ({ post }: PostCardProps) => {
         />
       )}
       <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">{title}</div>
+        <div className="font-bold text-xl mb-2">{`${title?.substring(
+          0,
+          30
+        )}...`}</div>
         <p className="text-gray-700 text-base">
           {`${content?.substring(0, 40)}...`}
         </p>
