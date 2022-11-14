@@ -5,13 +5,16 @@ import Link from "next/link";
 import { PostCard } from "@/components/common/PostCard";
 
 async function getOpenAiPosts() {
-  const response = await fetch(`${process.env.API_URL}/api/open-ai/get-all`, {
-    method: "GET",
-    cache: "no-store",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetch(
+    `https://openai-beauty.vercel.app/api/open-ai/get-all`,
+    {
+      method: "GET",
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   return response.json();
 }
 
