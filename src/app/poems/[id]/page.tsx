@@ -19,7 +19,7 @@ export default async function Page({ params }: PageProps) {
   const post: Post | null = await getPostByID(id as string);
 
   return (
-    <div>
+    <section className="p-4">
       {post ? (
         <div className="max-w-md mx-auto text-gray-600 my-6">
           <h1 className="text-3xl font-light mb-4">{post.title}</h1>
@@ -38,6 +38,6 @@ export default async function Page({ params }: PageProps) {
       ) : (
         <p>No post found</p>
       )}
-    </div>
+    </section>
   );
 }

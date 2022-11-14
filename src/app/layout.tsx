@@ -1,4 +1,6 @@
+import { LegalDisclaimer } from "@/components/LegalDisclaimer";
 import { Navigation } from "@/components/Navigation";
+import Head from "next/head";
 import "./globals.css";
 
 export default function RootLayout({
@@ -8,11 +10,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head></head>
+      <head />
       <body>
         <Navigation />
-        <div className="container font-primary font-extralight mx-auto max-w-screen-lg text-gray-600 h-100">
+        <div className="font-primary font-extralight mx-auto max-w-screen-lg text-gray-600 h-100 w-full">
           {children}
+          <LegalDisclaimer />
         </div>
       </body>
     </html>

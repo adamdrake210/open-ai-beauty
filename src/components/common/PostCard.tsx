@@ -10,7 +10,7 @@ export const PostCard = ({ post }: PostCardProps) => {
   const { imageUrl, title, content } = post;
 
   return (
-    <div className="rounded mb-8 overflow-hidden shadow-lg lg:h-[450px]">
+    <div className="rounded mb-8 shadow-lg lg:h-[450px]">
       {imageUrl && (
         <Image
           src={imageUrl}
