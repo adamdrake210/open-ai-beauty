@@ -30,7 +30,7 @@ export default async function handle(
     const preamble = `Write a poem that is in the style of ${determinePoetInspiration()}. The number of syllables for each line of verse will be 9. The poem will be a ${determinePoemStyle}. The poem will be about the following topic: `;
 
     const title = await openaiTextResponseApi(
-      `Create an inspiring poem title of no more than 6 words about ${subject}.`
+      `Create a unique poem title about ${subject}.`
     );
 
     const author = await openaiTextResponseApi(
