@@ -5,7 +5,11 @@ import {
   openaiImageResponseApi,
 } from "@/services/openaiApi";
 import { uploadCloudinaryImage } from "@/services/cloudinary";
-import { determineImageGenre } from "@/utils/detemineImageGenre";
+import {
+  determineImageGenre,
+  determinePoemStyle,
+  determinePoetInspiration,
+} from "@/utils/generatingVariables";
 
 // POST /api/post
 export default async function handle(
@@ -16,18 +20,17 @@ export default async function handle(
   const token = req.headers.token as string;
 
   if (token !== process.env.POSTING_TOKEN) {
-    res.status(401).json({ error: "Invalid token" });
+    res.status(401).json({ error: "Unauthorized" });
     return;
   }
 
   try {
     const { subject } = req.body;
 
-    const preamble =
-      "Write a poem that is no more than 100 words long. Finish at a full stop. The poem should be about the following topic: ";
+    const preamble = `Write a poem that is in the style of ${determinePoetInspiration()}. The number of syllables for each line of verse will be 9. The poem will be a ${determinePoemStyle}. The poem will be about the following topic: `;
 
     const title = await openaiTextResponseApi(
-      `Create an inspiring poem title about ${subject}, length is 6 words`
+      `Create an inspiring poem title of no more than 6 words about ${subject}.`
     );
 
     const author = await openaiTextResponseApi(
