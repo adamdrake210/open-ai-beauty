@@ -6,14 +6,24 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // Check req is coming from secure place
+  const token = req.headers.token as string;
+
+  if (token !== process.env.POSTING_TOKEN) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+
+  const { id } = req.query;
+
   try {
-    const posts = await prisma.post.findMany({
+    const post = await prisma.post.findUnique({
       where: {
-        published: true,
+        id: String(id),
       },
     });
 
-    res.status(200).json(posts);
+    res.status(200).json(post);
   } catch (error) {
     console.error(error);
     res.status(500);

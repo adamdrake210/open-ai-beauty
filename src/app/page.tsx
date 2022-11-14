@@ -3,18 +3,10 @@ import { Post } from "@prisma/client";
 import Link from "next/link";
 
 import { PostCard } from "@/components/common/PostCard";
+import { fetchApi } from "@/utils/apiHelper";
 
 async function getOpenAiPosts() {
-  const response = await fetch(
-    `https://openai-beauty.vercel.app/api/open-ai/get-all`,
-    {
-      method: "GET",
-      cache: "no-store",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const response = await fetchApi("poems/get-all");
   return response.json();
 }
 

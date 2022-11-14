@@ -1,17 +1,12 @@
 import React from "react";
 import { Post } from "@prisma/client";
-import { useRouter } from "next/router";
-
-import prisma from "@/lib/prisma";
 import Image from "next/image";
 
+import { fetchApi } from "@/utils/apiHelper";
+
 async function getPostByID(id: string) {
-  const post = await prisma.post.findUnique({
-    where: {
-      id,
-    },
-  });
-  return post;
+  const response = await fetchApi(`poems/get-one/${id}`);
+  return response.json();
 }
 
 type PageProps = {
