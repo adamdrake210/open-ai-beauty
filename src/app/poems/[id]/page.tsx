@@ -17,7 +17,6 @@ export default async function Page({ params }: PageProps) {
   const { id } = params;
 
   const post: Post | null = await getPostByID(id as string);
-  console.log("🚀 ~ file: page.tsx ~ line 20 ~ Page ~ post", post);
 
   const replaceWhiteSpace = (str: string) =>
     str.replaceAll(/\n\n/g, "\n").replaceAll(/\n/g, "<br />");
