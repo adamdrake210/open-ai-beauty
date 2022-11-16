@@ -13,7 +13,6 @@ export const uploadCloudinaryImage = async (imageUrl: string) => {
       },
     ],
   });
-  console.log("cloudinaryResponse", cloudinaryResponse);
 
   return cloudinaryResponse.secure_url;
 };

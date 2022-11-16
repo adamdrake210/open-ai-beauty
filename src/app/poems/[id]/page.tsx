@@ -19,7 +19,7 @@ export default async function Page({ params }: PageProps) {
   const post: Post | null = await getPostByID(id as string);
 
   return (
-    <section className="p-4">
+    <section className="h-screen">
       {post ? (
         <div className="max-w-md mx-auto text-gray-600 my-6">
           <h1 className="text-3xl font-light mb-4">{post.title}</h1>

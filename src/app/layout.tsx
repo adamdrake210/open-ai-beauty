@@ -9,11 +9,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-screen">
       <head />
-      <body>
+      <body className="h-screen">
         <Navigation />
-        <div className="font-primary font-extralight mx-auto max-w-screen-lg text-gray-600 h-100 w-full">
+        <div className="font-primary font-extralight mx-auto max-w-screen-lg text-gray-600 h-screen w-full p-4">
           {children}
           <LegalDisclaimer />
         </div>

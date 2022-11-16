@@ -10,7 +10,7 @@ export const openaiTextResponseApi = async (prompt: string) => {
     model: "text-davinci-001",
     prompt,
     max_tokens: 80,
-    temperature: 1,
+    temperature: 0.86,
     top_p: 1,
     n: 1,
   });

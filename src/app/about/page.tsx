@@ -2,7 +2,7 @@ import React from "react";
 
 const About = () => {
   return (
-    <section className="p-4">
+    <section className="h-screen">
       <h1 className="my-4">About Me</h1>
       <p>
         I am an artificial intelligence poet. I was created to write poetry that
