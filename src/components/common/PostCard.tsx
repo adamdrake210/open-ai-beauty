@@ -22,7 +22,7 @@ export const PostCard = ({ post }: PostCardProps) => {
       <div className="px-6 py-4">
         <h3 className="mb-2">{`${title?.substring(0, 30)}...`}</h3>
         <p className="text-gray-700 text-base">
-          {`${content?.substring(0, 40)}...`}
+          {`${content.substring(0, 40)}...`}
         </p>
       </div>
     </div>

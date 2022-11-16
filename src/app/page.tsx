@@ -17,7 +17,7 @@ export default async function Page() {
     <section className="p-4">
       <h1 className="my-4">Poems by AI</h1>
       <div className="grid grid-cols-1 my-6 lg:grid-cols-3 lg:gap-8">
-        {posts.reverse().map((post: Post) => (
+        {posts.map((post: Post) => (
           <Link key={post.id} href={`/poems/${post.id}`}>
             <PostCard post={post} />
           </Link>

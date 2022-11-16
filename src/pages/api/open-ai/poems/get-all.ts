@@ -19,6 +19,11 @@ export default async function handle(
       where: {
         published: true,
       },
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
     });
 
     res.status(200).json(posts);
