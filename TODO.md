@@ -1,11 +1,11 @@
 # Todos
 
-- Google Analytics
-- One landing page about poems
-- Fonts for Headings
-- Social links to my github and homepage
 - FIX - \n to be saved in database
+- Render params passed through to make poem
+- lazy loading for poems more than 9
+- Fonts for Headings
 - Favicon
 - SEO
-- lazy loading for poems more than 9
-- Render params passed through to make poem
+- Google Analytics
+- One landing page about poems
+- Social links to my github and homepage
