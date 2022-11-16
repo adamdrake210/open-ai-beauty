@@ -47,12 +47,10 @@ export const determinePoemStyle = () => {
   const poemTypes = [
     "sonnet",
     "ballad",
-    "ode",
     "limerick",
     "haiku",
     "couplet",
     "rhyming couplet",
-    "terza rima",
     "sapphic stanza",
     "villanelle",
     "free verse",

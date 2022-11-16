@@ -13,7 +13,7 @@ export default function RootLayout({
       <head />
       <body>
         <Navigation />
-        <div className="font-primary font-extralight mx-auto max-w-screen-lg text-gray-600 h-100 w-full">
+        <div className="font-primary font-extralight mx-auto max-w-screen-lg text-gray-600 h-screen w-full p-4">
           {children}
           <LegalDisclaimer />
         </div>
