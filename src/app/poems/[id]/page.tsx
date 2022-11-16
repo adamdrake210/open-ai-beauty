@@ -38,7 +38,7 @@ export default async function Page({ params }: PageProps) {
           <p
             className="text-xl italic my-8"
             dangerouslySetInnerHTML={{
-              __html: replaceWhiteSpace(post.content),
+              __html: replaceWhiteSpace(post?.content),
             }}
           />
 
