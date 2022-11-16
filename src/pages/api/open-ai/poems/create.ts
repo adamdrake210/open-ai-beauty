@@ -38,7 +38,6 @@ export default async function handle(
     );
 
     const content = await openaiTextResponseApi(`${preamble} ${subject}`);
-    console.log("🚀 ~ file: create.ts ~ line 41 ~ content", content);
 
     const imageUrl = await openaiImageResponseApi(
       `${content?.substring(0, 50)}, ${determineImageGenre()}`
