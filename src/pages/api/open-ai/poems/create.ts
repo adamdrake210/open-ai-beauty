@@ -56,14 +56,14 @@ export default async function handle(
       poemStyle: determinePoemStyle(),
     };
 
-    const result: Post = await prisma.post.create({
+    const result = await prisma.post.create({
       data: {
         title: title || "Untitled",
         content: content || "No content",
         author: author || "Anonymous",
         imageUrl: cloudinaryImageUrl,
         published: true,
-        poemParams,
+        // poemParams,
       },
     });
 
