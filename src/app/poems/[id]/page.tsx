@@ -18,6 +18,9 @@ export default async function Page({ params }: PageProps) {
 
   const post: Post | null = await getPostByID(id as string);
 
+  const replaceWhiteSpace = (str: string) =>
+    str?.replaceAll(/\n\n/g, "\n").replaceAll(/\n/g, "<br />");
+
   return (
     <section className="h-screen">
       {post ? (
@@ -32,7 +35,15 @@ export default async function Page({ params }: PageProps) {
               height={500}
             />
           )}
-          <p className="text-xl italic my-8">{post.content}</p>
+          {post?.content && (
+            <p
+              className="text-xl italic my-8"
+              dangerouslySetInnerHTML={{
+                __html: replaceWhiteSpace(post?.content),
+              }}
+            />
+          )}
+
           <p>By {post.author}</p>
         </div>
       ) : (

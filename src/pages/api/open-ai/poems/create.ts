@@ -10,6 +10,7 @@ import {
   determinePoemStyle,
   determinePoetInspiration,
 } from "@/utils/generatingVariables";
+import { Post } from "@prisma/client";
 
 // POST /api/post
 export default async function handle(
@@ -49,13 +50,20 @@ export default async function handle(
       cloudinaryImageUrl = await uploadCloudinaryImage(imageUrl);
     }
 
+    const poemParams = {
+      poemRequest: `${preamble} ${subject}`,
+      poetInspiration: determinePoetInspiration(),
+      poemStyle: determinePoemStyle(),
+    };
+
     const result = await prisma.post.create({
       data: {
         title: title || "Untitled",
-        content,
+        content: content || "No content",
         author: author || "Anonymous",
         imageUrl: cloudinaryImageUrl,
         published: true,
+        // poemParams,
       },
     });
 
