@@ -36,6 +36,19 @@ export const determinePoetInspiration = () => {
     "Robert Frost",
     "Edgar Allan Poe",
     "Walt Whitman",
+    "Pablo Neruda",
+    "Langston Hughes",
+    "Rumi",
+    "Maya Angelou",
+    "T.S. Eliot",
+    "Oscar Wilde",
+    "John Keats",
+    "Ralph Waldo Emerson",
+    "William Wordsworth",
+    "Sylvia Plath",
+    "John Milton",
+    "William Blake",
+    "Emily Brontë",
   ];
 
   const randomIndex = getRandomSelection(poets);

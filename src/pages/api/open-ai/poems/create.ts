@@ -28,7 +28,10 @@ export default async function handle(
   try {
     const { subject } = req.body;
 
-    const preamble = `Create a new poem that is in the style of ${determinePoetInspiration()}. The number of syllables for each line of verse will be 9. The poem will be a ${determinePoemStyle()}. The poem will be about the following topic: `;
+    const poet = determinePoetInspiration();
+    const poemStyle = determinePoemStyle();
+
+    const preamble = `Create a new poem that is in the style of ${poet}. The number of syllables for each line of verse will be 9. The poem will be a ${poemStyle}. The poem will be about the following topic: `;
 
     const title = await openaiTextResponseApi(
       `Create a unique poem title about ${subject}.`
@@ -52,8 +55,8 @@ export default async function handle(
 
     const poemParams = {
       poemRequest: `${preamble} ${subject}`,
-      poetInspiration: determinePoetInspiration(),
-      poemStyle: determinePoemStyle(),
+      poetInspiration: poet,
+      poemStyle,
     };
 
     const result = await prisma.post.create({
@@ -63,7 +66,7 @@ export default async function handle(
         author: author || "Anonymous",
         imageUrl: cloudinaryImageUrl,
         published: true,
-        // poemParams,
+        poemParams,
       },
     });
 
