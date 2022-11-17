@@ -2,7 +2,7 @@ import React from "react";
 import { Post } from "@prisma/client";
 import Link from "next/link";
 
-import { PostCard } from "@/components/common/PostCard";
+import { PostCard } from "@/components/PostCard";
 import { fetchApi } from "@/utils/apiHelper";
 
 async function getOpenAiPosts() {

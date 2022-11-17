@@ -3,6 +3,11 @@ import { Post } from "@prisma/client";
 import Image from "next/image";
 
 import { fetchApi } from "@/utils/apiHelper";
+import {
+  PoemParameters,
+  PoemParametersType,
+} from "@/components/PoemParameters";
+import { Divider } from "@/components/common/Divider";
 
 async function getPostByID(id: string) {
   const response = await fetchApi(`poems/get-one/${id}`);
@@ -43,8 +48,9 @@ export default async function Page({ params }: PageProps) {
               }}
             />
           )}
-
           <p>By {post.author}</p>
+          <Divider />
+          <PoemParameters params={post.poemParams as PoemParametersType} />
         </div>
       ) : (
         <p>No post found</p>
