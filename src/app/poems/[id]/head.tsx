@@ -1,8 +1,7 @@
-import { NextSeo } from "next-seo";
-
 import { SITE_URL } from "@/constants/constants";
 import prisma from "@/lib/prisma";
 import { Post } from "@prisma/client";
+import { SEOComponent } from "@/components/SEOComponent";
 
 async function getPostByID(id: string) {
   const post = await prisma.post.findUnique({
@@ -32,27 +31,11 @@ export default async function Head({ params }: HeadProps) {
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>{title}</title>
-      <NextSeo
+      <SEOComponent
         title={title}
         description={description}
-        canonical={url}
-        openGraph={{
-          url,
-          title,
-          description,
-          images: [
-            {
-              url:
-                post?.imageUrl ||
-                "https://res.cloudinary.com/dmiizmobu/image/upload/v1668758334/openai-beauty/DALL_E_2022-11-18_08.57.24.png",
-              width: 1600,
-              height: 900,
-              alt: title,
-              type: "image/jpeg",
-            },
-          ],
-          siteName: "OpenAI GPT-3 Poems",
-        }}
+        siteUrl={url}
+        imageUrl={post?.imageUrl}
       />
     </>
   );

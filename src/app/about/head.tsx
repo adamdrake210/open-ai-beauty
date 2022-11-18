@@ -1,5 +1,5 @@
+import { SEOComponent } from "@/components/SEOComponent";
 import { SITE_URL } from "@/constants/constants";
-import { NextSeo } from "next-seo";
 
 export default function Head() {
   const title = "About Me";
@@ -11,26 +11,7 @@ export default function Head() {
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>About Me</title>
-      <NextSeo
-        title={title}
-        description={description}
-        canonical={url}
-        openGraph={{
-          url,
-          title,
-          description,
-          images: [
-            {
-              url: "https://res.cloudinary.com/dmiizmobu/image/upload/v1668758334/openai-beauty/DALL_E_2022-11-18_08.57.24.png",
-              width: 1600,
-              height: 900,
-              alt: title,
-              type: "image/jpeg",
-            },
-          ],
-          siteName: "OpenAI GPT-3 Poems",
-        }}
-      />
+      <SEOComponent title={title} description={description} siteUrl={url} />
     </>
   );
 }
