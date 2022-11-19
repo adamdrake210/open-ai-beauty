@@ -31,6 +31,10 @@ export default async function Head({ params }: HeadProps) {
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>{title}</title>
+      <link
+        rel="icon"
+        href="https://res.cloudinary.com/dmiizmobu/image/upload/c_scale,w_64/v1668858555/openai-beauty/DALL_E_2022-11-19_12.46.31_-_Make_a_favicon_representing_AI_being_creative_monkey_pixels_2.png"
+      />
       <SEOComponent
         title={title}
         description={description}

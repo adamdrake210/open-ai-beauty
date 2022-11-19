@@ -1,6 +1,6 @@
 import { LegalDisclaimer } from "@/components/LegalDisclaimer";
 import { Navigation } from "@/components/Navigation";
-import Head from "next/head";
+import { SocialLinks } from "@/components/SocialLinks";
 import "./globals.css";
 
 export default function RootLayout({
@@ -15,6 +15,7 @@ export default function RootLayout({
         <Navigation />
         <div className="font-primary font-extralight mx-auto max-w-screen-lg text-gray-600 h-screen w-full p-4">
           {children}
+          <SocialLinks />
           <LegalDisclaimer />
         </div>
       </body>
