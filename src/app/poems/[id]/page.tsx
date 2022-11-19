@@ -1,6 +1,7 @@
 import React from "react";
 import { Post } from "@prisma/client";
 import Image from "next/image";
+import prisma from "@/lib/prisma";
 
 import { fetchApi } from "@/utils/apiHelper";
 import {
@@ -10,8 +11,23 @@ import {
 import { Divider } from "@/components/common/Divider";
 
 async function getPostByID(id: string) {
-  const response = await fetchApi(`poems/get-one/${id}`);
-  return response.json();
+  // const response = await fetchApi(`poems/get-one/${id}`);
+  // return response.json();
+
+  try {
+    const response = await prisma.post.findUnique({
+      where: {
+        id: String(id),
+      },
+    });
+
+    return response;
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  } finally {
+    await prisma.$disconnect();
+  }
 }
 
 type PageProps = {

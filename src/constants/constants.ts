@@ -1,4 +1,4 @@
-export const SITE_NAME = "OpenAI GPT-3 Poems";
+export const SITE_NAME = "OpenAI GPT-3 Poems!";
 
 export const SITE_URL = "https://openai-beauty.vercel.app";
 
