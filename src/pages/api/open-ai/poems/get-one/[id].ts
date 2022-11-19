@@ -9,7 +9,7 @@ export default async function handle(
   // Check req is coming from secure place
   const token = req.headers.token as string;
 
-  if (token !== process.env.POSTING_TOKEN) {
+  if (token !== process.env.NEXT_PUBLIC_POSTING_TOKEN) {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
