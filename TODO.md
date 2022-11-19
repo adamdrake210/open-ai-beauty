@@ -5,5 +5,4 @@
 - Fonts for Headings
 - Google Analytics
 - One landing page about poems
-- Social links to my github and homepage
 - Add likes feature
