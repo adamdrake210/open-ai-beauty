@@ -1,5 +1,7 @@
 import type { AppProps } from "next/app";
+import { trpc } from "@/utils/trpc";
 import { Yeseva_One, Josefin_Sans } from "@next/font/google";
+import "../styles/globals.css";
 
 const josefin = Josefin_Sans({
   weight: ["100"],
@@ -11,7 +13,7 @@ const yeseva = Yeseva_One({
   subsets: ["latin"],
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <style jsx global>
@@ -25,4 +27,6 @@ export default function App({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
     </>
   );
-}
+};
+
+export default trpc.withTRPC(MyApp);
