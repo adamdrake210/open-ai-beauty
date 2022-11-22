@@ -79,10 +79,6 @@ export const poemRequestRouter = router({
   getOne: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input }) => {
-      console.log(
-        "🚀 ~ file: poemRequest.ts ~ line 93 ~ getOne:publicProcedure.input ~ input",
-        input
-      );
       const item = await prisma.post.findUnique({
         where: {
           id: input.id,
