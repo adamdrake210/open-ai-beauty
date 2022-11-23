@@ -1,21 +1,15 @@
 import React from "react";
-import { Post } from "@prisma/client";
-import Image from "next/image";
 
 import { trpc } from "@/utils/trpc";
-import {
-  PoemParameters,
-  PoemParametersType,
-} from "@/components/PoemParameters";
-import { Divider } from "@/components/common/Divider";
 import Head from "next/head";
 import Layout from "@/layout/Layout";
 import { SEOComponent } from "@/components/SEOComponent";
 import { SITE_URL } from "@/constants/constants";
 import { useRouter } from "next/router";
 import { Loader } from "@/components/common/Loader";
+import { Poem } from "@/components/Poem";
 
-export default function Poem() {
+export default function PoemPage() {
   const router = useRouter();
 
   const {
@@ -25,9 +19,6 @@ export default function Poem() {
   const { data: post, isLoading } = trpc.poemRequest.getOne.useQuery({
     id: id as string,
   });
-
-  const replaceWhiteSpace = (str: string) =>
-    str?.replaceAll(/\n\n/g, "\n").replaceAll(/\n/g, "<br />");
 
   const title = post?.title || "Poems By AI";
   const description =
@@ -55,38 +46,7 @@ export default function Poem() {
           {isLoading ? (
             <Loader loadingText="Loading..." />
           ) : (
-            <>
-              {post ? (
-                <div className="max-w-md mx-auto text-gray-600 my-6">
-                  <h1 className="text-3xl font-light mb-4">{post?.title}</h1>
-                  {post?.imageUrl && (
-                    <Image
-                      className="rounded-lg shadow-lg"
-                      src={post.imageUrl}
-                      alt={`Image of ${post.title}`}
-                      width={500}
-                      height={500}
-                    />
-                  )}
-                  {post?.content && (
-                    <p
-                      className="text-xl italic my-8"
-                      dangerouslySetInnerHTML={{
-                        __html: replaceWhiteSpace(post?.content),
-                      }}
-                    />
-                  )}
-                  <p>By {post?.author}</p>
-                  <Divider />
-                  <PoemParameters
-                    params={post?.poemParams as PoemParametersType}
-                  />
-                  <Divider />
-                </div>
-              ) : (
-                <p>No post found</p>
-              )}
-            </>
+            <>{post ? <Poem post={post} /> : <p>No post found</p>}</>
           )}
         </section>
       </Layout>
