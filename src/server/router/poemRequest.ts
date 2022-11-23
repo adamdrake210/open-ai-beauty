@@ -60,7 +60,7 @@ export const poemRequestRouter = router({
             }
           : undefined,
         orderBy: {
-          createdAt: "desc",
+          createdAt: "asc",
         },
       });
       let nextCursor: typeof cursor | undefined = undefined;
@@ -95,7 +95,7 @@ export const poemRequestRouter = router({
   add: publicProcedure
     .input(
       z.object({
-        token: z.string(),
+        token: z.string().optional(),
         subject: z.string().min(1).max(100),
       })
     )
