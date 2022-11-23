@@ -10,7 +10,7 @@ export const Poems = () => {
   const { data, isLoading } = trpc.poemRequest.list.useQuery({ limit: 10 });
 
   return (
-    <div className="grid grid-cols-1 my-6 lg:grid-cols-3 lg:gap-8">
+    <div className="grid grid-cols-1 my-6 md:grid-cols-3 md:gap-4 lg:gap-8">
       {isLoading ? (
         <Loader loadingText="Loading..." />
       ) : (
