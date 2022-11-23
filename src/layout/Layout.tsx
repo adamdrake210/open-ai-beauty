@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navigation />
-      <div className="font-primary font-extralight mx-auto max-w-screen-lg text-gray-600 h-screen w-full p-4">
+      <div className="container font-primary font-thin mx-auto text-gray-600 h-full w-full p-2 max-w-screen-xl">
         {children}
         <SocialLinks />
         <LegalDisclaimer />

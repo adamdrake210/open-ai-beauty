@@ -19,6 +19,7 @@ export const Navigation = () => {
     bg-white
     drop-shadow-md
     uppercase
+    font-primary
     "
     >
       <div
@@ -39,7 +40,7 @@ export const Navigation = () => {
       lg:px-28
       "
       >
-        <Link href={HOME} className="text-2xl font-sans">
+        <Link href={HOME} className="text-2xl">
           {SITE_NAME}
         </Link>
 

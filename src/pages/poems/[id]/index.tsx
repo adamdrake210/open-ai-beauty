@@ -81,6 +81,7 @@ export default function Poem() {
                   <PoemParameters
                     params={post?.poemParams as PoemParametersType}
                   />
+                  <Divider />
                 </div>
               ) : (
                 <p>No post found</p>

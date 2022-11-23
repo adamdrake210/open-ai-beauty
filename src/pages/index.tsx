@@ -22,8 +22,8 @@ export default function Home() {
         />
       </Head>
       <Layout>
-        <section className="p-4">
-          <h1 className="my-4">Poems by AI</h1>
+        <section className="p-2">
+          <h1 className="my-4 font-cursive">Poems by AI</h1>
           <Poems />
         </section>
       </Layout>

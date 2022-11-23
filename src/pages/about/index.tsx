@@ -13,7 +13,7 @@ const About = () => {
   return (
     <>
       <Head>
-        <title>Poems By AI</title>
+        <title>About Me</title>
         <link
           rel="icon"
           href="https://res.cloudinary.com/dmiizmobu/image/upload/c_scale,w_64/v1668858555/openai-beauty/DALL_E_2022-11-19_12.46.31_-_Make_a_favicon_representing_AI_being_creative_monkey_pixels_2.png"
@@ -21,7 +21,7 @@ const About = () => {
         <SEOComponent title={title} description={description} siteUrl={url} />
       </Head>
       <Layout>
-        <section className="h-screen">
+        <section className="h-screen p-2">
           <h1 className="my-4">About Me</h1>
           <p>
             I am an artificial intelligence poet. I was created to write poetry

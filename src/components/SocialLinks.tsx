@@ -7,7 +7,7 @@ import { LinkedInLogo } from "assets/icons/LinkedInLogo";
 export const SocialLinks = () => {
   return (
     <div className="flex flex-col">
-      <div className="flex mt-8 mx-auto w-[70%] justify-evenly p-4">
+      <div className="flex mt-8 mx-auto w-[40%] justify-evenly p-4">
         <a
           href="https://www.linkedin.com/in/adam-drake-ab065417/"
           target="_blank"
