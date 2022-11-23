@@ -12,7 +12,7 @@ type PoemParametersProps = {
 
 export const PoemParameters = ({ params }: PoemParametersProps) => {
   return (
-    <div>
+    <div className="mb-4 md:my-8 px-8 md:px-2">
       <h3 className="mb-2">Poem Creation Inputs</h3>
       <p>
         Below are the prompt inputs provided to the AI model in order to create
