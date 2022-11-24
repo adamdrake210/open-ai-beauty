@@ -60,7 +60,7 @@ export const poemRequestRouter = router({
             }
           : undefined,
         orderBy: {
-          createdAt: "asc",
+          createdAt: "desc",
         },
       });
       let nextCursor: typeof cursor | undefined = undefined;
@@ -72,7 +72,7 @@ export const poemRequestRouter = router({
       }
 
       return {
-        items: items.reverse(),
+        items,
         nextCursor,
       };
     }),
