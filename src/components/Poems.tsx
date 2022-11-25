@@ -7,15 +7,13 @@ import { PostCard } from "./PostCard";
 import { Button } from "./common/buttons/Button";
 
 export const Poems = () => {
-  const { data, isLoading, fetchNextPage } =
+  const { data, isLoading, fetchNextPage, hasNextPage } =
     trpc.poemRequest.list.useInfiniteQuery(
       { limit: 9 },
       {
         getNextPageParam: (lastPage) => lastPage.nextCursor,
       }
     );
-
-  console.log("fetchNextPage", data);
 
   return (
     <>
@@ -35,8 +33,12 @@ export const Poems = () => {
             )}
           </div>
           <div className="flex justify-center w-full">
-            <Button onClick={() => fetchNextPage()} color="primary">
-              Load More
+            <Button
+              onClick={() => fetchNextPage()}
+              color="primary"
+              disabled={!hasNextPage}
+            >
+              {hasNextPage ? "Load More" : "No More Poems"}
             </Button>
           </div>
         </>
