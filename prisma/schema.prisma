@@ -20,4 +20,5 @@ model Post {
   published Boolean  @default(false)
   author    String
   poemParams Json?
+  likeCount Int @default(0)
 }

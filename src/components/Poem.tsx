@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Post } from "@prisma/client";
 import { Divider } from "./common/Divider";
 import { PoemParameters, PoemParametersType } from "./PoemParameters";
+import { LikeComponent } from "./LikeComponent";
+import { trpc } from "@/utils/trpc";
 
 type PoemProps = {
   post: Post;
@@ -32,6 +34,7 @@ export const Poem = ({ post }: PoemProps) => {
           }}
         />
         <p>By {post?.author}</p>
+        <LikeComponent id={post.id} count={post.likeCount} />
       </div>
       <Divider />
 
