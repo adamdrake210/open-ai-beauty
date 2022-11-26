@@ -1,7 +1,7 @@
 import { router, publicProcedure } from "../trpc";
 import { Prisma } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
+import { boolean, date, number, string, z } from "zod";
 import { prisma } from "@/server/prisma";
 import {
   determineImageGenre,
@@ -29,6 +29,7 @@ const defaultPoemRequestSelect = Prisma.validator<Prisma.PostSelect>()({
   poemParams: true,
   createdAt: true,
   updatedAt: true,
+  likeCount: true,
 });
 
 export const poemRequestRouter = router({
@@ -133,7 +134,7 @@ export const poemRequestRouter = router({
         poemStyle,
       };
 
-      const chemicalRequest = await prisma.post.create({
+      const poemRequest = await prisma.post.create({
         data: {
           title: title || "Untitled",
           content: content || "No content",
@@ -144,6 +145,34 @@ export const poemRequestRouter = router({
         },
         select: defaultPoemRequestSelect,
       });
-      return chemicalRequest;
+      return poemRequest;
+    }),
+  updatePost: publicProcedure
+    .input(
+      z
+        .object({
+          id: string(),
+          title: string().min(1).max(255),
+          content: string().min(1).max(500),
+          imageUrl: string().min(1).max(255),
+          published: boolean(),
+          author: string().min(1).max(255),
+          createdAt: string(),
+          updatedAt: string(),
+          likeCount: number().min(1),
+        })
+        .partial()
+    )
+    .mutation(async ({ input }) => {
+      const updatedRequest = await prisma.post.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          ...input,
+        },
+        select: defaultPoemRequestSelect,
+      });
+      return updatedRequest;
     }),
 });
