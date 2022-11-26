@@ -1,3 +1,4 @@
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { trpc } from "@/utils/trpc";
 import React, { useState } from "react";
 
@@ -7,8 +8,13 @@ type LikeComponentProps = {
 };
 
 export const LikeComponent = ({ id, count }: LikeComponentProps) => {
+  const [storedUserLiked, setStoredUserLiked] = useLocalStorage(
+    `userliked_${id}`,
+    false
+  );
+
   const [localCount, setLocalCount] = useState(count);
-  const [userLiked, setUserLiked] = useState(false);
+  // const [userLiked, setUserLiked] = useState(storedUserLiked);
 
   const { mutateAsync } = trpc.poemRequest.updatePost.useMutation({});
 
@@ -16,7 +22,7 @@ export const LikeComponent = ({ id, count }: LikeComponentProps) => {
     try {
       setLocalCount(localCount + 1);
       await mutateAsync({ id, likeCount: localCount + 1 });
-      setUserLiked(true);
+      setStoredUserLiked(true);
     } catch (cause) {
       console.error({ cause }, "Failed to update like");
     }
@@ -30,7 +36,7 @@ export const LikeComponent = ({ id, count }: LikeComponentProps) => {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          fill={userLiked ? "red" : "none"}
+          fill={storedUserLiked ? "red" : "none"}
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
