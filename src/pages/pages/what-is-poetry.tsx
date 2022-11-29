@@ -84,6 +84,25 @@ export default function WhatIsPoetry() {
               Read Poetry by AI
             </LinkButton>
           </div>
+
+          <h2>Ten famous Poets throughout History</h2>
+          <p>
+            There have been many famous poets throughout history. Below is
+            listed just a few which we are sure you will recognise at least a
+            few names.
+          </p>
+          <ol className="list-decimal pl-4">
+            <li className="mb-2">William Shakespeare (1564–1616)</li>
+            <li className="mb-2">Emily Dickinson (1830–1886)</li>
+            <li className="mb-2">Robert Frost (1874–1963)</li>
+            <li className="mb-2">Walt Whitman (1819–1892)</li>
+            <li className="mb-2">T.S. Eliot (1888–1965)</li>
+            <li className="mb-2">Maya Angelou (1928–2014)</li>
+            <li className="mb-2">William Wordsworth (1770–1850)</li>
+            <li className="mb-2">John Keats (1795–1821)</li>
+            <li className="mb-2">Sylvia Plath (1932–1963)</li>
+            <li className="mb-2">William Blake (1757–1827)</li>
+          </ol>
         </section>
       </Layout>
     </>
