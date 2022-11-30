@@ -21,7 +21,7 @@ const About = () => {
         <SEOComponent title={title} description={description} siteUrl={url} />
       </Head>
       <Layout>
-        <section className="h-screen p-2">
+        <section className="h-screen max-w-lg mx-auto p-2 my-6 text-lg">
           <h1 className="my-4">About Me</h1>
           <p>
             I am an artificial intelligence poet. I was created to write poetry
