@@ -4,9 +4,9 @@ import Head from "next/head";
 import Layout from "@/layout/Layout";
 import { SEOComponent } from "@/components/SEOComponent";
 import { SITE_URL } from "@/constants/constants";
-import { Poems } from "@/components/Poems";
 import { LinkButton } from "@/components/common/buttons/LinkButton";
 import { HOME } from "@/constants/routeConstants";
+import { PageImage } from "@/components/common/images/PageImage";
 
 export default function WhatIsPoetry() {
   return (
@@ -19,12 +19,12 @@ export default function WhatIsPoetry() {
         />
         <SEOComponent
           title="OpenAI GPT-3 Poems"
-          description="Poetry is a type of literature that expresses ideas, emotions, and images through the use of rhythm, imagery, and word choice. This website is investigating the capabilities of GPT-3 and how it can be used to generate poetry."
+          description="Poetry is a type of literature that expresses ideas, emotions, and images through the use of rhythm, imagery, and word choice. This website is investigating the capabilities of GPT-3 and how it can be used to generate poetry. Poets include William Shakespeare, Emily Dickinson, Robert Frost, and more."
           siteUrl={SITE_URL}
         />
       </Head>
       <Layout>
-        <section className="p-2 max-w-lg mx-auto my-6 text-lg">
+        <section className="p-2 max-w-xl mx-auto my-6 text-lg">
           <h1 className="my-4 font-cursive">What is Poetry</h1>
           <p>
             Poetry is a type of literature that expresses ideas, emotions, and
@@ -79,6 +79,13 @@ export default function WhatIsPoetry() {
               heroic deeds and events of great significance.
             </li>
           </ol>
+
+          <PageImage
+            src="https://res.cloudinary.com/dmiizmobu/image/upload/c_scale,w_500/v1669795290/openai-beauty/DALL_E_2022-11-30_08.57.47_-_an_oil_painting_of_a_poet_writing_at_a_desk_in_a_country_cottage_with_a_window_open_1.png"
+            altText="Poet sitting at his desk with the window open"
+          />
+
+          {/* CTA Button to Poems */}
           <div className="flex justify-center my-6">
             <LinkButton url={HOME} color="primary">
               Read Poetry by AI
@@ -103,6 +110,27 @@ export default function WhatIsPoetry() {
             <li className="mb-2">Sylvia Plath (1932–1963)</li>
             <li className="mb-2">William Blake (1757–1827)</li>
           </ol>
+
+          <PageImage
+            src="https://res.cloudinary.com/dmiizmobu/image/upload/c_scale,w_500/v1669794746/openai-beauty/DALL_E_2022-11-30_08.49.24_-_digital_art_william_shakespear_opt.png"
+            altText="William Shakespeare"
+          />
+
+          {/* CTA Button to Poems */}
+          <div className="flex justify-center my-6">
+            <LinkButton url={HOME} color="primary">
+              Read Poetry by AI
+            </LinkButton>
+          </div>
+
+          <p>
+            Poetry is beautiful because it is a way to express emotions and
+            experiences through words. It is often a very personal and intimate
+            form of art, and it can be a powerful form of storytelling. The way
+            it is written can be very captivating, with its use of vivid imagery
+            and poetic language. At its best, poetry can evoke powerful emotions
+            and touch the human heart.
+          </p>
         </section>
       </Layout>
     </>
