@@ -4,10 +4,9 @@ import Head from "next/head";
 import Layout from "@/layout/Layout";
 import { SEOComponent } from "@/components/SEOComponent";
 import { SITE_URL } from "@/constants/constants";
-import { LinkButton } from "@/components/common/buttons/LinkButton";
-import { HOME } from "@/constants/routeConstants";
 import { PageImage } from "@/components/common/images/PageImage";
 import { QuoteBlock } from "@/components/common/QuoteBlock";
+import { CTAReadPoemsButton } from "@/components/common/buttons/CTAReadPoemsButton";
 
 export default function WhatIsPoetry() {
   return (
@@ -93,11 +92,7 @@ export default function WhatIsPoetry() {
           />
 
           {/* CTA Button to Poems */}
-          <div className="flex justify-center my-8">
-            <LinkButton url={HOME} color="primary">
-              Read Poetry by AI
-            </LinkButton>
-          </div>
+          <CTAReadPoemsButton />
 
           <h2>Ten famous Poets throughout History</h2>
           <p>
@@ -124,11 +119,7 @@ export default function WhatIsPoetry() {
           />
 
           {/* CTA Button to Poems */}
-          <div className="flex justify-center my-8">
-            <LinkButton url={HOME} color="primary">
-              Read Poetry by AI
-            </LinkButton>
-          </div>
+          <CTAReadPoemsButton />
 
           <QuoteBlock
             quote="Poetry is beautiful because it is a way to express emotions and
