@@ -8,14 +8,17 @@
   }
   h1 {
     @apply text-3xl;
+    @apply mb-4;
     @apply font-cursive;
   }
   h2 {
     @apply text-2xl;
+    @apply mb-4;
     @apply font-cursive;
   }
   h3 {
     @apply text-xl;
+    @apply mb-2;
     @apply font-cursive;
   }
   p {

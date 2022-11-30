@@ -7,6 +7,7 @@ import { SITE_URL } from "@/constants/constants";
 import { LinkButton } from "@/components/common/buttons/LinkButton";
 import { HOME } from "@/constants/routeConstants";
 import { PageImage } from "@/components/common/images/PageImage";
+import { QuoteBlock } from "@/components/common/QuoteBlock";
 
 export default function WhatIsPoetry() {
   return (
@@ -85,8 +86,14 @@ export default function WhatIsPoetry() {
             altText="Poet sitting at his desk with the window open"
           />
 
+          <QuoteBlock
+            quote="Poetry can be
+            used to convey a single thought or emotion, or as a way to explore a
+            subject in greater depth."
+          />
+
           {/* CTA Button to Poems */}
-          <div className="flex justify-center my-6">
+          <div className="flex justify-center my-8">
             <LinkButton url={HOME} color="primary">
               Read Poetry by AI
             </LinkButton>
@@ -117,11 +124,16 @@ export default function WhatIsPoetry() {
           />
 
           {/* CTA Button to Poems */}
-          <div className="flex justify-center my-6">
+          <div className="flex justify-center my-8">
             <LinkButton url={HOME} color="primary">
               Read Poetry by AI
             </LinkButton>
           </div>
+
+          <QuoteBlock
+            quote="Poetry is beautiful because it is a way to express emotions and
+            experiences through words."
+          />
 
           <p>
             Poetry is beautiful because it is a way to express emotions and
