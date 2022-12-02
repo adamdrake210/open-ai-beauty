@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import Script from "next/script";
 import { Yeseva_One, Josefin_Sans } from "@next/font/google";
@@ -6,8 +8,9 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useRouter } from "next/router";
 import * as gtag from "@/utils/gtag";
 import { trpc } from "@/utils/trpc";
+import config from "@/constants/next-seo.config";
+
 import "../styles/globals.css";
-import { useEffect } from "react";
 
 const josefin = Josefin_Sans({
   weight: ["100"],
@@ -60,6 +63,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           }
         `}
       </style>
+      <DefaultSeo {...config} />
 
       <Component {...pageProps} />
       <ReactQueryDevtools initialIsOpen={false} />
