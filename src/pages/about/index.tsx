@@ -2,13 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
 
-import {
-  SITE_DESCRIPTION,
-  SITE_ICON,
-  SITE_IMAGE,
-  SITE_NAME,
-  SITE_URL,
-} from "@/constants/constants";
+import { SITE_DESCRIPTION, SITE_ICON, SITE_URL } from "@/constants/constants";
 import Layout from "@/layout/Layout";
 import config from "@/constants/next-seo.config";
 
