@@ -1,7 +1,7 @@
 import { router, publicProcedure } from "../trpc";
 import { Prisma } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
-import { boolean, date, number, string, z } from "zod";
+import { boolean, number, string, z } from "zod";
 import { prisma } from "@/server/prisma";
 import {
   determineImageGenre,

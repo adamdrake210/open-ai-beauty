@@ -1,28 +1,36 @@
 import React from "react";
 import Head from "next/head";
+import { NextSeo } from "next-seo";
 
 import Layout from "@/layout/Layout";
-import { SEOComponent } from "@/components/SEOComponent";
-import { SITE_URL } from "@/constants/constants";
 import { PageImage } from "@/components/common/images/PageImage";
 import { QuoteBlock } from "@/components/common/QuoteBlock";
 import { CTAReadPoemsButton } from "@/components/common/buttons/CTAReadPoemsButton";
+import config from "@/constants/next-seo.config";
+import { SITE_ICON, SITE_URL } from "@/constants/constants";
 
 export default function WhatIsPoetry() {
+  const title = "What is Poetry?";
+  const description =
+    "Poetry is a type of literature that expresses ideas, emotions, and images through the use of rhythm, imagery, and word choice. It is often written in a metrical pattern and can range from very structured and formal to free-flowing and personal.";
+  const url = `${SITE_URL}/pages/what-is-poetry`;
+
   return (
     <>
       <Head>
-        <title>What is Poetry?</title>
-        <link
-          rel="icon"
-          href="https://res.cloudinary.com/dmiizmobu/image/upload/c_scale,w_64/v1668858555/openai-beauty/DALL_E_2022-11-19_12.46.31_-_Make_a_favicon_representing_AI_being_creative_monkey_pixels_2.png"
-        />
-        <SEOComponent
-          title="OpenAI GPT-3 Poems"
-          description="Poetry is a type of literature that expresses ideas, emotions, and images through the use of rhythm, imagery, and word choice. This website is investigating the capabilities of GPT-3 and how it can be used to generate poetry. Poets include William Shakespeare, Emily Dickinson, Robert Frost, and more."
-          siteUrl={SITE_URL}
-        />
+        <title>{title}</title>
+        <link rel="icon" href={SITE_ICON} />
       </Head>
+      <NextSeo
+        {...config}
+        title={title}
+        description={description}
+        canonical={url}
+        openGraph={{
+          url,
+          description,
+        }}
+      />
       <Layout>
         <section className="p-2 max-w-xl mx-auto my-6 text-lg">
           <h1 className="my-4 font-cursive">What is Poetry</h1>
