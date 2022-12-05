@@ -1,0 +1,39 @@
+# Todos
+
+- Change slugs to poem title with -
+- Email Feature - https://maizzle.com/
+- https://api.api-ninjas.com/v1/randomword
+- Whenever a poem is published an email sent out to distribution list of that poem
+
+# Email feature
+
+- Need an email SMTP server to call via an API
+- Need to generate the emails dynamically from a template - sending text
+- Need to trigger the email send
+
+# Steps
+
+- Create a DB Table to store email addresses and name
+- Will need a GDPR Shit on site
+- When generating a poem, grab list of all emails from table
+- Generate poem in email template too - maizzle??
+- use nodemailer to send email via which smtp host?? - gmail??
+- Batch send to all users (via bcc?)
+
+# Nestjs backend
+
+https://github.com/notiz-dev/nestjs-prisma-starter
+
+- Use lazy-twitter nestjs as example
+- Postgres in docker:
+- Use Prisma https://wanago.io/2021/03/29/api-nestjs-prisma-postgresql/
+- Set up Apis
+- Deploy to DO
+- Add OAuth - Google, Github, Email Password
+- Email:
+  - https://mailpace.com/#pricing - SMTP server, use NodeMailer
+  - https://developers.sendinblue.com/reference/createemailcampaign-1 Possibly?
+  - https://notiz.dev/blog/send-beautiful-emails-crafted-with-maizzle - Create email templates
+  - https://notiz.dev/blog/send-emails-with-nestjs# - Send emails
+  - Transactional emails
+  - Email Poems
