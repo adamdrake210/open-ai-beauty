@@ -61,12 +61,17 @@ type PageInfo {
 }
 
 type Post {
-  author: User
+  author: String!
   content: String
 
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
   id: ID!
+  imageUrl: String!
+  likeCount: Int!
+  poemRequest: String!
+  poemStyle: String!
+  poetInspiration: String!
   published: Boolean!
   title: String!
 

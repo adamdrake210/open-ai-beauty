@@ -5,12 +5,8 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  // previewFeatures = []
 }
 
-generator dbml {
-  provider = "prisma-dbml-generator"
-}
 
 model User {
   id        String   @id @default(cuid())
@@ -20,22 +16,19 @@ model User {
   password  String
   firstname String?
   lastname  String?
-  posts     Post[]
-  role      Role
 }
 
 model Post {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  published Boolean
   title     String
-  content   String?
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  String?
-}
-
-enum Role {
-  ADMIN
-  USER
+  content   String
+  imageUrl  String?
+  published Boolean  @default(false)
+  author    String
+  poemRequest String
+  poetInspiration String
+  poemStyle String
+  likeCount Int @default(0)
 }
