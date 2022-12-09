@@ -24,7 +24,6 @@
 
 https://github.com/notiz-dev/nestjs-prisma-starter
 
-- Use lazy-twitter nestjs as example
 - Postgres in docker:
 - Use Prisma https://wanago.io/2021/03/29/api-nestjs-prisma-postgresql/
 - Set up Apis
