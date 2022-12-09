@@ -1,12 +1,5 @@
 import { PrismaService } from 'nestjs-prisma';
-import {
-  Resolver,
-  Query,
-  Parent,
-  Mutation,
-  Args,
-  ResolveField,
-} from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { UserEntity } from 'src/common/decorators/user.decorator';
 import { GqlAuthGuard } from 'src/auth/gql-auth.guard';
@@ -50,8 +43,8 @@ export class UsersResolver {
     );
   }
 
-  @ResolveField('posts')
-  posts(@Parent() author: User) {
-    return this.prisma.user.findUnique({ where: { id: author.id } }).posts();
-  }
+  // @ResolveField('posts')
+  // posts(@Parent() author: User) {
+  //   return this.prisma.user.findUnique({ where: { id: author.id } }).posts();
+  // }
 }

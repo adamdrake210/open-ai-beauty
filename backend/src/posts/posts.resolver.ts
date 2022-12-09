@@ -73,7 +73,7 @@ export class PostsResolver {
         title: title || 'Untitled',
         content: content || 'No content',
         author: author || 'Anonymous',
-        imageUrl: cloudinaryImageUrl,
+        imageUrl: cloudinaryImageUrl || imageUrl,
         poemRequest,
         poetInspiration,
         poemStyle,

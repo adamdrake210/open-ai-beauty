@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import cloudinary from 'cloudinary';
+import { v2 } from 'cloudinary';
 
 @Injectable()
 export class CloudinaryService {
   async uploadCloudinaryImage(imageUrl: string) {
-    const cloudinaryResponse = await cloudinary.v2.uploader.upload(imageUrl, {
+    const cloudinaryResponse = await v2.uploader.upload(imageUrl, {
       folder: 'openai-beauty',
       format: 'jpg',
       transformation: [
