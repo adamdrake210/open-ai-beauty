@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
-import { Post } from "@prisma/client";
 import { Divider } from "./common/Divider";
-import { PoemParameters, PoemParametersType } from "./PoemParameters";
+import { PoemParameters } from "./PoemParameters";
 import { LikeComponent } from "./LikeComponent";
-import { trpc } from "@/utils/trpc";
+import { GetOnePostQuery } from "@/services/api/graphql/generated";
 
 type PoemProps = {
-  post: Post;
+  post: GetOnePostQuery["post"];
 };
 
 export const Poem = ({ post }: PoemProps) => {
-  const replaceWhiteSpace = (str: string) =>
+  const replaceWhiteSpace = (str: string | null | undefined) =>
     str?.replaceAll(/\n\n/g, "\n").replaceAll(/\n/g, "<br />");
 
   return (
@@ -30,7 +29,7 @@ export const Poem = ({ post }: PoemProps) => {
         <p
           className="text-xl italic"
           dangerouslySetInnerHTML={{
-            __html: replaceWhiteSpace(post?.content),
+            __html: replaceWhiteSpace(post?.content) || "",
           }}
         />
         <p>By {post?.author}</p>
@@ -38,7 +37,11 @@ export const Poem = ({ post }: PoemProps) => {
       </div>
       <Divider />
 
-      <PoemParameters params={post?.poemParams as PoemParametersType} />
+      <PoemParameters
+        poemRequest={post.poemRequest}
+        poemStyle={post.poemStyle}
+        poetInspiration={post.poetInspiration}
+      />
       <Divider />
     </div>
   );

@@ -1,16 +1,16 @@
 import React from "react";
 
-export type PoemParametersType = {
+type PoemParametersProps = {
   poemStyle: string;
   poemRequest: string;
   poetInspiration: string;
 };
 
-type PoemParametersProps = {
-  params: PoemParametersType;
-};
-
-export const PoemParameters = ({ params }: PoemParametersProps) => {
+export const PoemParameters = ({
+  poemStyle,
+  poemRequest,
+  poetInspiration,
+}: PoemParametersProps) => {
   return (
     <div className="mb-4 md:my-8 px-8 md:px-2">
       <h3 className="mb-2">Poem Creation Inputs</h3>
@@ -22,15 +22,15 @@ export const PoemParameters = ({ params }: PoemParametersProps) => {
         <tbody>
           <tr>
             <td className="font-semibold min-w-[200px]">Poem Style</td>
-            <td className="italic">{params.poemStyle}</td>
+            <td className="italic">{poemStyle}</td>
           </tr>
           <tr>
             <td className="font-semibold min-w-[200px]">Request to Model</td>
-            <td className="italic">{params.poemRequest}</td>
+            <td className="italic">{poemRequest}</td>
           </tr>
           <tr>
             <td className="font-semibold min-w-[200px]">Poet Inspiration</td>
-            <td className="italic">{params.poetInspiration}</td>
+            <td className="italic">{poetInspiration}</td>
           </tr>
         </tbody>
       </table>

@@ -1,0 +1,28 @@
+# Authentication
+
+mutation Login($email: String!, $password: String!) {
+  login(data: { email: $email, password: $password }) {
+    accessToken
+    user {
+      id
+      firstname
+      lastname
+    }
+  }
+}
+
+# Creating one Post
+mutation CreatePost($subject: String!) {
+  createPost(data: { subject: $subject }) {
+    id
+    title
+    content
+    poemStyle
+    poemRequest
+    poetInspiration
+    imageUrl
+    published
+    author
+    likeCount
+  }
+}

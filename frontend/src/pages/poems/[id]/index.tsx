@@ -2,7 +2,6 @@ import React from "react";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
 
-import { trpc } from "@/utils/trpc";
 import Layout from "@/layout/Layout";
 import {
   SITE_DESCRIPTION,
@@ -15,6 +14,7 @@ import {
 import { useRouter } from "next/router";
 import { Loader } from "@/components/common/Loader";
 import { Poem } from "@/components/Poem";
+import { useGetOnePostQuery } from "@/services/api/graphql/generated";
 
 export default function PoemPage() {
   const router = useRouter();
@@ -23,12 +23,14 @@ export default function PoemPage() {
     query: { id },
   } = router;
 
-  const { data: post, isLoading } = trpc.poemRequest.getOne.useQuery({
-    id: id as string,
+  const { data, loading, error } = useGetOnePostQuery({
+    variables: {
+      postId: String(id),
+    },
   });
 
-  const title = post?.title || SITE_NAME;
-  const description = post?.content || SITE_DESCRIPTION;
+  const title = data?.post?.title || SITE_NAME;
+  const description = data?.post?.content || SITE_DESCRIPTION;
   const url = `${SITE_URL}/poems/${id}`;
 
   return (
@@ -47,7 +49,7 @@ export default function PoemPage() {
           description,
           images: [
             {
-              url: post?.imageUrl || SITE_IMAGE,
+              url: data?.post?.imageUrl || SITE_IMAGE,
               width: 1200,
               height: 600,
               alt: title,
@@ -64,10 +66,22 @@ export default function PoemPage() {
       />
       <Layout>
         <section>
-          {isLoading ? (
+          {loading ? (
             <Loader loadingText="Loading..." />
           ) : (
-            <>{post ? <Poem post={post} /> : <p>No post found</p>}</>
+            <>
+              {error ? (
+                <p>Something went wrong!</p>
+              ) : (
+                <>
+                  {data?.post ? (
+                    <Poem post={data?.post} />
+                  ) : (
+                    <p>No post found</p>
+                  )}
+                </>
+              )}
+            </>
           )}
         </section>
       </Layout>

@@ -1,0 +1,26 @@
+query Me {
+  me {
+    id
+    firstname
+    lastname
+    posts {
+      id
+    }
+  }
+}
+
+# Query One Post
+query GetOnePost($postId: String!) {
+  post(postId: $postId) {
+    id
+    title
+    content
+    poemStyle
+    poemRequest
+    poetInspiration
+    imageUrl
+    published
+    likeCount
+    author
+  }
+}

@@ -1,13 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { trpc } from "@/utils/trpc";
 import { InputField } from "../common/fields/InputField";
 import { Button } from "../common/buttons/Button";
 import { Loader } from "../common/Loader";
+import { useCreatePostMutation } from "@/services/api/graphql/generated";
 
 export const CreatePoemForm = () => {
-  const { mutateAsync, isLoading, isError, error } =
-    trpc.poemRequest.add.useMutation({});
+  const [createPostMutation, { loading, error }] = useCreatePostMutation();
 
   const {
     register,
@@ -22,7 +21,11 @@ export const CreatePoemForm = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await mutateAsync(data);
+      await createPostMutation({
+        variables: {
+          subject: data.subject,
+        },
+      });
       reset();
       alert("Poem created successfully!");
     } catch (cause) {
@@ -39,18 +42,13 @@ export const CreatePoemForm = () => {
         register={register}
         error={errors.subject}
         required
-        disabled={isLoading}
+        disabled={loading}
       />
-      {isLoading && <Loader loadingText="Creating poem..." />}
-      <Button
-        type="submit"
-        color="primary"
-        disabled={isLoading}
-        className="mt-2"
-      >
+      {loading && <Loader loadingText="Creating poem..." />}
+      <Button type="submit" color="primary" disabled={loading} className="mt-2">
         Create Poem
       </Button>
-      {isError && (
+      {error && (
         <div className="flex justify-center w-full my-4 mx-auto max-w-md p-2 bg-white rounded-lg">
           <p className="text-red-500 m-0">{error.message}</p>
         </div>

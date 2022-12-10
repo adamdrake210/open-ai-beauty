@@ -11,6 +11,7 @@ import { trpc } from "@/utils/trpc";
 import config from "@/constants/next-seo.config";
 
 import "../styles/globals.css";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 const josefin = Josefin_Sans({
   weight: ["100"],
@@ -20,6 +21,11 @@ const josefin = Josefin_Sans({
 const yeseva = Yeseva_One({
   weight: ["400"],
   subsets: ["latin"],
+});
+
+const client = new ApolloClient({
+  uri: "http://localhost:3001/graphql",
+  cache: new InMemoryCache(),
 });
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
@@ -64,8 +70,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         `}
       </style>
       <DefaultSeo {...config} />
-
-      <Component {...pageProps} />
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </>
   );

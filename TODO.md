@@ -27,7 +27,6 @@ https://github.com/notiz-dev/nestjs-prisma-starter
 - Postgres in docker:
 - Use Prisma https://wanago.io/2021/03/29/api-nestjs-prisma-postgresql/
 - Set up Apis
-- Deploy to DO
 - Add OAuth - Google, Github, Email Password
 - Email:
   - https://mailpace.com/#pricing - SMTP server, use NodeMailer
