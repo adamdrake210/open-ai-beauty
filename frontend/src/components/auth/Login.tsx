@@ -56,7 +56,7 @@ export const Login = () => {
         required
         disabled={loading}
       />
-      {loading && <Loader loadingText="Creating poem..." />}
+      {loading && <Loader loadingText="Logging in..." />}
       <Button type="submit" color="primary" disabled={loading} className="mt-2">
         Login
       </Button>

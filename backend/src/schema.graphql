@@ -109,6 +109,7 @@ type Query {
   helloWorld: String!
   me: User!
   post(postId: String!): Post!
+  posts: [Post!]!
   publishedPosts(after: String, before: String, first: Int, last: Int, orderBy: PostOrder, query: String, skip: Int): PostConnection!
 }
 

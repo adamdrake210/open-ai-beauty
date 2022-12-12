@@ -33,7 +33,7 @@ export class PostsResolver {
     return pubSub.asyncIterator('postCreated');
   }
 
-  @UseGuards(GqlAuthGuard)
+  // @UseGuards(GqlAuthGuard)
   @Mutation(() => Post)
   async createPost(@Args('data') data: CreatePostInput) {
     const poet = determinePoetInspiration();
@@ -82,6 +82,16 @@ export class PostsResolver {
     });
     pubSub.publish('postCreated', { postCreated: newPost });
     return newPost;
+  }
+
+  // Posts without pagination
+  @Query(() => [Post])
+  async posts() {
+    const posts = await this.prisma.post.findMany({
+      where: { published: true },
+      orderBy: { createdAt: 'desc' },
+    });
+    return posts;
   }
 
   @Query(() => PostConnection)

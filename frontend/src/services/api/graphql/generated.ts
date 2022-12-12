@@ -147,6 +147,7 @@ export type Query = {
   helloWorld: Scalars['String'];
   me: User;
   post: Post;
+  posts: Array<Post>;
   publishedPosts: PostConnection;
 };
 
@@ -215,7 +216,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'Auth', accessToken: any, user: { __typename?: 'User', id: string, firstname?: string | null, lastname?: string | null } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'Auth', accessToken: any, refreshToken: any, user: { __typename?: 'User', id: string, firstname?: string | null } } };
 
 export type CreatePostMutationVariables = Exact<{
   subject: Scalars['String'];
@@ -236,15 +237,20 @@ export type GetOnePostQueryVariables = Exact<{
 
 export type GetOnePostQuery = { __typename?: 'Query', post: { __typename?: 'Post', id: string, title: string, content?: string | null, poemStyle: string, poemRequest: string, poetInspiration: string, imageUrl: string, published: boolean, likeCount: number, author: string } };
 
+export type GetAllPostsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: string, title: string, content?: string | null, poemStyle: string, poemRequest: string, poetInspiration: string, imageUrl: string, published: boolean, likeCount: number, author: string }> };
+
 
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(data: {email: $email, password: $password}) {
     accessToken
+    refreshToken
     user {
       id
       firstname
-      lastname
     }
   }
 }
@@ -401,3 +407,46 @@ export function useGetOnePostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type GetOnePostQueryHookResult = ReturnType<typeof useGetOnePostQuery>;
 export type GetOnePostLazyQueryHookResult = ReturnType<typeof useGetOnePostLazyQuery>;
 export type GetOnePostQueryResult = Apollo.QueryResult<GetOnePostQuery, GetOnePostQueryVariables>;
+export const GetAllPostsDocument = gql`
+    query GetAllPosts {
+  posts {
+    id
+    title
+    content
+    poemStyle
+    poemRequest
+    poetInspiration
+    imageUrl
+    published
+    likeCount
+    author
+  }
+}
+    `;
+
+/**
+ * __useGetAllPostsQuery__
+ *
+ * To run a query within a React component, call `useGetAllPostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllPostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllPostsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllPostsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllPostsQuery, GetAllPostsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllPostsQuery, GetAllPostsQueryVariables>(GetAllPostsDocument, options);
+      }
+export function useGetAllPostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllPostsQuery, GetAllPostsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllPostsQuery, GetAllPostsQueryVariables>(GetAllPostsDocument, options);
+        }
+export type GetAllPostsQueryHookResult = ReturnType<typeof useGetAllPostsQuery>;
+export type GetAllPostsLazyQueryHookResult = ReturnType<typeof useGetAllPostsLazyQuery>;
+export type GetAllPostsQueryResult = Apollo.QueryResult<GetAllPostsQuery, GetAllPostsQueryVariables>;

@@ -1,9 +1,9 @@
-import { Post } from "@prisma/client";
+import { GetOnePostQuery } from "@/services/api/graphql/generated";
 import Image from "next/image";
 import React from "react";
 
 type PostCardProps = {
-  post: Post;
+  post: GetOnePostQuery["post"];
 };
 
 export const PostCard = ({ post }: PostCardProps) => {

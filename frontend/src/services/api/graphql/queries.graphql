@@ -24,3 +24,19 @@ query GetOnePost($postId: String!) {
     author
   }
 }
+
+# Query All Posts (without pagination)
+query GetAllPosts {
+  posts {
+    id
+    title
+    content
+    poemStyle
+    poemRequest
+    poetInspiration
+    imageUrl
+    published
+    likeCount
+    author
+  }
+}
