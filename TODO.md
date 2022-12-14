@@ -1,6 +1,9 @@
 # Todos
-
+- Pagination on backend api.
+- Auth to create poem
+- Remove Frontend api implementation
 - Change slugs to poem title with -
+- Deploy both apps live (backend and frontend)
 - Email Feature - https://maizzle.com/
 - https://api.api-ninjas.com/v1/randomword
 - Whenever a poem is published an email sent out to distribution list of that poem
