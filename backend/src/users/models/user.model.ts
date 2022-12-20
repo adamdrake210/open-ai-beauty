@@ -3,6 +3,7 @@ import { ObjectType, HideField, Field } from '@nestjs/graphql';
 import { IsEmail } from 'class-validator';
 import { Post } from 'src/posts/models/post.model';
 import { BaseModel } from 'src/common/models/base.model';
+import { Exclude } from 'class-transformer';
 
 @ObjectType()
 export class User extends BaseModel {
@@ -18,6 +19,12 @@ export class User extends BaseModel {
 
   @Field(() => [Post], { nullable: true })
   posts?: [Post] | null;
+
+  @Field({
+    nullable: true,
+  })
+  @Exclude()
+  public currentHashedRefreshToken?: string;
 
   @HideField()
   password: string;

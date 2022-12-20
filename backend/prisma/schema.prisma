@@ -16,6 +16,8 @@ model User {
   password  String
   firstname String?
   lastname  String?
+  currentHashedRefreshToken String?
+
 }
 
 model Post {

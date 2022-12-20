@@ -13,6 +13,7 @@ import { PasswordService } from './password.service';
 import { SignupInput } from './dto/signup.input';
 import { Token } from './models/token.model';
 import { SecurityConfig } from 'src/common/configs/config.interface';
+import { TokenPayload } from './tokenPayload.interface';
 
 @Injectable()
 export class AuthService {
@@ -50,7 +51,10 @@ export class AuthService {
     }
   }
 
-  async login(email: string, password: string): Promise<Token> {
+  async login(
+    email: string,
+    password: string
+  ): Promise<Token & { user: User }> {
     const user = await this.prisma.user.findUnique({ where: { email } });
 
     if (!user) {
@@ -66,9 +70,15 @@ export class AuthService {
       throw new BadRequestException('Invalid password');
     }
 
-    return this.generateTokens({
+    const { accessTokenCookie, refreshTokenCookie } = this.generateTokens({
       userId: user.id,
     });
+
+    return {
+      accessTokenCookie,
+      refreshTokenCookie,
+      user,
+    };
   }
 
   validateUser(userId: string): Promise<User> {
@@ -82,34 +92,75 @@ export class AuthService {
 
   generateTokens(payload: { userId: string }): Token {
     return {
-      accessToken: this.generateAccessToken(payload),
-      refreshToken: this.generateRefreshToken(payload),
+      accessTokenCookie: this.getCookieWithJwtToken(payload.userId),
+      refreshTokenCookie: this.getCookieWithJwtRefreshToken(payload.userId),
     };
   }
 
-  private generateAccessToken(payload: { userId: string }): string {
-    return this.jwtService.sign(payload);
-  }
+  // private generateAccessToken(payload: { userId: string }): string {
+  //   return this.jwtService.sign(payload);
+  // }
 
-  private generateRefreshToken(payload: { userId: string }): string {
-    const securityConfig = this.configService.get<SecurityConfig>('security');
-    return this.jwtService.sign(payload, {
-      secret: this.configService.get('JWT_REFRESH_SECRET'),
-      expiresIn: securityConfig.refreshIn,
+  // private generateRefreshToken(payload: { userId: string }): string {
+  //   const securityConfig = this.configService.get<SecurityConfig>('security');
+  //   return this.jwtService.sign(payload, {
+  //     secret: this.configService.get('JWT_REFRESH_SECRET'),
+  //     expiresIn: securityConfig.refreshIn,
+  //   });
+  // }
+
+  // private refreshToken(token: string) {
+  //   try {
+  //     const { userId } = this.jwtService.verify(token, {
+  //       secret: this.configService.get('JWT_REFRESH_SECRET'),
+  //     });
+
+  //     return this.generateTokens({
+  //       userId,
+  //     });
+  //   } catch (e) {
+  //     throw new UnauthorizedException();
+  //   }
+  // }
+
+  public getCookieWithJwtToken(userId: string) {
+    const payload: TokenPayload = { userId };
+    const token = this.jwtService.sign(payload, {
+      secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET'),
+      expiresIn: `${this.configService.get(
+        'JWT_ACCESS_TOKEN_EXPIRATION_TIME'
+      )}s`,
     });
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+      'JWT_ACCESS_TOKEN_EXPIRATION_TIME'
+    )}`;
   }
 
-  refreshToken(token: string) {
-    try {
-      const { userId } = this.jwtService.verify(token, {
-        secret: this.configService.get('JWT_REFRESH_SECRET'),
-      });
+  public getCookieWithJwtRefreshToken(userId: string) {
+    const payload: TokenPayload = { userId };
+    const token = this.jwtService.sign(payload, {
+      secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET'),
+      expiresIn: `${this.configService.get(
+        'JWT_REFRESH_TOKEN_EXPIRATION_TIME'
+      )}s`,
+    });
+    const cookie = `Refresh=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+      'JWT_REFRESH_TOKEN_EXPIRATION_TIME'
+    )}`;
+    return {
+      cookie,
+      token,
+    };
+  }
 
-      return this.generateTokens({
-        userId,
-      });
-    } catch (e) {
-      throw new UnauthorizedException();
-    }
+  public getCookieForLogOut() {
+    return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
+  }
+
+  public getCookiesForLogOut() {
+    return [
+      'Authentication=; HttpOnly; Path=/; Max-Age=0',
+      'Refresh=; HttpOnly; Path=/; Max-Age=0',
+    ];
   }
 }

@@ -8,17 +8,20 @@ import { AuthService } from './auth.service';
 import { AuthResolver } from './auth.resolver';
 import { JwtStrategy } from './jwt.strategy';
 import { SecurityConfig } from 'src/common/configs/config.interface';
+import { UsersService } from 'src/users/users.service';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => {
-        const securityConfig = configService.get<SecurityConfig>('security');
+        // const securityConfig = configService.get<SecurityConfig>('security');
         return {
-          secret: configService.get<string>('JWT_ACCESS_SECRET'),
+          secret: configService.get<string>('JWT_ACCESS_TOKEN_SECRET'),
           signOptions: {
-            expiresIn: securityConfig.expiresIn,
+            expiresIn: `${configService.get(
+              'JWT_ACCESS_TOKEN_EXPIRATION_TIME'
+            )}s`,
           },
         };
       },
@@ -31,6 +34,7 @@ import { SecurityConfig } from 'src/common/configs/config.interface';
     JwtStrategy,
     GqlAuthGuard,
     PasswordService,
+    UsersService,
   ],
   exports: [GqlAuthGuard],
 })
