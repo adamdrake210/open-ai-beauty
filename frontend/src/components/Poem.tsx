@@ -3,10 +3,9 @@ import Image from "next/image";
 import { Divider } from "./common/Divider";
 import { PoemParameters } from "./PoemParameters";
 import { LikeComponent } from "./LikeComponent";
-import { GetOnePostQuery } from "@/services/api/graphql/generated";
 
 type PoemProps = {
-  post: GetOnePostQuery["post"];
+  post: any; // TODO work out how to type this properly;
 };
 
 export const Poem = ({ post }: PoemProps) => {

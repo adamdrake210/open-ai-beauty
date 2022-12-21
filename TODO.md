@@ -1,8 +1,5 @@
 # Todos
-- Turn Posts to Rest API and remove graphql completely
 - Update Frontend to make REST API calls - React query - remove Apollo
-- Pagination on backend api.
-- Auth to create poem
 - Remove Frontend api implementation
 - Change slugs to poem title with -
 - Deploy both apps live (backend and frontend)

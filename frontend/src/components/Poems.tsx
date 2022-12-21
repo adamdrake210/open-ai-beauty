@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Loader } from "./common/Loader";
 import { PostCard } from "./PostCard";
 import { Button } from "./common/buttons/Button";
-import { useGetAllPostsQuery } from "@/services/api/graphql/generated";
+import { usePosts } from "@/hooks/usePosts";
 
 export const Poems = () => {
   // const { data, isLoading, fetchNextPage, hasNextPage } =
@@ -14,19 +14,18 @@ export const Poems = () => {
   //       getNextPageParam: (lastPage) => lastPage.nextCursor,
   //     }
   //   );
-
-  const { data, loading, error } = useGetAllPostsQuery();
+  const { data, isLoading, isFetching } = usePosts(10);
 
   return (
     <>
-      {loading ? (
+      {isLoading ? (
         <div className="flex justify-center w-full">
           <Loader loadingText="Loading..." />
         </div>
       ) : (
         <>
           <div className="grid grid-cols-1 my-6 md:grid-cols-3 md:gap-4 lg:gap-8 w-full">
-            {data?.posts.map((post) => (
+            {data?.items?.map((post) => (
               <Link key={post.id} href={`/poems/${post.id}`}>
                 <PostCard post={post} />
               </Link>

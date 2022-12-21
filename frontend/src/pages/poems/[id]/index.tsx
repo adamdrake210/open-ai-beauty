@@ -14,7 +14,7 @@ import {
 import { useRouter } from "next/router";
 import { Loader } from "@/components/common/Loader";
 import { Poem } from "@/components/Poem";
-import { useGetOnePostQuery } from "@/services/api/graphql/generated";
+import { usePost } from "@/hooks/usePost";
 
 export default function PoemPage() {
   const router = useRouter();
@@ -23,14 +23,10 @@ export default function PoemPage() {
     query: { id },
   } = router;
 
-  const { data, loading, error } = useGetOnePostQuery({
-    variables: {
-      postId: String(id),
-    },
-  });
+  const { data, isLoading, isError } = usePost(id as string);
 
-  const title = data?.post?.title || SITE_NAME;
-  const description = data?.post?.content || SITE_DESCRIPTION;
+  const title = data?.title || SITE_NAME;
+  const description = data?.content || SITE_DESCRIPTION;
   const url = `${SITE_URL}/poems/${id}`;
 
   return (
@@ -49,7 +45,7 @@ export default function PoemPage() {
           description,
           images: [
             {
-              url: data?.post?.imageUrl || SITE_IMAGE,
+              url: data?.imageUrl || SITE_IMAGE,
               width: 1200,
               height: 600,
               alt: title,
@@ -66,20 +62,14 @@ export default function PoemPage() {
       />
       <Layout>
         <section>
-          {loading ? (
+          {isLoading ? (
             <Loader loadingText="Loading..." />
           ) : (
             <>
-              {error ? (
+              {isError ? (
                 <p>Something went wrong!</p>
               ) : (
-                <>
-                  {data?.post ? (
-                    <Poem post={data?.post} />
-                  ) : (
-                    <p>No post found</p>
-                  )}
-                </>
+                <>{data ? <Poem post={data} /> : <p>No post found</p>}</>
               )}
             </>
           )}

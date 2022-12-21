@@ -1,11 +1,13 @@
 import React from "react";
 import Head from "next/head";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 
 import Layout from "@/layout/Layout";
 import { Poems } from "@/components/Poems";
 import { SITE_ICON, SITE_NAME } from "@/constants/constants";
+import { fetchPosts } from "@/hooks/usePosts";
 
-export default function Home() {
+function Home() {
   return (
     <>
       <Head>
@@ -21,3 +23,20 @@ export default function Home() {
     </>
   );
 }
+
+export async function getStaticProps() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["posts", 10],
+    queryFn: () => fetchPosts(10),
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}
+
+export default Home;

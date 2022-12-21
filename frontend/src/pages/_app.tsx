@@ -1,9 +1,14 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import Script from "next/script";
 import { Yeseva_One, Josefin_Sans } from "@next/font/google";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 
 import { useRouter } from "next/router";
 import * as gtag from "@/utils/gtag";
@@ -11,7 +16,6 @@ import { trpc } from "@/utils/trpc";
 import config from "@/constants/next-seo.config";
 
 import "../styles/globals.css";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 const josefin = Josefin_Sans({
   weight: ["100"],
@@ -23,13 +27,10 @@ const yeseva = Yeseva_One({
   subsets: ["latin"],
 });
 
-const client = new ApolloClient({
-  uri: "http://localhost:3001/graphql",
-  cache: new InMemoryCache(),
-});
-
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
+  const [queryClient] = React.useState(() => new QueryClient());
+
   useEffect(() => {
     const handleRouteChange = (url: string) => {
       gtag.pageview(url);
@@ -70,9 +71,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         `}
       </style>
       <DefaultSeo {...config} />
-      <ApolloProvider client={client}>
-        <Component {...pageProps} />
-      </ApolloProvider>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <Component {...pageProps} />
+        </Hydrate>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </>
   );

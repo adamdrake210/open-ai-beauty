@@ -10,10 +10,6 @@ import isEmpty from "lodash.isempty";
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const data = parseCookies(req);
-  console.log(
-    "🚀 ~ file: admin-create.tsx:13 ~ constgetServerSideProps:GetServerSideProps= ~ data",
-    data
-  );
 
   if (isEmpty(data)) {
     res.statusCode = 403;
