@@ -1,9 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import { Post } from "@prisma/client";
 
 type PostCardProps = {
-  post: Post;
+  post: any; // TODO work out how to type this properly;
 };
 
 export const PostCard = ({ post }: PostCardProps) => {

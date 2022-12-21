@@ -1,9 +1,8 @@
 import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
-import { Post } from "@prisma/client";
 
 type Posts = {
-  items: Post[];
+  items: any[];
   nextCursor: string | null;
 };
 

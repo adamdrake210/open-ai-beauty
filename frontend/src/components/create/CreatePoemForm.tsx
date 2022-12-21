@@ -7,7 +7,7 @@ import { useCreatePost } from "@/hooks/useCreatePost";
 import { handleUnknownError } from "@/utils/handleUnknownError";
 
 export const CreatePoemForm = () => {
-  const { mutate, isLoading, isError, error } = useCreatePost();
+  // const { mutate, isLoading, isError, error } = useCreatePost();
 
   const {
     register,
@@ -22,7 +22,7 @@ export const CreatePoemForm = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await mutate(data.subject);
+      // await mutate(data.subject);
       reset();
       alert("Poem created successfully!");
     } catch (cause) {
@@ -32,7 +32,7 @@ export const CreatePoemForm = () => {
 
   return (
     <form className="w-[50%] min-h-screen" onSubmit={onSubmit}>
-      <InputField
+      {/* <InputField
         name="subject"
         label="Subject"
         formType="text"
@@ -54,7 +54,7 @@ export const CreatePoemForm = () => {
         <div className="flex justify-center w-full my-4 mx-auto max-w-md p-2 bg-white rounded-lg">
           <p className="text-red-500 m-0">{handleUnknownError(error)}</p>
         </div>
-      )}
+      )} */}
     </form>
   );
 };

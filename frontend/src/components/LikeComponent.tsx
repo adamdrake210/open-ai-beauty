@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { trpc } from "@/utils/trpc";
-import { useQueryClient } from "@tanstack/react-query";
 
 type LikeComponentProps = {
   id: string;
@@ -15,23 +13,23 @@ export const LikeComponent = ({ id, count }: LikeComponentProps) => {
     false
   );
 
-  const queryClient = useQueryClient();
-
-  const { mutateAsync } = trpc.poemRequest.updatePost.useMutation({});
-
   const handleLikeCount = async () => {
-    try {
-      setLocalCount(localCount + 1);
-      await mutateAsync({ id, likeCount: localCount + 1 });
+    console.log(
+      "🚀 ~ file: LikeComponent.tsx:19 ~ handleLikeCount ~ handleLikeCount",
+      handleLikeCount
+    );
+    // try {
+    //   setLocalCount(localCount + 1);
+    //   await mutateAsync({ id, likeCount: localCount + 1 });
 
-      queryClient.invalidateQueries([
-        ["poemRequest", "getOne"],
-        { input: { id }, type: "query" },
-      ]),
-        setStoredUserLiked(true);
-    } catch (cause) {
-      console.error({ cause }, "Failed to update like");
-    }
+    //   queryClient.invalidateQueries([
+    //     ["poemRequest", "getOne"],
+    //     { input: { id }, type: "query" },
+    //   ]),
+    //     setStoredUserLiked(true);
+    // } catch (cause) {
+    //   console.error({ cause }, "Failed to update like");
+    // }
   };
 
   return (

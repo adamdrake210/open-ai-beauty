@@ -12,7 +12,6 @@ import {
 
 import { useRouter } from "next/router";
 import * as gtag from "@/utils/gtag";
-import { trpc } from "@/utils/trpc";
 import config from "@/constants/next-seo.config";
 
 import "../styles/globals.css";
@@ -77,9 +76,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         </Hydrate>
         <ReactQueryDevtools />
       </QueryClientProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 };
 
-export default trpc.withTRPC(MyApp);
+export default MyApp;
