@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import { InputField } from "../common/fields/InputField";
 import { Button } from "../common/buttons/Button";
 import { Loader } from "../common/Loader";
-import { useCreatePostMutation } from "@/services/api/graphql/generated";
+import { useCreatePost } from "@/hooks/useCreatePost";
+import { handleUnknownError } from "@/utils/handleUnknownError";
 
 export const CreatePoemForm = () => {
-  const [createPostMutation, { loading, error }] = useCreatePostMutation();
+  const { mutate, isLoading, isError, error } = useCreatePost();
 
   const {
     register,
@@ -21,11 +22,7 @@ export const CreatePoemForm = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await createPostMutation({
-        variables: {
-          subject: data.subject,
-        },
-      });
+      await mutate(data.subject);
       reset();
       alert("Poem created successfully!");
     } catch (cause) {
@@ -42,15 +39,20 @@ export const CreatePoemForm = () => {
         register={register}
         error={errors.subject}
         required
-        disabled={loading}
+        disabled={isLoading}
       />
-      {loading && <Loader loadingText="Creating poem..." />}
-      <Button type="submit" color="primary" disabled={loading} className="mt-2">
+      {isLoading && <Loader loadingText="Creating poem..." />}
+      <Button
+        type="submit"
+        color="primary"
+        disabled={isLoading}
+        className="mt-2"
+      >
         Create Poem
       </Button>
-      {error && (
+      {isError && (
         <div className="flex justify-center w-full my-4 mx-auto max-w-md p-2 bg-white rounded-lg">
-          <p className="text-red-500 m-0">{error.message}</p>
+          <p className="text-red-500 m-0">{handleUnknownError(error)}</p>
         </div>
       )}
     </form>
