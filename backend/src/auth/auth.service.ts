@@ -6,6 +6,8 @@ import {
   BadRequestException,
   ConflictException,
   UnauthorizedException,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -14,32 +16,35 @@ import { SignupInput } from './dto/signup.input';
 import { Token } from './models/token.model';
 import { SecurityConfig } from 'src/common/configs/config.interface';
 import { TokenPayload } from './tokenPayload.interface';
+import { UsersService } from 'src/users/users.service';
+import { compare } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly prisma: PrismaService,
     private readonly passwordService: PasswordService,
     private readonly configService: ConfigService
   ) {}
 
-  async createUser(payload: SignupInput): Promise<Token> {
+  async createUser(payload: SignupInput): Promise<User> {
     const hashedPassword = await this.passwordService.hashPassword(
       payload.password
     );
 
     try {
-      const user = await this.prisma.user.create({
+      const createdUser = await this.prisma.user.create({
         data: {
           ...payload,
           password: hashedPassword,
         },
       });
 
-      return this.generateTokens({
-        userId: user.id,
-      });
+      createdUser.password = undefined;
+      createdUser.currentHashedRefreshToken = undefined;
+      return createdUser;
     } catch (e) {
       if (
         e instanceof Prisma.PrismaClientKnownRequestError &&
@@ -51,39 +56,69 @@ export class AuthService {
     }
   }
 
-  async login(
-    email: string,
-    password: string
-  ): Promise<Token & { user: User }> {
-    const user = await this.prisma.user.findUnique({ where: { email } });
-
-    if (!user) {
-      throw new NotFoundException(`No user found for email: ${email}`);
+  async validateUser(email: string, password: string): Promise<any> {
+    try {
+      const user = await this.usersService.findOneUserByEmailWPassword(email);
+      await this.verifyPassword(password, user.password);
+      if (user) {
+        const { password, ...result } = user;
+        return result;
+      }
+      return null;
+    } catch (error) {
+      throw new HttpException(
+        'Wrong credentials provided',
+        HttpStatus.BAD_REQUEST
+      );
     }
-
-    const passwordValid = await this.passwordService.validatePassword(
-      password,
-      user.password
-    );
-
-    if (!passwordValid) {
-      throw new BadRequestException('Invalid password');
-    }
-
-    const { accessTokenCookie, refreshTokenCookie } = this.generateTokens({
-      userId: user.id,
-    });
-
-    return {
-      accessTokenCookie,
-      refreshTokenCookie,
-      user,
-    };
   }
 
-  validateUser(userId: string): Promise<User> {
-    return this.prisma.user.findUnique({ where: { id: userId } });
+  private async verifyPassword(
+    plainTextPassword: string,
+    hashedPassword: string
+  ) {
+    const isPasswordMatching = await compare(plainTextPassword, hashedPassword);
+    if (!isPasswordMatching) {
+      throw new HttpException(
+        'Wrong credentials provided',
+        HttpStatus.BAD_REQUEST
+      );
+    }
   }
+
+  // async login(
+  //   email: string,
+  //   password: string
+  // ): Promise<Token & { user: User }> {
+  //   const user = await this.prisma.user.findUnique({ where: { email } });
+
+  //   if (!user) {
+  //     throw new NotFoundException(`No user found for email: ${email}`);
+  //   }
+
+  //   const passwordValid = await this.passwordService.validatePassword(
+  //     password,
+  //     user.password
+  //   );
+
+  //   if (!passwordValid) {
+  //     throw new BadRequestException('Invalid password');
+  //   }
+
+  //   const { accessTokenCookie, refreshTokenCookie } = this.generateTokens({
+  //     userId: user.id,
+  //   });
+
+  //   return {
+  //     accessTokenCookie,
+  //     refreshTokenCookie,
+  //     user,
+  //   };
+  // }
+
+  // validateUser(userId: string): Promise<User> {
+  //   return this.prisma.user.findUnique({ where: { id: userId } });
+  // }
 
   getUserFromToken(token: string): Promise<User> {
     const id = this.jwtService.decode(token)['userId'];

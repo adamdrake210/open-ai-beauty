@@ -13,6 +13,7 @@ import { loggingMiddleware } from 'src/common/middleware/logging.middleware';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GqlConfigService } from './gql-config.service';
 import * as Joi from '@hapi/joi';
+import { AuthController } from './auth/auth.controller';
 
 @Module({
   imports: [
@@ -43,7 +44,7 @@ import * as Joi from '@hapi/joi';
     UsersModule,
     PostsModule,
   ],
-  controllers: [AppController],
+  controllers: [AuthController, AppController],
   providers: [AppService, AppResolver],
 })
 export class AppModule {}

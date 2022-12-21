@@ -1,5 +1,10 @@
 import { PrismaService } from 'nestjs-prisma';
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { PasswordService } from 'src/auth/password.service';
 import { ChangePasswordInput } from './dto/change-password.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -15,10 +20,40 @@ export class UsersService {
 
   async user(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput
-  ): Promise<User | null> {
+  ): Promise<Pick<User, 'id' | 'email' | 'firstname' | 'lastname'> | null> {
     return this.prisma.user.findUnique({
       where: userWhereUniqueInput,
+      select: {
+        id: true,
+        email: true,
+        firstname: true,
+        lastname: true,
+      },
     });
+  }
+
+  async findOneUserByIdWPassword(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (user) {
+      return user;
+    }
+    throw new HttpException(
+      'User with this id does not exist',
+      HttpStatus.NOT_FOUND
+    );
+  }
+
+  async findOneUserByEmailWPassword(email: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    return user;
   }
 
   async createUser(data: Prisma.UserCreateInput): Promise<User> {

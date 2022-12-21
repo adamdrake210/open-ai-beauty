@@ -4,7 +4,7 @@ import { findManyCursorConnection } from '@devoxa/prisma-relay-cursor-connection
 import { PubSub } from 'graphql-subscriptions';
 import { UseGuards } from '@nestjs/common';
 import { PaginationArgs } from 'src/common/pagination/pagination.args';
-import { GqlAuthGuard } from 'src/auth/gql-auth.guard';
+// import { GqlAuthGuard } from 'src/auth/gql-auth.guard';
 import { PostIdArgs } from './args/post-id.args';
 import { Post } from './models/post.model';
 import { PostConnection } from './models/post-connection.model';
