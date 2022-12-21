@@ -4,7 +4,6 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from 'nestjs-prisma';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AppResolver } from './app.resolver';
 import { AuthModule } from 'src/auth/auth.module';
 import { UsersModule } from 'src/users/users.module';
 import { PostsModule } from 'src/posts/posts.module';
@@ -45,6 +44,6 @@ import { AuthController } from './auth/auth.controller';
     PostsModule,
   ],
   controllers: [AuthController, AppController],
-  providers: [AppService, AppResolver],
+  providers: [AppService],
 })
 export class AppModule {}

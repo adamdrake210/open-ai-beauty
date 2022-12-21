@@ -9,8 +9,6 @@ import {
   Get,
 } from '@nestjs/common';
 
-// import RequestWithUser from './requestWithUser.interface';
-
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
 
