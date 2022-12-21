@@ -9,16 +9,10 @@ const config: Config = {
   },
   swagger: {
     enabled: true,
-    title: 'Nestjs FTW',
-    description: 'The nestjs API description',
+    title: 'AI-Poetry Nestjs',
+    description: 'APIs for AI-Poetry Backend',
     version: '1.5',
     path: 'api',
-  },
-  graphql: {
-    playgroundEnabled: true,
-    debug: true,
-    schemaDestination: './src/schema.graphql',
-    sortSchema: true,
   },
   security: {
     expiresIn: '2m',

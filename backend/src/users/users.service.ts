@@ -71,23 +71,21 @@ export class UsersService {
     });
   }
 
-  async changePassword(
-    userId: string,
-    userPassword: string,
-    changePassword: ChangePasswordInput
-  ) {
+  async changePassword({
+    userId,
+    currentPassword,
+    newPassword,
+  }: ChangePasswordInput) {
     const passwordValid = await this.passwordService.validatePassword(
-      changePassword.oldPassword,
-      userPassword
+      currentPassword,
+      newPassword
     );
 
     if (!passwordValid) {
       throw new BadRequestException('Invalid password');
     }
 
-    const hashedPassword = await this.passwordService.hashPassword(
-      changePassword.newPassword
-    );
+    const hashedPassword = await this.passwordService.hashPassword(newPassword);
 
     return this.prisma.user.update({
       data: {

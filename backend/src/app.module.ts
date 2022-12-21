@@ -1,4 +1,3 @@
-import { GraphQLModule } from '@nestjs/graphql';
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from 'nestjs-prisma';
@@ -9,8 +8,6 @@ import { UsersModule } from 'src/users/users.module';
 import { PostsModule } from 'src/posts/posts.module';
 import config from 'src/common/configs/config';
 import { loggingMiddleware } from 'src/common/middleware/logging.middleware';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { GqlConfigService } from './gql-config.service';
 import * as Joi from '@hapi/joi';
 import { AuthController } from './auth/auth.controller';
 
@@ -32,11 +29,6 @@ import { AuthController } from './auth/auth.controller';
       prismaServiceOptions: {
         middlewares: [loggingMiddleware(new Logger('PrismaMiddleware'))], // configure your prisma middleware
       },
-    }),
-
-    GraphQLModule.forRootAsync<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      useClass: GqlConfigService,
     }),
 
     AuthModule,

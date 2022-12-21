@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ChangePasswordInput } from './dto/change-password.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UsersService } from './users.service';
 
@@ -30,17 +31,9 @@ export class UsersController {
   @Post('changePassword')
   changePassword(
     @Body()
-    changePasswordBody: {
-      userId: string;
-      currentPassword: string;
-      newPassword: string;
-    }
+    changePasswordBody: ChangePasswordInput
   ) {
-    const { userId, currentPassword, newPassword } = changePasswordBody;
-    return this.usersService.changePassword(userId, currentPassword, {
-      oldPassword: currentPassword,
-      newPassword,
-    });
+    return this.usersService.changePassword(changePasswordBody);
   }
 
   @Patch(':id')
