@@ -77,9 +77,11 @@ export class UsersService {
     currentPassword,
     newPassword,
   }: ChangePasswordInput) {
+    const user = await this.findOneUserByIdWPassword(userId);
+
     const passwordValid = await this.passwordService.validatePassword(
       currentPassword,
-      newPassword
+      user.password
     );
 
     if (!passwordValid) {
@@ -93,6 +95,12 @@ export class UsersService {
         password: hashedPassword,
       },
       where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        firstname: true,
+        lastname: true,
+      },
     });
   }
 
