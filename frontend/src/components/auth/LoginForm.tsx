@@ -9,7 +9,7 @@ import { handleUnknownError } from "@/utils/handleUnknownError";
 import { useRouter } from "next/router";
 import { CREATE_POST } from "@/constants/routeConstants";
 
-export const Login = () => {
+export const LoginForm = () => {
   const router = useRouter();
 
   const { mutate, isLoading, isError, error } = useMutation({
@@ -25,6 +25,7 @@ export const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
     },
@@ -47,11 +48,11 @@ export const Login = () => {
 
   const onSubmit = handleSubmit((data) => {
     try {
-      const loginData = mutate(data, {
-        onSuccess: () => {
+      mutate(data, {
+        onSuccess: async (data) => {
           console.log(
             "🚀 ~ file: Login.tsx:32 ~ onSubmit ~ loginData",
-            loginData
+            await data.json()
           );
           reset();
           router.push(CREATE_POST);

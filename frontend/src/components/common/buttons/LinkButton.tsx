@@ -5,9 +5,15 @@ type LinkButtonProps = {
   children: string | React.ReactNode;
   url: string;
   color: "primary" | "secondary";
+  className?: string;
 };
 
-export const LinkButton = ({ children, url, color }: LinkButtonProps) => {
+export const LinkButton = ({
+  children,
+  url,
+  color,
+  className,
+}: LinkButtonProps) => {
   return (
     <Link
       href={url}
@@ -15,23 +21,9 @@ export const LinkButton = ({ children, url, color }: LinkButtonProps) => {
         color === "primary"
           ? "bg-purple-500 hover:bg-purple-700"
           : "bg-blue-300 hover:bg-blue-400"
-      }`}
+      } ${className || ""}`}
     >
       {children}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="ml-2 h-5 w-5 mb-1"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth="1"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M14 5l7 7m0 0l-7 7m7-7H3"
-        />
-      </svg>
     </Link>
   );
 };

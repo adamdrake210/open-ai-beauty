@@ -12,7 +12,7 @@ import { userFromRequest } from "@/utils/tokens";
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const data = await userFromRequest(req);
 
-  if (!data.userId) {
+  if (!data?.userId) {
     res.statusCode = 403;
     return {
       redirect: {

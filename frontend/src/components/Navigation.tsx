@@ -2,18 +2,35 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { ABOUT, HOME, LOGIN, REGISTER } from "@/constants/routeConstants";
 import { SITE_NAME } from "@/constants/constants";
+import { Button } from "./common/buttons/Button";
+import { LinkButton } from "./common/buttons/LinkButton";
+import { useLogout } from "@/hooks/useLogout";
+import { useRouter } from "next/router";
+import { useQueryClient } from "@tanstack/react-query";
 
 const menuItems = [
   {
     name: "About",
     href: ABOUT,
   },
-  { name: "Login", href: LOGIN },
   { name: "Register", href: REGISTER },
 ];
 
 export const Navigation = () => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { mutate, isLoading, isError, error } = useLogout();
+
+  const handleLogout = () => {
+    mutate("nic", {
+      onSuccess: () => {
+        console.log("logout success");
+        queryClient.removeQueries();
+        router.push(HOME);
+      },
+    });
+  };
 
   return (
     <nav
@@ -85,7 +102,6 @@ export const Navigation = () => {
               flex 
               justify-between
               pt-0
-              text-2xl
               text-gray-500"
           >
             {menuItems.map((item) => {
@@ -93,13 +109,34 @@ export const Navigation = () => {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="block py-2 hover:text-[#B83F93] md:py-2 md:px-8"
+                    className="block py-2 hover:text-[#B83F93] md:py-2 md:px-4 text-2xl"
                   >
                     {item.name}
                   </Link>
                 </li>
               );
             })}
+            {false ? (
+              <li>
+                <LinkButton
+                  url={LOGIN}
+                  color="primary"
+                  className="md:py-2 md:px-4"
+                >
+                  Login
+                </LinkButton>
+              </li>
+            ) : (
+              <li>
+                <Button
+                  color="secondary"
+                  className="md:py-2 md:px-4"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </li>
+            )}
           </ul>
         </div>
         {isMenuOpen && (
@@ -115,7 +152,7 @@ export const Navigation = () => {
                     <Link
                       href={item.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="block py-2 hover:text-[#B83F93] hover:underline lg:py-4 lg:px-8"
+                      className="block py-2 hover:text-[#B83F93] hover:underline lg:py-4 lg:px-4"
                     >
                       {item.name}
                     </Link>
