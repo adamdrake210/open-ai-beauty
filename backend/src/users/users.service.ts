@@ -11,6 +11,15 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { User, Prisma } from '@prisma/client';
 import { HashingService } from 'src/auth/hashing/hashing.service';
 
+const defaultSelectUser = {
+  id: true,
+  email: true,
+  firstname: true,
+  lastname: true,
+  updatedAt: true,
+  createdAt: true,
+};
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -24,12 +33,7 @@ export class UsersService {
   ): Promise<Pick<User, 'id' | 'email' | 'firstname' | 'lastname'> | null> {
     return this.prisma.user.findUnique({
       where: userWhereUniqueInput,
-      select: {
-        id: true,
-        email: true,
-        firstname: true,
-        lastname: true,
-      },
+      select: defaultSelectUser,
     });
   }
 
@@ -69,6 +73,7 @@ export class UsersService {
       where: {
         id: userId,
       },
+      select: defaultSelectUser,
     });
   }
 
@@ -95,19 +100,15 @@ export class UsersService {
         password: hashedPassword,
       },
       where: { id: userId },
-      select: {
-        id: true,
-        email: true,
-        firstname: true,
-        lastname: true,
-      },
+      select: defaultSelectUser,
     });
   }
 
-  async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
-    return this.prisma.user.delete({
+  async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<string> {
+    await this.prisma.user.delete({
       where,
     });
+    return 'User deleted';
   }
 
   // token methods
