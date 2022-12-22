@@ -8,6 +8,8 @@ import { JwtStrategy } from './jwt.strategy';
 import { UsersService } from 'src/users/users.service';
 import { JwtRefreshTokenStrategy } from './jwt-refresh-token-strategy';
 import { LocalStrategy } from './local.strategy';
+import { HashingService } from './hashing/hashing.service';
+import { BcryptService } from './hashing/bcrypt.service';
 
 @Module({
   imports: [
@@ -34,6 +36,10 @@ import { LocalStrategy } from './local.strategy';
     UsersService,
     JwtStrategy,
     JwtRefreshTokenStrategy,
+    {
+      provide: HashingService,
+      useClass: BcryptService,
+    },
   ],
   exports: [AuthService],
 })

@@ -10,9 +10,9 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { PasswordService } from './password.service';
 import { SignupInput } from './dto/signup.input';
-import { TokenPayload } from './tokenPayload.interface';
+import { TokenPayload } from './interfaces/tokenPayload.interface';
 import { UsersService } from 'src/users/users.service';
-import { compare } from 'bcrypt';
+import { HashingService } from './hashing/hashing.service';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +21,8 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly prisma: PrismaService,
     private readonly passwordService: PasswordService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly hashingService: HashingService
   ) {}
 
   async createUser(payload: SignupInput): Promise<User> {
@@ -72,7 +73,10 @@ export class AuthService {
     plainTextPassword: string,
     hashedPassword: string
   ) {
-    const isPasswordMatching = await compare(plainTextPassword, hashedPassword);
+    const isPasswordMatching = await this.hashingService.compare(
+      plainTextPassword,
+      hashedPassword
+    );
     if (!isPasswordMatching) {
       throw new HttpException(
         'Wrong credentials provided',

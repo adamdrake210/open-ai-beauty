@@ -10,16 +10,16 @@ import {
 } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 import { ApiBody } from '@nestjs/swagger';
 import { Response } from 'express';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { UsersService } from 'src/users/users.service';
-import JwtRefreshGuard from './jwt-refresh.guard';
+import JwtRefreshGuard from './guards/jwt-refresh.guard';
 import { LoginDto } from './dto/login.input';
 import { SignupInput } from './dto/signup.input';
-import RequestWithUser from './requestWithUser.interface';
+import RequestWithUser from './interfaces/requestWithUser.interface';
 
 @Controller('auth')
 export class AuthController {

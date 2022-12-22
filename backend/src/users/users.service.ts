@@ -8,14 +8,15 @@ import {
 import { PasswordService } from 'src/auth/password.service';
 import { ChangePasswordInput } from './dto/change-password.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { hash, compare } from 'bcrypt';
 import { User, Prisma } from '@prisma/client';
+import { HashingService } from 'src/auth/hashing/hashing.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     private prisma: PrismaService,
-    private passwordService: PasswordService
+    private passwordService: PasswordService,
+    private readonly hashingService: HashingService
   ) {}
 
   async user(
@@ -103,7 +104,9 @@ export class UsersService {
 
   // token methods
   async setCurrentRefreshToken(refreshToken: string, userId: string) {
-    const currentHashedRefreshToken = await hash(refreshToken, 10);
+    const currentHashedRefreshToken = await this.hashingService.hash(
+      refreshToken
+    );
     await this.updateUser(userId, {
       currentHashedRefreshToken,
     });
@@ -114,7 +117,7 @@ export class UsersService {
       where: { id: userId },
     });
 
-    const isRefreshTokenMatching = await compare(
+    const isRefreshTokenMatching = await this.hashingService.compare(
       refreshToken,
       user.currentHashedRefreshToken
     );
