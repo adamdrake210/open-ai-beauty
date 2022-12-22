@@ -1,48 +1,81 @@
 import React from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 import { Button } from "../common/buttons/Button";
 import { InputField } from "../common/fields/InputField";
 import { Loader } from "../common/Loader";
+import { handleUnknownError } from "@/utils/handleUnknownError";
+import { useRouter } from "next/router";
+import { CREATE_POST } from "@/constants/routeConstants";
 
 export const Login = () => {
+  const router = useRouter();
+
+  const { mutate, isLoading, isError, error } = useMutation({
+    mutationFn: async ({
+      email,
+      password,
+    }: {
+      email: string;
+      password: string;
+    }) => {
+      return fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+    },
+  });
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<{ email: string; password: string }>({
+  } = useForm<{
+    email: string;
+    password: string;
+  }>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = handleSubmit(async (data) => {
-    // try {
-    //   const loginData = await loginMutation({
-    //     variables: {
-    //       email: data.email,
-    //       password: data.password,
-    //     },
-    //   });
-    //   console.log("🚀 ~ file: Login.tsx:32 ~ onSubmit ~ loginData", loginData);
-    //   reset();
-    // } catch (cause) {
-    //   console.error({ cause }, "Failed to add post");
-    // }
+  const onSubmit = handleSubmit((data) => {
+    try {
+      const loginData = mutate(data, {
+        onSuccess: () => {
+          console.log(
+            "🚀 ~ file: Login.tsx:32 ~ onSubmit ~ loginData",
+            loginData
+          );
+          reset();
+          router.push(CREATE_POST);
+        },
+        onError: (error) => {
+          console.error(error);
+          alert("Failed to login");
+        },
+      });
+    } catch (cause) {
+      console.error({ cause }, "Failed to login");
+    }
   });
 
   return (
     <form className="w-[50%] min-h-screen" onSubmit={onSubmit}>
-      {/* <InputField
+      <InputField
         name="email"
         label="email"
         formType="text"
         register={register}
         error={errors.email}
         required
-        disabled={loading}
+        disabled={isLoading}
       />
       <InputField
         name="password"
@@ -51,17 +84,22 @@ export const Login = () => {
         register={register}
         error={errors.password}
         required
-        disabled={loading}
+        disabled={isLoading}
       />
-      {loading && <Loader loadingText="Logging in..." />}
-      <Button type="submit" color="primary" disabled={loading} className="mt-2">
+      {isLoading && <Loader loadingText="Logging in..." />}
+      <Button
+        type="submit"
+        color="primary"
+        disabled={isLoading}
+        className="mt-2"
+      >
         Login
       </Button>
-      {error && (
+      {isError && (
         <div className="flex justify-center w-full my-4 mx-auto max-w-md p-2 bg-white rounded-lg">
-          <p className="text-red-500 m-0">{error.message}</p>
+          <p className="text-red-500 m-0">{handleUnknownError(error)}</p>
         </div>
-      )} */}
+      )}
     </form>
   );
 };

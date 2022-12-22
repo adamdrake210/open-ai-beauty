@@ -6,23 +6,25 @@ import Layout from "@/layout/Layout";
 import { CreatePoemForm } from "@/components/create/CreatePoemForm";
 import { SITE_ICON } from "@/constants/constants";
 import { parseCookies } from "@/utils/cookies";
-import isEmpty from "lodash.isempty";
+import { LOGIN } from "@/constants/routeConstants";
+import { userFromRequest } from "@/utils/tokens";
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const data = parseCookies(req);
+  const data = await userFromRequest(req);
 
-  if (isEmpty(data)) {
+  if (!data.userId) {
     res.statusCode = 403;
     return {
       redirect: {
-        destination: "/login",
+        destination: LOGIN,
         permanent: false,
       },
     };
   }
+
   return {
     props: {
-      data,
+      userId: data.userId,
     },
   };
 };

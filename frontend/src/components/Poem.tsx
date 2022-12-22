@@ -22,6 +22,7 @@ export const Poem = ({ post }: PoemProps) => {
           alt={`Image of ${post.title}`}
           width={500}
           height={500}
+          priority
         />
       )}
       <div className="mb-4 md:my-8 px-8 md:px-2">
