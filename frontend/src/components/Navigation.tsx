@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { ABOUT, HOME } from "@/constants/routeConstants";
+import { ABOUT, HOME, LOGIN, REGISTER } from "@/constants/routeConstants";
 import { SITE_NAME } from "@/constants/constants";
 
 const menuItems = [
@@ -8,6 +8,8 @@ const menuItems = [
     name: "About",
     href: ABOUT,
   },
+  { name: "Login", href: LOGIN },
+  { name: "Register", href: REGISTER },
 ];
 
 export const Navigation = () => {
