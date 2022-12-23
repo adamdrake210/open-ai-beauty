@@ -7,6 +7,7 @@ import { LinkButton } from "./common/buttons/LinkButton";
 import { useLogout } from "@/hooks/useLogout";
 import { useRouter } from "next/router";
 import { useQueryClient } from "@tanstack/react-query";
+import { UserContext, UserContextType } from "@/context/userContext";
 
 const menuItems = [
   {
@@ -20,14 +21,20 @@ export const Navigation = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { mutate, isLoading, isError, error } = useLogout();
+  const { user, setUser } = React.useContext(UserContext) as UserContextType;
+
+  const { mutate } = useLogout();
 
   const handleLogout = () => {
     mutate("nic", {
       onSuccess: () => {
         console.log("logout success");
         queryClient.removeQueries();
+        setUser(null);
         router.push(HOME);
+      },
+      onError: (error) => {
+        console.error(error);
       },
     });
   };
@@ -116,7 +123,7 @@ export const Navigation = () => {
                 </li>
               );
             })}
-            {false ? (
+            {!user ? (
               <li>
                 <LinkButton
                   url={LOGIN}

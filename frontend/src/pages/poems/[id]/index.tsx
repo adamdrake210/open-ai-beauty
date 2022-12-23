@@ -15,8 +15,29 @@ import { useRouter } from "next/router";
 import { Loader } from "@/components/common/Loader";
 import { Poem } from "@/components/Poem";
 import { usePost } from "@/hooks/usePost";
+import { GetServerSideProps } from "next";
+import { userFromRequest } from "@/utils/tokens";
+import UserProvider from "@/context/userContext";
 
-export default function PoemPage() {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const data = await userFromRequest(req);
+
+  if (!data?.userId) {
+    return {
+      props: {
+        userId: null,
+      },
+    };
+  }
+
+  return {
+    props: {
+      userId: data?.userId,
+    },
+  };
+};
+
+export default function PoemPage({ userId }: { userId: string | null }) {
   const router = useRouter();
 
   const {
@@ -30,7 +51,7 @@ export default function PoemPage() {
   const url = `${SITE_URL}/poems/${id}`;
 
   return (
-    <>
+    <UserProvider userId={userId}>
       <Head>
         <title>{title}</title>
         <link rel="icon" href={SITE_ICON} />
@@ -75,6 +96,6 @@ export default function PoemPage() {
           )}
         </section>
       </Layout>
-    </>
+    </UserProvider>
   );
 }

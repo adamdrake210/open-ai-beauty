@@ -15,6 +15,7 @@ import * as gtag from "@/utils/gtag";
 import config from "@/constants/next-seo.config";
 
 import "../styles/globals.css";
+import UserProvider from "@/context/userContext";
 
 const josefin = Josefin_Sans({
   weight: ["100"],

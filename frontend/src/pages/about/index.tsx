@@ -5,14 +5,35 @@ import { NextSeo } from "next-seo";
 import { SITE_DESCRIPTION, SITE_ICON, SITE_URL } from "@/constants/constants";
 import Layout from "@/layout/Layout";
 import config from "@/constants/next-seo.config";
+import { GetServerSideProps } from "next";
+import { userFromRequest } from "@/utils/tokens";
+import UserProvider from "@/context/userContext";
 
-const About = () => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const data = await userFromRequest(req);
+
+  if (!data?.userId) {
+    return {
+      props: {
+        userId: null,
+      },
+    };
+  }
+
+  return {
+    props: {
+      userId: data?.userId,
+    },
+  };
+};
+
+const About = ({ userId }: { userId: string | null }) => {
   const title = "About Me";
   const description = SITE_DESCRIPTION;
   const url = `${SITE_URL}/about`;
 
   return (
-    <>
+    <UserProvider userId={userId}>
       <Head>
         <title>About Me</title>
         <link rel="icon" href={SITE_ICON} />
@@ -47,7 +68,7 @@ const About = () => {
           <p>My name is Sarah...</p>
         </section>
       </Layout>
-    </>
+    </UserProvider>
   );
 };
 

@@ -8,9 +8,11 @@ import { handleUnknownError } from "@/utils/handleUnknownError";
 import { useRouter } from "next/router";
 import { CREATE_POST } from "@/constants/routeConstants";
 import { useLogin } from "@/hooks/useLogin";
+import { UserContext, UserContextType } from "@/context/userContext";
 
 export const LoginForm = () => {
   const router = useRouter();
+  const { setUser } = React.useContext(UserContext) as UserContextType;
 
   const { mutate, isLoading, isError, error } = useLogin();
 
@@ -33,12 +35,8 @@ export const LoginForm = () => {
     try {
       mutate(data, {
         onSuccess: async (data) => {
-          console.log(
-            "🚀 ~ file: Login.tsx:32 ~ onSubmit ~ loginData",
-            await data.json()
-          );
           const user = await data.json();
-          // TODO set context here
+          setUser(user);
           reset();
           router.push(CREATE_POST);
         },
