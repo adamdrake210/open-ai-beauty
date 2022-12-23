@@ -1,11 +1,12 @@
 import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
+import { Post } from "@/types/types";
 
 const fetchPost = async (id: any["id"]) => {
   const parsed = await ky(
     `${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`
   ).json();
-  return parsed as any; // TODO: add Post type here;
+  return parsed as Post;
 };
 
 const usePost = (id: string) => {

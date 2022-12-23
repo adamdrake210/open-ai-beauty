@@ -1,10 +1,6 @@
 import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
-
-type Posts = {
-  items: any[];
-  nextCursor: string | null;
-};
+import { Posts } from "@/types/types";
 
 const fetchPosts = async (limit = 10) => {
   const parsed = await ky(

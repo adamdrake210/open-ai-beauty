@@ -3,9 +3,10 @@ import Image from "next/image";
 import { Divider } from "./common/Divider";
 import { PoemParameters } from "./PoemParameters";
 import { LikeComponent } from "./LikeComponent";
+import { Post } from "@/types/types";
 
 type PoemProps = {
-  post: any; // TODO work out how to type this properly;
+  post: Post;
 };
 
 export const Poem = ({ post }: PoemProps) => {
