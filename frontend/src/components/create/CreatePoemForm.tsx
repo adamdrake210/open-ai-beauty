@@ -1,6 +1,5 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
 
 import { InputField } from "../common/fields/InputField";
 import { Button } from "../common/buttons/Button";
@@ -8,21 +7,11 @@ import { Loader } from "../common/Loader";
 import { handleUnknownError } from "@/utils/handleUnknownError";
 import { useRouter } from "next/router";
 import { POEMS } from "@/constants/routeConstants";
+import { useCreatePost } from "@/hooks/useCreatePost";
 
 export const CreatePoemForm = () => {
   const router = useRouter();
-  const { mutate, isLoading, isError, error } = useMutation({
-    mutationFn: (subject: string) => {
-      return fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ subject }),
-      });
-    },
-  });
+  const { mutate, isLoading, isError, error } = useCreatePost();
 
   const {
     register,
@@ -39,13 +28,9 @@ export const CreatePoemForm = () => {
     try {
       mutate(data.subject, {
         onSuccess: async (data) => {
-          console.log(
-            "🚀 ~ file: CreatePoemForm.tsx:43 ~ onSuccess ~ data",
-            data
-          );
           const { id } = await data.json();
-          reset();
           router.push(`${POEMS}/${id}`);
+          reset();
         },
         onError: (error) => {
           console.error(error);

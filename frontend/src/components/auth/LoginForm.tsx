@@ -1,5 +1,4 @@
 import React from "react";
-import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 import { Button } from "../common/buttons/Button";
@@ -8,28 +7,12 @@ import { Loader } from "../common/Loader";
 import { handleUnknownError } from "@/utils/handleUnknownError";
 import { useRouter } from "next/router";
 import { CREATE_POST } from "@/constants/routeConstants";
+import { useLogin } from "@/hooks/useLogin";
 
 export const LoginForm = () => {
   const router = useRouter();
 
-  const { mutate, isLoading, isError, error } = useMutation({
-    mutationFn: async ({
-      email,
-      password,
-    }: {
-      email: string;
-      password: string;
-    }) => {
-      return fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      });
-    },
-  });
+  const { mutate, isLoading, isError, error } = useLogin();
 
   const {
     register,
@@ -54,6 +37,8 @@ export const LoginForm = () => {
             "🚀 ~ file: Login.tsx:32 ~ onSubmit ~ loginData",
             await data.json()
           );
+          const user = await data.json();
+          // TODO set context here
           reset();
           router.push(CREATE_POST);
         },

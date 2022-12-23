@@ -1,6 +1,8 @@
 # Todos
-- Update Frontend to make REST API calls - React query - remove Apollo
-- Remove Frontend api implementation
+- User context
+- Infinite queries for poems
+- Refine auth, update auth backend per course
+- Implement favorites
 - Change slugs to poem title with -
 - Deploy both apps live (backend and frontend)
 - Email Feature - https://maizzle.com/

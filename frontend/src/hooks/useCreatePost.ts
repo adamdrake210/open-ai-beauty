@@ -2,11 +2,14 @@ import ky from "ky-universal";
 import { useMutation } from "@tanstack/react-query";
 
 const createPost = async (subject: string) => {
-  const parsed = await ky(`${process.env.NEXT_PUBLIC_API_URL}/posts/create`, {
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/create`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
     body: JSON.stringify({ subject }),
-  }).json();
-  return parsed as any; // TODO: add Post type here;
+  });
 };
 
 const useCreatePost = () => {
