@@ -1,10 +1,9 @@
 # Todos
-- User context
+- Deploy both apps live (backend and frontend)
 - Infinite queries for poems
 - Refine auth, update auth backend per course
 - Implement favorites
 - Change slugs to poem title with -
-- Deploy both apps live (backend and frontend)
 - Email Feature - https://maizzle.com/
 - https://api.api-ninjas.com/v1/randomword
 - Whenever a poem is published an email sent out to distribution list of that poem
