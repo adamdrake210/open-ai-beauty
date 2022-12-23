@@ -14,7 +14,6 @@ const menuItems = [
     name: "About",
     href: ABOUT,
   },
-  { name: "Register", href: REGISTER },
 ];
 
 export const Navigation = () => {
@@ -63,7 +62,7 @@ export const Navigation = () => {
       text-gray-500
       lg:h-16
       lg:py-0
-      lg:px-28
+      lg:px-4
       "
       >
         <Link href={HOME} className="text-2xl">
@@ -124,15 +123,26 @@ export const Navigation = () => {
               );
             })}
             {!user ? (
-              <li>
-                <LinkButton
-                  url={LOGIN}
-                  color="primary"
-                  className="md:py-2 md:px-4"
-                >
-                  Login
-                </LinkButton>
-              </li>
+              <>
+                <li className="mr-4">
+                  <LinkButton
+                    url={REGISTER}
+                    color="secondary"
+                    className="md:py-2 md:px-4"
+                  >
+                    Register
+                  </LinkButton>
+                </li>
+                <li>
+                  <LinkButton
+                    url={LOGIN}
+                    color="primary"
+                    className="md:py-2 md:px-4"
+                  >
+                    Login
+                  </LinkButton>
+                </li>
+              </>
             ) : (
               <li>
                 <Button
@@ -166,6 +176,38 @@ export const Navigation = () => {
                   </li>
                 );
               })}
+              {!user ? (
+                <>
+                  <li className="mb-4">
+                    <LinkButton
+                      url={REGISTER}
+                      color="secondary"
+                      className="md:py-2 md:px-4"
+                    >
+                      Register
+                    </LinkButton>
+                  </li>
+                  <li>
+                    <LinkButton
+                      url={LOGIN}
+                      color="primary"
+                      className="md:py-2 md:px-4"
+                    >
+                      Login
+                    </LinkButton>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <Button
+                    color="secondary"
+                    className="md:py-2 md:px-4"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                </li>
+              )}
             </ul>
           </div>
         )}

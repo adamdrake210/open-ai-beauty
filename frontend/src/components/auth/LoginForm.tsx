@@ -57,7 +57,7 @@ export const LoginForm = () => {
     >
       <InputField
         name="email"
-        label="email"
+        label="Email"
         formType="text"
         register={register}
         error={errors.email}
@@ -66,7 +66,7 @@ export const LoginForm = () => {
       />
       <InputField
         name="password"
-        label="password"
+        label="Password"
         formType="password"
         register={register}
         error={errors.password}
