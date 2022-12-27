@@ -4,6 +4,7 @@ import {
   BadRequestException,
   HttpException,
   HttpStatus,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { PasswordService } from 'src/auth/password.service';
 import { ChangePasswordInput } from './dto/change-password.input';
@@ -133,6 +134,8 @@ export class UsersService {
 
     if (isRefreshTokenMatching) {
       return user;
+    } else {
+      throw new UnauthorizedException();
     }
   }
 

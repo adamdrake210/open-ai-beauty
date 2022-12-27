@@ -5,14 +5,16 @@ import {
   ConflictException,
   HttpException,
   HttpStatus,
+  Inject,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { PasswordService } from './password.service';
 import { SignupInput } from './dto/signup.input';
 import { TokenPayload } from './interfaces/tokenPayload.interface';
 import { UsersService } from 'src/users/users.service';
 import { HashingService } from './hashing/hashing.service';
+import jwtConfig from 'src/common/configs/jwt.config';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +24,9 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly passwordService: PasswordService,
     private readonly configService: ConfigService,
-    private readonly hashingService: HashingService
+    private readonly hashingService: HashingService,
+    @Inject(jwtConfig.KEY)
+    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>
   ) {}
 
   async createUser(payload: SignupInput): Promise<User> {
@@ -85,33 +89,42 @@ export class AuthService {
     }
   }
 
-  public getCookieWithJwtToken(userId: string) {
-    const payload: TokenPayload = { userId };
-    const token = this.jwtService.sign(payload, {
-      secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET'),
-      expiresIn: `${this.configService.get(
-        'JWT_ACCESS_TOKEN_EXPIRATION_TIME'
-      )}s`,
-    });
-    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
-      'JWT_ACCESS_TOKEN_EXPIRATION_TIME'
-    )}`;
+  private async signToken<T>(userId: string, expiresIn: number, payload?: T) {
+    return await this.jwtService.signAsync(
+      {
+        sub: userId,
+        ...payload,
+      },
+      {
+        secret: this.jwtConfiguration.secret,
+        expiresIn,
+        audience: this.jwtConfiguration.audience,
+        issuer: this.jwtConfiguration.issuer,
+      }
+    );
   }
 
-  public getCookieWithJwtRefreshToken(userId: string) {
+  public async getCookieWithJwtToken(userId: string) {
     const payload: TokenPayload = { userId };
-    const token = this.jwtService.sign(payload, {
-      secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET'),
-      expiresIn: `${this.configService.get(
-        'JWT_REFRESH_TOKEN_EXPIRATION_TIME'
-      )}s`,
-    });
-    const cookie = `Refresh=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
-      'JWT_REFRESH_TOKEN_EXPIRATION_TIME'
-    )}`;
+    const accessToken = await this.signToken(
+      userId,
+      this.jwtConfiguration.accessTokenTtl,
+      payload
+    );
+    return `Authentication=${accessToken}; HttpOnly; Path=/; Max-Age=${this.jwtConfiguration.accessTokenTtl}`;
+  }
+
+  public async getCookieWithJwtRefreshToken(userId: string) {
+    const payload: TokenPayload = { userId };
+    const refreshToken = await this.signToken(
+      userId,
+      this.jwtConfiguration.refreshTokenTtl,
+      payload
+    );
+    const cookie = `Refresh=${refreshToken}; HttpOnly; Path=/; Max-Age=${this.jwtConfiguration.refreshTokenTtl}`;
     return {
       cookie,
-      token,
+      token: refreshToken,
     };
   }
 
