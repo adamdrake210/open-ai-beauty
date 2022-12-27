@@ -16,6 +16,7 @@ const defaultSelectUser = {
   id: true,
   googleId: true,
   email: true,
+  pictureUrl: true,
   firstname: true,
   lastname: true,
   updatedAt: true,

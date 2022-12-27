@@ -30,7 +30,7 @@ export class GoogleAuthenticationService implements OnModuleInit {
       const loginTicket = await this.oauthClient.verifyIdToken({
         idToken: token,
       });
-      const { email, sub: googleId, name } = loginTicket.getPayload();
+      const { email, sub: googleId, name, picture } = loginTicket.getPayload();
       const user = await this.usersService.findOneUserByGoogleId(googleId);
       if (user) {
         return await Promise.all([
@@ -43,6 +43,7 @@ export class GoogleAuthenticationService implements OnModuleInit {
           email,
           googleId,
           firstname: name,
+          pictureUrl: picture,
         });
         return await Promise.all([
           this.authService.getCookieWithJwtToken(newUser.id),

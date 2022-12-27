@@ -3,6 +3,8 @@ export type User = {
   createdAt: Date;
   updatedAt: Date;
   email: string;
+  googleId: string | null;
+  pictureUrl: string | null;
   firstname: string | null;
   lastname: string | null;
 };

@@ -8,6 +8,7 @@ import { useLogout } from "@/hooks/useLogout";
 import { useRouter } from "next/router";
 import { useQueryClient } from "@tanstack/react-query";
 import { UserContext, UserContextType } from "@/context/userContext";
+import { Avatar } from "./Avatar";
 
 const menuItems = [
   {
@@ -155,6 +156,11 @@ export const Navigation = () => {
               </li>
             )}
           </ul>
+          {user && (
+            <div className="mx-4">
+              <Avatar picUrl={user.pictureUrl || "./"} />
+            </div>
+          )}
         </div>
         {isMenuOpen && (
           <div className={`w-full transition delay-300 ease-in-out`}>

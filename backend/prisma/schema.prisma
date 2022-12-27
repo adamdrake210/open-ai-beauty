@@ -18,6 +18,7 @@ model User {
   lastname  String?
   currentHashedRefreshToken String?
   googleId  String?  @unique
+  pictureUrl String?
 }
 
 model Post {
