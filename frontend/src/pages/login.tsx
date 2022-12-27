@@ -8,6 +8,7 @@ import { GetServerSideProps } from "next";
 import { userFromRequest } from "@/utils/tokens";
 import { HOME } from "@/constants/routeConstants";
 import UserProvider from "@/context/userContext";
+import { GoogleLoginButton } from "@/components/auth/GoogleLoginButton";
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const data = await userFromRequest(req);
@@ -37,8 +38,11 @@ export default function LoginPage() {
       </Head>
       <Layout>
         <section className="p-8 flex flex-col items-center max-w-sm mx-auto">
-          <h1 className="font-cursive">Login</h1>
-          <LoginForm />
+          <h1 className="font-cursive mb-8">Login</h1>
+          <div className="w-full min-h-screen flex flex-col items-center">
+            <GoogleLoginButton />
+            <LoginForm />
+          </div>
         </section>
       </Layout>
     </UserProvider>

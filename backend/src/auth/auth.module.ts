@@ -10,6 +10,8 @@ import { JwtRefreshTokenStrategy } from './jwt-refresh-token.strategy';
 import { LocalStrategy } from './local.strategy';
 import { HashingService } from './hashing/hashing.service';
 import { BcryptService } from './hashing/bcrypt.service';
+import { GoogleAuthenticationService } from './authentication/social/google-authentication.service';
+import { GoogleAuthenticationController } from './authentication/social/google-authentication.controller';
 import jwtConfig from 'src/common/configs/jwt.config';
 
 @Module({
@@ -29,7 +31,9 @@ import jwtConfig from 'src/common/configs/jwt.config';
       provide: HashingService,
       useClass: BcryptService,
     },
+    GoogleAuthenticationService,
   ],
   exports: [AuthService],
+  controllers: [GoogleAuthenticationController],
 })
 export class AuthModule {}

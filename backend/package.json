@@ -67,6 +67,7 @@
     "class-validator": "0.13.2",
     "cloudinary": "^1.32.0",
     "cookie-parser": "^1.4.6",
+    "google-auth-library": "^8.7.0",
     "graphql": "16.5.0",
     "graphql-scalars": "1.17.0",
     "graphql-subscriptions": "2.0.0",

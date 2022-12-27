@@ -14,6 +14,7 @@ import { HashingService } from 'src/auth/hashing/hashing.service';
 
 const defaultSelectUser = {
   id: true,
+  googleId: true,
   email: true,
   firstname: true,
   lastname: true,
@@ -31,7 +32,10 @@ export class UsersService {
 
   async user(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput
-  ): Promise<Pick<User, 'id' | 'email' | 'firstname' | 'lastname'> | null> {
+  ): Promise<Pick<
+    User,
+    'id' | 'email' | 'googleId' | 'firstname' | 'lastname'
+  > | null> {
     return this.prisma.user.findUnique({
       where: userWhereUniqueInput,
       select: defaultSelectUser,
@@ -57,6 +61,15 @@ export class UsersService {
     const user = await this.prisma.user.findUnique({
       where: {
         email,
+      },
+    });
+    return user;
+  }
+
+  async findOneUserByGoogleId(googleId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        googleId,
       },
     });
     return user;

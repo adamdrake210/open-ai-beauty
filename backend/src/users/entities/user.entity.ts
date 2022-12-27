@@ -22,6 +22,9 @@ export class UserEntity implements User {
   @ApiProperty()
   id: string;
 
+  @ApiProperty({ required: false, nullable: true })
+  googleId: string | null;
+
   @ApiProperty()
   createdAt: Date;
 

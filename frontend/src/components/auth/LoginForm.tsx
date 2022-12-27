@@ -52,7 +52,7 @@ export const LoginForm = () => {
 
   return (
     <form
-      className="w-full min-h-screen flex flex-col items-center"
+      className="w-full flex flex-col items-center my-4"
       onSubmit={onSubmit}
     >
       <InputField
