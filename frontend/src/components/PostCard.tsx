@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { Card, Group, Text, Title } from "@mantine/core";
 
 type PostCardProps = {
   post: any; // TODO work out how to type this properly;
@@ -9,22 +10,23 @@ export const PostCard = ({ post }: PostCardProps) => {
   const { imageUrl, title, content } = post;
 
   return (
-    <div className="rounded-lg mb-8 shadow-lg">
+    <Card shadow="sm" p="lg" radius="md">
       {imageUrl && (
-        <Image
-          src={imageUrl}
-          alt={`Image of ${title}`}
-          width={500}
-          height={500}
-          className="rounded-t-lg"
-        />
+        <Card.Section>
+          <Image
+            src={imageUrl}
+            alt={`Image of ${title}`}
+            width={500}
+            height={500}
+          />
+        </Card.Section>
       )}
-      <div className="px-6 py-4">
-        <h3 className="mb-1">{`${title?.substring(0, 30)}...`}</h3>
-        <p className="text-gray-700 text-base mb-1">
+      <Group position="apart" mt="md" mb="xs">
+        <Title order={3}>{`${title?.substring(0, 30)}...`}</Title>
+        <Text size="md" color="dimmed">
           {`${content?.substring(0, 40)}...`}
-        </p>
-      </div>
-    </div>
+        </Text>
+      </Group>
+    </Card>
   );
 };

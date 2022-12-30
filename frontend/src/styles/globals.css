@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+/* @layer base {
   html {
     scroll-behavior: smooth;
   }
@@ -25,4 +25,4 @@
     @apply mb-2;
     @apply font-primary;
   }
-}
+} */

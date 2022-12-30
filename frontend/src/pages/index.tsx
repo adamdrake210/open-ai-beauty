@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import { Box, Title } from "@mantine/core";
 
 import Layout from "@/layout/Layout";
 import { Poems } from "@/components/Poems";
@@ -34,10 +35,12 @@ function Home({ userId }: { userId: string | null }) {
         <link rel="icon" href={SITE_ICON} />
       </Head>
       <Layout>
-        <section className="p-2">
-          <h1 className="my-4 font-cursive">Latest Poems</h1>
+        <Box py="md">
+          <Title order={1} mb="md">
+            Latest Poems
+          </Title>
           <Poems />
-        </section>
+        </Box>
       </Layout>
     </UserProvider>
   );

@@ -2,12 +2,12 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 import { InputField } from "../common/fields/InputField";
-import { Button } from "../common/buttons/Button";
 import { Loader } from "../common/Loader";
 import { handleUnknownError } from "@/utils/handleUnknownError";
 import { useRouter } from "next/router";
 import { POEMS } from "@/constants/routeConstants";
 import { useCreatePost } from "@/hooks/useCreatePost";
+import { Button } from "@mantine/core";
 
 export const CreatePoemForm = () => {
   const router = useRouter();
@@ -43,7 +43,7 @@ export const CreatePoemForm = () => {
   });
 
   return (
-    <form className="w-[50%] min-h-screen" onSubmit={onSubmit}>
+    <form className="w-full md:w-[50%] min-h-screen" onSubmit={onSubmit}>
       <InputField
         name="subject"
         label="Subject"
@@ -56,9 +56,12 @@ export const CreatePoemForm = () => {
       {isLoading && <Loader loadingText="Creating poem..." />}
       <Button
         type="submit"
-        color="primary"
+        // color="primary"
         disabled={isLoading}
-        className="mt-2"
+        // className="mt-2"
+        size="md"
+        radius="md"
+        color="grape"
       >
         Create Poem
       </Button>

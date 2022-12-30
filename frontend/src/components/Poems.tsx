@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import { Loader } from "./common/Loader";
 import { PostCard } from "./PostCard";
-import { Button } from "./common/buttons/Button";
 import { usePosts } from "@/hooks/usePosts";
+import { Center, SimpleGrid } from "@mantine/core";
 
 export const Poems = () => {
   // const { data, isLoading, fetchNextPage, hasNextPage } =
@@ -19,18 +19,19 @@ export const Poems = () => {
   return (
     <>
       {isLoading ? (
-        <div className="flex justify-center w-full">
+        <Center>
           <Loader loadingText="Loading..." />
-        </div>
+        </Center>
       ) : (
         <>
-          <div className="grid grid-cols-1 my-6 md:grid-cols-3 md:gap-4 lg:gap-8 w-full">
+          <SimpleGrid cols={3} spacing="xl">
             {data?.items?.map((post) => (
               <Link key={post.id} href={`/poems/${post.id}`}>
                 <PostCard post={post} />
               </Link>
             ))}
-          </div>
+          </SimpleGrid>
+
           {/* <div className="flex justify-center w-full">
             <Button
               onClick={() => fetchNextPage()}

@@ -9,13 +9,14 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import { MantineProvider } from "@mantine/core";
 
 import { useRouter } from "next/router";
 import * as gtag from "@/utils/gtag";
 import config from "@/constants/next-seo.config";
 
 import "../styles/globals.css";
-import UserProvider from "@/context/userContext";
+import { theme } from "@/styles/theme";
 
 const josefin = Josefin_Sans({
   weight: ["100"],
@@ -73,7 +74,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <DefaultSeo {...config} />
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <Component {...pageProps} />
+          <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
+            <Component {...pageProps} />
+          </MantineProvider>
         </Hydrate>
         <ReactQueryDevtools />
       </QueryClientProvider>

@@ -11,6 +11,7 @@ const nextConfig = {
       "openailabsprodscus.blob.core.windows.net",
       "res.cloudinary.com",
       "lh3.googleusercontent.com",
+      "via.placeholder.com",
     ],
   },
 };
