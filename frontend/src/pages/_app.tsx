@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import Script from "next/script";
-import { Yeseva_One, Josefin_Sans } from "@next/font/google";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
   Hydrate,
@@ -17,16 +16,6 @@ import config from "@/constants/next-seo.config";
 
 import "../styles/globals.css";
 import { theme } from "@/styles/theme";
-
-const josefin = Josefin_Sans({
-  weight: ["100"],
-  subsets: ["latin"],
-});
-
-const yeseva = Yeseva_One({
-  weight: ["400"],
-  subsets: ["latin"],
-});
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
@@ -63,14 +52,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           `,
         }}
       />
-      <style jsx global>
-        {`
-          :root {
-            --josefin-font: ${josefin.style.fontFamily};
-            --yeseva-font: ${yeseva.style.fontFamily};
-          }
-        `}
-      </style>
       <DefaultSeo {...config} />
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>

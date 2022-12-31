@@ -4,13 +4,25 @@ import { useRouter } from "next/router";
 
 import { ABOUT, HOME, LOGIN, REGISTER } from "@/constants/routeConstants";
 import { SITE_NAME } from "@/constants/constants";
-// import { Button } from "../common/buttons/Button";
-import { Box, Button, Container, Flex, Header, Navbar } from "@mantine/core";
+import {
+  Anchor,
+  Box,
+  Burger,
+  Button,
+  Container,
+  Flex,
+  Header,
+  Menu,
+  NavLink,
+  Text,
+} from "@mantine/core";
 import { LinkButton } from "../common/buttons/LinkButton";
 import { useLogout } from "@/hooks/useLogout";
 import { useQueryClient } from "@tanstack/react-query";
 import { UserContext, UserContextType } from "@/context/userContext";
 import { Avatar } from "../Avatar";
+import { useMediaQuery } from "@mantine/hooks";
+import { theme } from "@/styles/theme";
 
 const menuItems = [
   {
@@ -22,7 +34,10 @@ const menuItems = [
 export const Navigation = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const isSmDown = useMediaQuery("(max-width: 800px)");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [opened, setOpened] = useState(false);
+  const title = opened ? "Close navigation" : "Open navigation";
   const { user, setUser } = React.useContext(UserContext) as UserContextType;
 
   const { mutate } = useLogout();
@@ -52,83 +67,40 @@ export const Navigation = () => {
           justify="space-between"
           sx={{ textTransform: "uppercase" }}
         >
-          <Link href={HOME} className="text-2xl">
-            {SITE_NAME}
+          <Link href={HOME}>
+            <Text style={{ textTransform: "uppercase", fontSize: "1.5rem" }}>
+              {SITE_NAME}
+            </Text>
           </Link>
 
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-8 w-8"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="block h-8 w-8 cursor-pointer lg:hidden"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            )}
-          </button>
-          <div className="hidden w-full lg:flex lg:w-auto lg:items-center ">
-            <ul
-              className="
-              flex 
-              justify-between
-              pt-0
-              text-gray-500"
-            >
+          {/* This is the menu for desktop */}
+          <Box hidden={isSmDown}>
+            <Flex align="center">
               {menuItems.map((item) => {
                 return (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="block py-2 hover:text-[#B83F93] md:py-2 md:px-4 text-2xl"
+                  <Link href={item.href} key={item.name}>
+                    <Text
+                      mr={16}
+                      style={{ textTransform: "uppercase", fontSize: "1.5rem" }}
                     >
                       {item.name}
-                    </Link>
-                  </li>
+                    </Text>
+                  </Link>
                 );
               })}
               {!user ? (
                 <>
-                  <li className="mr-4">
-                    <LinkButton
-                      url={REGISTER}
-                      color="secondary"
-                      className="md:py-2 md:px-4"
-                    >
+                  <Link href={REGISTER}>
+                    <Button color="grape" size="md" mr={4}>
                       Register
-                    </LinkButton>
-                  </li>
-                  <li>
-                    <LinkButton
-                      url={LOGIN}
-                      color="primary"
-                      className="md:py-2 md:px-4"
-                    >
+                    </Button>
+                  </Link>
+
+                  <Link href={LOGIN}>
+                    <Button color="indigo" size="md">
                       Login
-                    </LinkButton>
-                  </li>
+                    </Button>
+                  </Link>
                 </>
               ) : (
                 <>
@@ -143,63 +115,58 @@ export const Navigation = () => {
                   </li>
                 </>
               )}
-            </ul>
-          </div>
-          {isMenuOpen && (
-            <div className={`w-full transition delay-300 ease-in-out`}>
-              <ul
-                className="
-          pt-4 text-2xl 
-          text-gray-500"
-              >
-                {menuItems.map((item) => {
-                  return (
-                    <li key={item.name}>
-                      <Link
-                        href={item.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className="block py-2 hover:text-[#B83F93] hover:underline lg:py-4 lg:px-4"
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                  );
-                })}
-                {!user ? (
-                  <>
-                    <li className="mb-4">
-                      <LinkButton
-                        url={REGISTER}
-                        color="secondary"
-                        className="md:py-2 md:px-4"
-                      >
-                        Register
-                      </LinkButton>
-                    </li>
-                    <li>
-                      <LinkButton
-                        url={LOGIN}
-                        color="primary"
-                        className="md:py-2 md:px-4"
-                      >
-                        Login
-                      </LinkButton>
-                    </li>
-                  </>
-                ) : (
-                  <li>
-                    <Button
-                      color="secondary"
-                      className="md:py-2 md:px-4"
-                      onClick={handleLogout}
-                    >
-                      Logout
+            </Flex>
+          </Box>
+
+          {/* This is menu for mobile */}
+          <Menu shadow="md" width={200}>
+            <Menu.Target>
+              {/* Hambirger for mobile Menu */}
+              <Burger
+                color="gray"
+                opened={isMenuOpen}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                title={title}
+              />
+            </Menu.Target>
+
+            <Menu.Dropdown>
+              <Menu.Label>Menu</Menu.Label>
+
+              {menuItems.map((item) => {
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Menu.Item>{item.name}</Menu.Item>
+                  </Link>
+                );
+              })}
+              <Menu.Divider />
+
+              {!user ? (
+                <>
+                  <Link href={REGISTER}>
+                    <Button color="grape" size="md" mb={4}>
+                      Register
                     </Button>
-                  </li>
-                )}
-              </ul>
-            </div>
-          )}
+                  </Link>
+
+                  <Link href={LOGIN}>
+                    <Button color="indigo" size="md">
+                      Login
+                    </Button>
+                  </Link>
+                </>
+              ) : (
+                <Button color="indigo" onClick={handleLogout}>
+                  Logout
+                </Button>
+              )}
+            </Menu.Dropdown>
+          </Menu>
         </Flex>
       </Container>
     </Header>

@@ -28,10 +28,24 @@ export const theme: MantineThemeOverride = {
   globalStyles: (theme) => ({
     body: {
       ...theme.fn.fontStyles(),
+      fontWeight: 100,
       color:
         theme.colorScheme === "dark"
           ? theme.colors.dark[0]
           : theme.colors.gray[6],
+    },
+    a: {
+      textDecoration: "none",
+      color:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[0]
+          : theme.colors.gray[6],
+      "&:hover": {
+        color:
+          theme.colorScheme === "dark"
+            ? theme.colors.dark[2]
+            : theme.colors.gray[8],
+      },
     },
   }),
 };
