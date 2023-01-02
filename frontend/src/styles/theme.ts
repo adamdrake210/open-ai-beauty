@@ -47,5 +47,8 @@ export const theme: MantineThemeOverride = {
             : theme.colors.gray[8],
       },
     },
+    p: {
+      fontSize: "1.1rem",
+    },
   }),
 };

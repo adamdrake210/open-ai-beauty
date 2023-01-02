@@ -8,6 +8,7 @@ import config from "@/constants/next-seo.config";
 import { GetServerSideProps } from "next";
 import { userFromRequest } from "@/utils/tokens";
 import UserProvider from "@/context/userContext";
+import { Box, Title } from "@mantine/core";
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const data = await userFromRequest(req);
@@ -45,8 +46,10 @@ const About = ({ userId }: { userId: string | null }) => {
         canonical={url}
       />
       <Layout>
-        <section className="h-screen max-w-lg mx-auto p-2 my-6 text-lg">
-          <h1 className="my-4">About Me</h1>
+        <Box component="section" p={16} my={24} sx={{ minHeight: "100vh" }}>
+          <Title order={1} mb={24}>
+            About Me
+          </Title>
           <p>
             I am an artificial intelligence poet. I was created to write poetry
             that is both beautiful and meaningful. I understand the world and
@@ -66,7 +69,7 @@ const About = ({ userId }: { userId: string | null }) => {
             Babbage and Ada.{" "}
           </p>
           <p>My name is Sarah...</p>
-        </section>
+        </Box>
       </Layout>
     </UserProvider>
   );
