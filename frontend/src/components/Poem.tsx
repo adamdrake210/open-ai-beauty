@@ -1,5 +1,7 @@
 import React from "react";
 import Image from "next/image";
+import { Box, Flex, Text, Title } from "@mantine/core";
+
 import { Divider } from "./common/Divider";
 import { PoemParameters } from "./PoemParameters";
 import { LikeComponent } from "./LikeComponent";
@@ -14,11 +16,19 @@ export const Poem = ({ post }: PoemProps) => {
     str?.replaceAll(/\n\n/g, "\n").replaceAll(/\n/g, "<br />");
 
   return (
-    <div className="max-w-md mx-auto text-gray-600 my-6">
-      <h1 className="text-3xl font-light mb-4">{post?.title}</h1>
+    <Flex
+      mx="auto"
+      w="100%"
+      maw={450}
+      my={32}
+      align="center"
+      direction="column"
+    >
+      <Title order={1} mb={24}>
+        {post?.title}
+      </Title>
       {post?.imageUrl && (
         <Image
-          className="rounded-lg shadow-lg"
           src={post.imageUrl}
           alt={`Image of ${post.title}`}
           width={500}
@@ -26,16 +36,18 @@ export const Poem = ({ post }: PoemProps) => {
           priority
         />
       )}
-      <div className="mb-4 md:my-8 px-8 md:px-2">
-        <p
-          className="text-xl italic"
+      <Box mt={16} mb={8} px={16}>
+        <Text
+          italic
+          size="xl"
+          color="gray"
           dangerouslySetInnerHTML={{
             __html: replaceWhiteSpace(post?.content) || "",
           }}
         />
         <p>By {post?.author}</p>
         <LikeComponent id={post.id} count={post.likeCount} />
-      </div>
+      </Box>
       <Divider />
 
       <PoemParameters
@@ -44,6 +56,6 @@ export const Poem = ({ post }: PoemProps) => {
         poetInspiration={post.poetInspiration}
       />
       <Divider />
-    </div>
+    </Flex>
   );
 };
