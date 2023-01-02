@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { ABOUT, HOME, LOGIN, REGISTER } from "@/constants/routeConstants";
 import { SITE_NAME } from "@/constants/constants";
 import {
-  Anchor,
   Box,
   Burger,
   Button,
@@ -13,16 +12,13 @@ import {
   Flex,
   Header,
   Menu,
-  NavLink,
   Text,
 } from "@mantine/core";
-import { LinkButton } from "../common/buttons/LinkButton";
 import { useLogout } from "@/hooks/useLogout";
 import { useQueryClient } from "@tanstack/react-query";
 import { UserContext, UserContextType } from "@/context/userContext";
 import { Avatar } from "../Avatar";
 import { useMediaQuery } from "@mantine/hooks";
-import { theme } from "@/styles/theme";
 
 const menuItems = [
   {
@@ -36,8 +32,7 @@ export const Navigation = () => {
   const queryClient = useQueryClient();
   const isSmDown = useMediaQuery("(max-width: 800px)");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [opened, setOpened] = useState(false);
-  const title = opened ? "Close navigation" : "Open navigation";
+  const title = isMenuOpen ? "Close navigation" : "Open navigation";
   const { user, setUser } = React.useContext(UserContext) as UserContextType;
 
   const { mutate } = useLogout();
@@ -68,20 +63,27 @@ export const Navigation = () => {
           sx={{ textTransform: "uppercase" }}
         >
           <Link href={HOME}>
-            <Text style={{ textTransform: "uppercase", fontSize: "1.5rem" }}>
+            <Text
+              sx={{ textTransform: "uppercase", fontSize: "1.5rem" }}
+              mt={8}
+            >
               {SITE_NAME}
             </Text>
           </Link>
 
           {/* This is the menu for desktop */}
           <Box hidden={isSmDown}>
-            <Flex align="center">
+            <Flex align="center" justify="center">
               {menuItems.map((item) => {
                 return (
                   <Link href={item.href} key={item.name}>
                     <Text
                       mr={16}
-                      style={{ textTransform: "uppercase", fontSize: "1.5rem" }}
+                      mt={8}
+                      sx={{
+                        textTransform: "uppercase",
+                        fontSize: "1.5rem",
+                      }}
                     >
                       {item.name}
                     </Text>
@@ -119,54 +121,64 @@ export const Navigation = () => {
           </Box>
 
           {/* This is menu for mobile */}
-          <Menu shadow="md" width={200}>
-            <Menu.Target>
-              {/* Hambirger for mobile Menu */}
-              <Burger
-                color="gray"
-                opened={isMenuOpen}
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                title={title}
-              />
-            </Menu.Target>
+          {isSmDown && (
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                {/* Hambirger for mobile Menu */}
+                <Burger
+                  color="gray"
+                  opened={isMenuOpen}
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  title={title}
+                />
+              </Menu.Target>
 
-            <Menu.Dropdown>
-              <Menu.Label>Menu</Menu.Label>
+              <Menu.Dropdown>
+                <Menu.Label>Menu</Menu.Label>
 
-              {menuItems.map((item) => {
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <Menu.Item>{item.name}</Menu.Item>
-                  </Link>
-                );
-              })}
-              <Menu.Divider />
+                {menuItems.map((item) => {
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Menu.Item
+                        sx={{
+                          textTransform: "uppercase",
+                          fontSize: "1.2rem",
+                          fontWeight: 100,
+                        }}
+                      >
+                        {item.name}
+                      </Menu.Item>
+                    </Link>
+                  );
+                })}
+                <Menu.Divider />
 
-              {!user ? (
-                <>
-                  <Link href={REGISTER}>
-                    <Button color="grape" size="md" mb={4}>
-                      Register
-                    </Button>
-                  </Link>
+                {!user ? (
+                  <Flex direction="column">
+                    <Link href={REGISTER}>
+                      <Button color="grape" size="md" mb={4} w={150}>
+                        Register
+                      </Button>
+                    </Link>
 
-                  <Link href={LOGIN}>
-                    <Button color="indigo" size="md">
-                      Login
-                    </Button>
-                  </Link>
-                </>
-              ) : (
-                <Button color="indigo" onClick={handleLogout}>
-                  Logout
-                </Button>
-              )}
-            </Menu.Dropdown>
-          </Menu>
+                    <Link href={LOGIN}>
+                      <Button color="indigo" size="md" w={150}>
+                        Login
+                      </Button>
+                    </Link>
+                  </Flex>
+                ) : (
+                  <Button color="indigo" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                )}
+              </Menu.Dropdown>
+            </Menu>
+          )}
         </Flex>
       </Container>
     </Header>

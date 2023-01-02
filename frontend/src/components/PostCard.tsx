@@ -24,7 +24,7 @@ export const PostCard = ({ post }: PostCardProps) => {
       <Group position="apart" mt="md" mb="xs">
         <Title order={3}>{`${title?.substring(0, 30)}...`}</Title>
         <Text size="lg" color="gray">
-          {`${content?.substring(0, 40)}...`}
+          {`${content?.substring(0, 80)}...`}
         </Text>
       </Group>
     </Card>

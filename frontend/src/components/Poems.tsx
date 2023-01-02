@@ -24,7 +24,15 @@ export const Poems = () => {
         </Center>
       ) : (
         <>
-          <SimpleGrid cols={3} spacing="xl">
+          <SimpleGrid
+            cols={3}
+            spacing="xl"
+            breakpoints={[
+              { maxWidth: 980, cols: 3, spacing: "md" },
+              { maxWidth: 755, cols: 2, spacing: "sm" },
+              { maxWidth: 600, cols: 1, spacing: "sm" },
+            ]}
+          >
             {data?.items?.map((post) => (
               <Link key={post.id} href={`/poems/${post.id}`}>
                 <PostCard post={post} />
