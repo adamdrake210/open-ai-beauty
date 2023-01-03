@@ -14,7 +14,6 @@ import { useRouter } from "next/router";
 import * as gtag from "@/utils/gtag";
 import config from "@/constants/next-seo.config";
 
-import "../styles/globals.css";
 import { theme } from "@/styles/theme";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {

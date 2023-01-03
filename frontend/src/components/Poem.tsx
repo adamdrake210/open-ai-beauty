@@ -1,8 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { Box, Flex, Text, Title } from "@mantine/core";
+import { Box, Divider, Flex, Text, Title } from "@mantine/core";
 
-import { Divider } from "./common/Divider";
 import { PoemParameters } from "./PoemParameters";
 import { LikeComponent } from "./LikeComponent";
 import { Post } from "@/types/types";
@@ -36,7 +35,7 @@ export const Poem = ({ post }: PoemProps) => {
           priority
         />
       )}
-      <Box mt={16} mb={8} px={16}>
+      <Box mt={16} px={16}>
         <Text
           italic
           size="xl"
@@ -47,15 +46,14 @@ export const Poem = ({ post }: PoemProps) => {
         />
         <p>By {post?.author}</p>
         <LikeComponent id={post.id} count={post.likeCount} />
+        <Divider my="sm" variant="solid" />
       </Box>
-      <Divider />
 
       <PoemParameters
         poemRequest={post.poemRequest}
         poemStyle={post.poemStyle}
         poetInspiration={post.poetInspiration}
       />
-      <Divider />
     </Flex>
   );
 };
