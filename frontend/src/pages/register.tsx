@@ -38,7 +38,7 @@ export default function RegisterPage() {
       </Head>
       <Layout>
         <Flex
-          p={32}
+          py="md"
           direction="column"
           align="center"
           maw="40%"

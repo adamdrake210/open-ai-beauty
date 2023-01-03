@@ -1,13 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-import { InputField } from "../common/fields/InputField";
 import { Loader } from "../common/Loader";
 import { handleUnknownError } from "@/utils/handleUnknownError";
 import { useRouter } from "next/router";
 import { POEMS } from "@/constants/routeConstants";
 import { useCreatePost } from "@/hooks/useCreatePost";
-import { Button } from "@mantine/core";
+import { Box, Button, Input } from "@mantine/core";
 
 export const CreatePoemForm = () => {
   const router = useRouter();
@@ -43,16 +42,31 @@ export const CreatePoemForm = () => {
   });
 
   return (
-    <form className="w-full md:w-[50%] min-h-screen" onSubmit={onSubmit}>
-      <InputField
-        name="subject"
-        label="Subject"
-        formType="text"
-        register={register}
-        error={errors.subject}
-        required
-        disabled={isLoading}
-      />
+    <Box
+      component="form"
+      onSubmit={onSubmit}
+      sx={{ width: "100%", maxWidth: "500px", mx: "auto", minHeight: "100vh" }}
+    >
+      <Input.Wrapper
+        my={8}
+        id="subject"
+        withAsterisk
+        label="Poem Subject"
+        error={errors.subject?.message}
+      >
+        <Input
+          id="subject"
+          disabled={isLoading}
+          {...register("subject", {
+            required: {
+              value: true,
+              message: `Please complete this required field`,
+            },
+          })}
+          placeholder="Enter a subject for a poem here"
+        />
+      </Input.Wrapper>
+
       {isLoading && <Loader loadingText="Creating poem..." />}
       <Button
         type="submit"
@@ -70,6 +84,6 @@ export const CreatePoemForm = () => {
           <p className="text-red-500 m-0">{handleUnknownError(error)}</p>
         </div>
       )}
-    </form>
+    </Box>
   );
 };

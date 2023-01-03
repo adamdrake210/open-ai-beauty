@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Head from "next/head";
 import { GetServerSideProps } from "next";
 
@@ -9,6 +9,7 @@ import { LOGIN } from "@/constants/routeConstants";
 import { userFromRequest } from "@/utils/tokens";
 import { User } from "@/types/types";
 import UserProvider from "@/context/userContext";
+import { Box, Title } from "@mantine/core";
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const data = await userFromRequest(req);
@@ -38,10 +39,12 @@ export default function AdminArea({ userId }: { userId: User["id"] }) {
         <link rel="icon" href={SITE_ICON} />
       </Head>
       <Layout>
-        <section className="p-2">
-          <h1 className="my-4 font-cursive">Create a Poem</h1>
+        <Box component="section" py="md">
+          <Title order={1} mb={24}>
+            Create a Poem
+          </Title>
           <CreatePoemForm />
-        </section>
+        </Box>
       </Layout>
     </UserProvider>
   );
