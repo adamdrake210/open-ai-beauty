@@ -8,6 +8,7 @@ import { RegisterForm } from "@/components/auth/RegisterForm";
 import { userFromRequest } from "@/utils/tokens";
 import { HOME } from "@/constants/routeConstants";
 import UserProvider from "@/context/userContext";
+import { Flex, Title } from "@mantine/core";
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const data = await userFromRequest(req);
@@ -36,10 +37,19 @@ export default function RegisterPage() {
         <link rel="icon" href={SITE_ICON} />
       </Head>
       <Layout>
-        <section className="p-8 flex flex-col items-center max-w-sm mx-auto">
-          <h1 className="font-cursive">Sign Up!</h1>
+        <Flex
+          p={32}
+          direction="column"
+          align="center"
+          maw="40%"
+          mx="auto"
+          mih="100vh"
+        >
+          <Title order={1} mb={24}>
+            Sign Up!
+          </Title>
           <RegisterForm />
-        </section>
+        </Flex>
       </Layout>
     </UserProvider>
   );

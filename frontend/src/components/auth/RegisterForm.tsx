@@ -2,12 +2,11 @@ import React from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
-import { Button } from "../common/buttons/Button";
-import { InputField } from "../common/fields/InputField";
 import { Loader } from "../common/Loader";
 import { handleUnknownError } from "@/utils/handleUnknownError";
 import { useRouter } from "next/router";
 import { CREATE_POST } from "@/constants/routeConstants";
+import { Box, Button, Center, Input } from "@mantine/core";
 
 export const RegisterForm = () => {
   const router = useRouter();
@@ -71,59 +70,110 @@ export const RegisterForm = () => {
   });
 
   return (
-    <form
-      className="w-full min-h-screen flex flex-col items-center"
+    <Box
+      component="form"
       onSubmit={onSubmit}
+      sx={{ width: "100%", maxWidth: "250px", mx: "auto" }}
     >
-      <InputField
-        name="firstname"
+      <Input.Wrapper
+        sx={{ marginBottom: 8 }}
+        id="firstname"
+        withAsterisk
         label="First Name"
-        formType="text"
-        register={register}
-        error={errors.firstname}
-        disabled={isLoading}
-      />
-      <InputField
-        name="lastname"
-        label="Last Name"
-        formType="text"
-        register={register}
-        error={errors.lastname}
-        required
-        disabled={isLoading}
-      />
-      <InputField
-        name="email"
-        label="Email*"
-        formType="text"
-        register={register}
-        error={errors.email}
-        required
-        disabled={isLoading}
-      />
-      <InputField
-        name="password"
-        label="Password*"
-        formType="password"
-        register={register}
-        error={errors.password}
-        required
-        disabled={isLoading}
-      />
-      {isLoading && <Loader loadingText="Registering..." />}
-      <Button
-        type="submit"
-        color="primary"
-        disabled={isLoading}
-        className="mt-6"
+        error={errors.firstname?.message}
       >
-        Sign Up
-      </Button>
+        <Input
+          id="firstname"
+          disabled={isLoading}
+          {...register("firstname", {
+            required: {
+              value: true,
+              message: `Please complete this required field`,
+            },
+          })}
+          placeholder="Enter first name here"
+        />
+      </Input.Wrapper>
+
+      <Input.Wrapper
+        sx={{ marginBottom: 8 }}
+        id="lastname"
+        withAsterisk
+        label="Last Name"
+        error={errors.lastname?.message}
+      >
+        <Input
+          id="lastname"
+          disabled={isLoading}
+          {...register("lastname", {
+            required: {
+              value: true,
+              message: `Please complete this required field`,
+            },
+          })}
+          placeholder="Enter last name here"
+        />
+      </Input.Wrapper>
+
+      <Input.Wrapper
+        sx={{ marginBottom: 8 }}
+        id="email"
+        withAsterisk
+        label="Email"
+        error={errors.email?.message}
+      >
+        <Input
+          id="email"
+          disabled={isLoading}
+          {...register("email", {
+            required: {
+              value: true,
+              message: `Please complete this required field`,
+            },
+          })}
+          placeholder="Enter your email here"
+        />
+      </Input.Wrapper>
+
+      <Input.Wrapper
+        sx={{ marginBottom: 8 }}
+        id="password"
+        withAsterisk
+        label="Password"
+        error={errors.password?.message}
+      >
+        <Input
+          id="password"
+          type="password"
+          disabled={isLoading}
+          {...register("password", {
+            required: {
+              value: true,
+              message: `Please complete this required field`,
+            },
+          })}
+          placeholder="Enter a secure password here"
+        />
+      </Input.Wrapper>
+
+      {isLoading && <Loader loadingText="Registering..." />}
+      <Center>
+        <Button
+          type="submit"
+          color="grape"
+          radius="md"
+          size="lg"
+          mt={16}
+          disabled={isLoading}
+        >
+          Sign Up
+        </Button>
+      </Center>
       {isError && (
         <div className="flex justify-center w-full my-4 mx-auto max-w-md p-2 bg-white rounded-lg">
           <p className="text-red-500 m-0">{handleUnknownError(error)}</p>
         </div>
       )}
-    </form>
+    </Box>
   );
 };
