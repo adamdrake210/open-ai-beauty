@@ -1,4 +1,5 @@
 # Todos
+- Create a profile page
 - Deploy both apps live (backend and frontend)
 - Infinite queries for poems
 - Refine auth, update auth backend per course
