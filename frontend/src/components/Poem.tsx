@@ -1,45 +1,59 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
-import { Post } from "@prisma/client";
-import { Divider } from "./common/Divider";
-import { PoemParameters, PoemParametersType } from "./PoemParameters";
+import { Box, Divider, Flex, Text, Title } from "@mantine/core";
+
+import { PoemParameters } from "./PoemParameters";
 import { LikeComponent } from "./LikeComponent";
-import { trpc } from "@/utils/trpc";
+import { Post } from "@/types/types";
 
 type PoemProps = {
   post: Post;
 };
 
 export const Poem = ({ post }: PoemProps) => {
-  const replaceWhiteSpace = (str: string) =>
+  const replaceWhiteSpace = (str: string | null | undefined) =>
     str?.replaceAll(/\n\n/g, "\n").replaceAll(/\n/g, "<br />");
 
   return (
-    <div className="max-w-md mx-auto text-gray-600 my-6">
-      <h1 className="text-3xl font-light mb-4">{post?.title}</h1>
+    <Flex
+      mx="auto"
+      w="100%"
+      maw={450}
+      my={32}
+      align="center"
+      direction="column"
+    >
+      <Title order={1} mb={24}>
+        {post?.title}
+      </Title>
       {post?.imageUrl && (
         <Image
-          className="rounded-lg shadow-lg"
           src={post.imageUrl}
           alt={`Image of ${post.title}`}
           width={500}
           height={500}
+          priority
         />
       )}
-      <div className="mb-4 md:my-8 px-8 md:px-2">
-        <p
-          className="text-xl italic"
+      <Box mt={16} px={16}>
+        <Text
+          italic
+          size="xl"
+          color="gray"
           dangerouslySetInnerHTML={{
-            __html: replaceWhiteSpace(post?.content),
+            __html: replaceWhiteSpace(post?.content) || "",
           }}
         />
         <p>By {post?.author}</p>
         <LikeComponent id={post.id} count={post.likeCount} />
-      </div>
-      <Divider />
+        <Divider my="sm" variant="solid" />
+      </Box>
 
-      <PoemParameters params={post?.poemParams as PoemParametersType} />
-      <Divider />
-    </div>
+      <PoemParameters
+        poemRequest={post.poemRequest}
+        poemStyle={post.poemStyle}
+        poetInspiration={post.poetInspiration}
+      />
+    </Flex>
   );
 };

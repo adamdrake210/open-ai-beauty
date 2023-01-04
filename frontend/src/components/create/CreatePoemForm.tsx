@@ -1,13 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { trpc } from "@/utils/trpc";
-import { InputField } from "../common/fields/InputField";
-import { Button } from "../common/buttons/Button";
+
 import { Loader } from "../common/Loader";
+import { handleUnknownError } from "@/utils/handleUnknownError";
+import { useRouter } from "next/router";
+import { POEMS } from "@/constants/routeConstants";
+import { useCreatePost } from "@/hooks/useCreatePost";
+import { Box, Button, Input } from "@mantine/core";
 
 export const CreatePoemForm = () => {
-  const { mutateAsync, isLoading, isError, error } =
-    trpc.poemRequest.add.useMutation({});
+  const router = useRouter();
+  const { mutate, isLoading, isError, error } = useCreatePost();
 
   const {
     register,
@@ -20,41 +23,67 @@ export const CreatePoemForm = () => {
     },
   });
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit((data) => {
     try {
-      await mutateAsync(data);
-      reset();
-      alert("Poem created successfully!");
+      mutate(data.subject, {
+        onSuccess: async (data) => {
+          const { id } = await data.json();
+          router.push(`${POEMS}/${id}`);
+          reset();
+        },
+        onError: (error) => {
+          console.error(error);
+          alert("Failed to create poem");
+        },
+      });
     } catch (cause) {
       console.error({ cause }, "Failed to add post");
     }
   });
 
   return (
-    <form className="w-[50%] min-h-screen" onSubmit={onSubmit}>
-      <InputField
-        name="subject"
-        label="Subject"
-        formType="text"
-        register={register}
-        error={errors.subject}
-        required
-        disabled={isLoading}
-      />
+    <Box
+      component="form"
+      onSubmit={onSubmit}
+      sx={{ width: "100%", maxWidth: "500px", mx: "auto", minHeight: "100vh" }}
+    >
+      <Input.Wrapper
+        my={8}
+        id="subject"
+        withAsterisk
+        label="Poem Subject"
+        error={errors.subject?.message}
+      >
+        <Input
+          id="subject"
+          disabled={isLoading}
+          {...register("subject", {
+            required: {
+              value: true,
+              message: `Please complete this required field`,
+            },
+          })}
+          placeholder="Enter a subject for a poem here"
+        />
+      </Input.Wrapper>
+
       {isLoading && <Loader loadingText="Creating poem..." />}
       <Button
         type="submit"
-        color="primary"
+        // color="primary"
         disabled={isLoading}
-        className="mt-2"
+        // className="mt-2"
+        size="md"
+        radius="md"
+        color="grape"
       >
         Create Poem
       </Button>
       {isError && (
         <div className="flex justify-center w-full my-4 mx-auto max-w-md p-2 bg-white rounded-lg">
-          <p className="text-red-500 m-0">{error.message}</p>
+          <p className="text-red-500 m-0">{handleUnknownError(error)}</p>
         </div>
       )}
-    </form>
+    </Box>
   );
 };

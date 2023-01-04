@@ -4,6 +4,8 @@ import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { AppModule } from './app.module';
+import * as cookieParser from 'cookie-parser';
+
 import type {
   CorsConfig,
   NestConfig,
@@ -43,8 +45,14 @@ async function bootstrap() {
 
   // Cors
   if (corsConfig.enabled) {
-    app.enableCors();
+    app.enableCors({
+      origin: process.env.FRONTEND_URL,
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    });
   }
+
+  app.use(cookieParser());
 
   await app.listen(process.env.PORT || nestConfig.port || 3001);
 }

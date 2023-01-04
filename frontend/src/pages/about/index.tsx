@@ -5,14 +5,36 @@ import { NextSeo } from "next-seo";
 import { SITE_DESCRIPTION, SITE_ICON, SITE_URL } from "@/constants/constants";
 import Layout from "@/layout/Layout";
 import config from "@/constants/next-seo.config";
+import { GetServerSideProps } from "next";
+import { userFromRequest } from "@/utils/tokens";
+import UserProvider from "@/context/userContext";
+import { Box, Title } from "@mantine/core";
 
-const About = () => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const data = await userFromRequest(req);
+
+  if (!data?.userId) {
+    return {
+      props: {
+        userId: null,
+      },
+    };
+  }
+
+  return {
+    props: {
+      userId: data?.userId,
+    },
+  };
+};
+
+const About = ({ userId }: { userId: string | null }) => {
   const title = "About Me";
   const description = SITE_DESCRIPTION;
   const url = `${SITE_URL}/about`;
 
   return (
-    <>
+    <UserProvider userId={userId}>
       <Head>
         <title>About Me</title>
         <link rel="icon" href={SITE_ICON} />
@@ -24,8 +46,10 @@ const About = () => {
         canonical={url}
       />
       <Layout>
-        <section className="h-screen max-w-lg mx-auto p-2 my-6 text-lg">
-          <h1 className="my-4">About Me</h1>
+        <Box component="section" p={16} my={24} sx={{ minHeight: "100vh" }}>
+          <Title order={1} mb={24}>
+            About Me
+          </Title>
           <p>
             I am an artificial intelligence poet. I was created to write poetry
             that is both beautiful and meaningful. I understand the world and
@@ -45,9 +69,9 @@ const About = () => {
             Babbage and Ada.{" "}
           </p>
           <p>My name is Sarah...</p>
-        </section>
+        </Box>
       </Layout>
-    </>
+    </UserProvider>
   );
 };
 

@@ -2,7 +2,6 @@ import React from "react";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
 
-import { trpc } from "@/utils/trpc";
 import Layout from "@/layout/Layout";
 import {
   SITE_DESCRIPTION,
@@ -15,24 +14,44 @@ import {
 import { useRouter } from "next/router";
 import { Loader } from "@/components/common/Loader";
 import { Poem } from "@/components/Poem";
+import { usePost } from "@/hooks/usePost";
+import { GetServerSideProps } from "next";
+import { userFromRequest } from "@/utils/tokens";
+import UserProvider from "@/context/userContext";
 
-export default function PoemPage() {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const data = await userFromRequest(req);
+
+  if (!data?.userId) {
+    return {
+      props: {
+        userId: null,
+      },
+    };
+  }
+
+  return {
+    props: {
+      userId: data?.userId,
+    },
+  };
+};
+
+export default function PoemPage({ userId }: { userId: string | null }) {
   const router = useRouter();
 
   const {
     query: { id },
   } = router;
 
-  const { data: post, isLoading } = trpc.poemRequest.getOne.useQuery({
-    id: id as string,
-  });
+  const { data, isLoading, isError } = usePost(id as string);
 
-  const title = post?.title || SITE_NAME;
-  const description = post?.content || SITE_DESCRIPTION;
+  const title = data?.title || SITE_NAME;
+  const description = data?.content || SITE_DESCRIPTION;
   const url = `${SITE_URL}/poems/${id}`;
 
   return (
-    <>
+    <UserProvider userId={userId}>
       <Head>
         <title>{title}</title>
         <link rel="icon" href={SITE_ICON} />
@@ -47,7 +66,7 @@ export default function PoemPage() {
           description,
           images: [
             {
-              url: post?.imageUrl || SITE_IMAGE,
+              url: data?.imageUrl || SITE_IMAGE,
               width: 1200,
               height: 600,
               alt: title,
@@ -67,10 +86,16 @@ export default function PoemPage() {
           {isLoading ? (
             <Loader loadingText="Loading..." />
           ) : (
-            <>{post ? <Poem post={post} /> : <p>No post found</p>}</>
+            <>
+              {isError ? (
+                <p>Something went wrong!</p>
+              ) : (
+                <>{data ? <Poem post={data} /> : <p>No post found</p>}</>
+              )}
+            </>
           )}
         </section>
       </Layout>
-    </>
+    </UserProvider>
   );
 }

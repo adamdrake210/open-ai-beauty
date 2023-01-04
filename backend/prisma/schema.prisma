@@ -13,9 +13,12 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   email     String   @unique
-  password  String
+  password  String?
   firstname String?
   lastname  String?
+  currentHashedRefreshToken String?
+  googleId  String?  @unique
+  pictureUrl String?
 }
 
 model Post {

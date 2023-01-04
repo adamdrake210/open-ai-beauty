@@ -1,39 +1,42 @@
+import { Box, Text, Title } from "@mantine/core";
 import React from "react";
 
-export type PoemParametersType = {
+type PoemParametersProps = {
   poemStyle: string;
   poemRequest: string;
   poetInspiration: string;
 };
 
-type PoemParametersProps = {
-  params: PoemParametersType;
-};
-
-export const PoemParameters = ({ params }: PoemParametersProps) => {
+export const PoemParameters = ({
+  poemStyle,
+  poemRequest,
+  poetInspiration,
+}: PoemParametersProps) => {
   return (
-    <div className="mb-4 md:my-8 px-8 md:px-2">
-      <h3 className="mb-2">Poem Creation Inputs</h3>
-      <p>
+    <Box px={16} my={24}>
+      <Title order={3} mb={16}>
+        Poem Creation Inputs
+      </Title>
+      <Text size="lg">
         Below are the prompt inputs provided to the AI model in order to create
         the poem.
-      </p>
-      <table className="table-auto text-left text-sm">
+      </Text>
+      <table>
         <tbody>
           <tr>
-            <td className="font-semibold min-w-[200px]">Poem Style</td>
-            <td className="italic">{params.poemStyle}</td>
+            <td style={{ fontWeight: 500, width: 150 }}>Poem Style</td>
+            <td style={{ fontStyle: "italic" }}>{poemStyle}</td>
           </tr>
           <tr>
-            <td className="font-semibold min-w-[200px]">Request to Model</td>
-            <td className="italic">{params.poemRequest}</td>
+            <td style={{ fontWeight: 500, width: 150 }}>Request to Model</td>
+            <td style={{ fontStyle: "italic" }}>{poemRequest}</td>
           </tr>
           <tr>
-            <td className="font-semibold min-w-[200px]">Poet Inspiration</td>
-            <td className="italic">{params.poetInspiration}</td>
+            <td style={{ fontWeight: 500, width: 150 }}>Poet Inspiration</td>
+            <td style={{ fontStyle: "italic" }}>{poetInspiration}</td>
           </tr>
         </tbody>
       </table>
-    </div>
+    </Box>
   );
 };

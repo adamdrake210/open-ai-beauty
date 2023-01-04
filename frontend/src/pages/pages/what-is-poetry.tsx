@@ -8,15 +8,36 @@ import { QuoteBlock } from "@/components/common/QuoteBlock";
 import { CTAReadPoemsButton } from "@/components/common/buttons/CTAReadPoemsButton";
 import config from "@/constants/next-seo.config";
 import { SITE_ICON, SITE_URL } from "@/constants/constants";
+import { GetServerSideProps } from "next";
+import { userFromRequest } from "@/utils/tokens";
+import UserProvider from "@/context/userContext";
 
-export default function WhatIsPoetry() {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const data = await userFromRequest(req);
+
+  if (!data?.userId) {
+    return {
+      props: {
+        userId: null,
+      },
+    };
+  }
+
+  return {
+    props: {
+      userId: data?.userId,
+    },
+  };
+};
+
+export default function WhatIsPoetry({ userId }: { userId: string | null }) {
   const title = "What is Poetry?";
   const description =
     "Poetry is a type of literature that expresses ideas, emotions, and images through the use of rhythm, imagery, and word choice. It is often written in a metrical pattern and can range from very structured and formal to free-flowing and personal.";
   const url = `${SITE_URL}/pages/what-is-poetry`;
 
   return (
-    <>
+    <UserProvider userId={userId}>
       <Head>
         <title>{title}</title>
         <link rel="icon" href={SITE_ICON} />
@@ -144,6 +165,6 @@ export default function WhatIsPoetry() {
           </p>
         </section>
       </Layout>
-    </>
+    </UserProvider>
   );
 }

@@ -2,43 +2,49 @@ import { PrismaService } from 'nestjs-prisma';
 import { Prisma, User } from '@prisma/client';
 import {
   Injectable,
-  NotFoundException,
-  BadRequestException,
   ConflictException,
-  UnauthorizedException,
+  HttpException,
+  HttpStatus,
+  Inject,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { PasswordService } from './password.service';
 import { SignupInput } from './dto/signup.input';
-import { Token } from './models/token.model';
-import { SecurityConfig } from 'src/common/configs/config.interface';
+import { TokenPayload } from './interfaces/tokenPayload.interface';
+import { UsersService } from 'src/users/users.service';
+import { HashingService } from './hashing/hashing.service';
+import jwtConfig from 'src/common/configs/jwt.config';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly prisma: PrismaService,
     private readonly passwordService: PasswordService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly hashingService: HashingService,
+    @Inject(jwtConfig.KEY)
+    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>
   ) {}
 
-  async createUser(payload: SignupInput): Promise<Token> {
+  async createUser(payload: SignupInput): Promise<User> {
     const hashedPassword = await this.passwordService.hashPassword(
       payload.password
     );
 
     try {
-      const user = await this.prisma.user.create({
+      const createdUser = await this.prisma.user.create({
         data: {
           ...payload,
           password: hashedPassword,
         },
       });
 
-      return this.generateTokens({
-        userId: user.id,
-      });
+      createdUser.password = undefined;
+      createdUser.currentHashedRefreshToken = undefined;
+      return createdUser;
     } catch (e) {
       if (
         e instanceof Prisma.PrismaClientKnownRequestError &&
@@ -50,66 +56,86 @@ export class AuthService {
     }
   }
 
-  async login(email: string, password: string): Promise<Token> {
-    const user = await this.prisma.user.findUnique({ where: { email } });
-
-    if (!user) {
-      throw new NotFoundException(`No user found for email: ${email}`);
+  async validateUser(email: string, password: string): Promise<any> {
+    try {
+      const user = await this.usersService.findOneUserByEmailWPassword(email);
+      await this.verifyPassword(password, user.password);
+      if (user) {
+        const { password, ...result } = user;
+        return result;
+      }
+      return null;
+    } catch (error) {
+      throw new HttpException(
+        'Wrong credentials provided',
+        HttpStatus.BAD_REQUEST
+      );
     }
+  }
 
-    const passwordValid = await this.passwordService.validatePassword(
-      password,
-      user.password
+  private async verifyPassword(
+    plainTextPassword: string,
+    hashedPassword: string
+  ) {
+    const isPasswordMatching = await this.hashingService.compare(
+      plainTextPassword,
+      hashedPassword
     );
-
-    if (!passwordValid) {
-      throw new BadRequestException('Invalid password');
+    if (!isPasswordMatching) {
+      throw new HttpException(
+        'Wrong credentials provided',
+        HttpStatus.BAD_REQUEST
+      );
     }
-
-    return this.generateTokens({
-      userId: user.id,
-    });
   }
 
-  validateUser(userId: string): Promise<User> {
-    return this.prisma.user.findUnique({ where: { id: userId } });
+  private async signToken<T>(userId: string, expiresIn: number, payload?: T) {
+    return await this.jwtService.signAsync(
+      {
+        sub: userId,
+        ...payload,
+      },
+      {
+        secret: this.jwtConfiguration.secret,
+        expiresIn,
+        audience: this.jwtConfiguration.audience,
+        issuer: this.jwtConfiguration.issuer,
+      }
+    );
   }
 
-  getUserFromToken(token: string): Promise<User> {
-    const id = this.jwtService.decode(token)['userId'];
-    return this.prisma.user.findUnique({ where: { id } });
+  public async getCookieWithJwtToken(userId: string) {
+    const payload: TokenPayload = { userId };
+    const accessToken = await this.signToken(
+      userId,
+      this.jwtConfiguration.accessTokenTtl,
+      payload
+    );
+    return `Authentication=${accessToken}; HttpOnly; Path=/; Max-Age=${this.jwtConfiguration.accessTokenTtl}`;
   }
 
-  generateTokens(payload: { userId: string }): Token {
+  public async getCookieWithJwtRefreshToken(userId: string) {
+    const payload: TokenPayload = { userId };
+    const refreshToken = await this.signToken(
+      userId,
+      this.jwtConfiguration.refreshTokenTtl,
+      payload
+    );
+    const cookie = `Refresh=${refreshToken}; HttpOnly; Path=/; Max-Age=${this.jwtConfiguration.refreshTokenTtl}`;
     return {
-      accessToken: this.generateAccessToken(payload),
-      refreshToken: this.generateRefreshToken(payload),
+      cookie,
+      token: refreshToken,
     };
   }
 
-  private generateAccessToken(payload: { userId: string }): string {
-    return this.jwtService.sign(payload);
+  public getCookieForLogOut() {
+    return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
   }
 
-  private generateRefreshToken(payload: { userId: string }): string {
-    const securityConfig = this.configService.get<SecurityConfig>('security');
-    return this.jwtService.sign(payload, {
-      secret: this.configService.get('JWT_REFRESH_SECRET'),
-      expiresIn: securityConfig.refreshIn,
-    });
-  }
-
-  refreshToken(token: string) {
-    try {
-      const { userId } = this.jwtService.verify(token, {
-        secret: this.configService.get('JWT_REFRESH_SECRET'),
-      });
-
-      return this.generateTokens({
-        userId,
-      });
-    } catch (e) {
-      throw new UnauthorizedException();
-    }
+  public getCookiesForLogOut() {
+    return [
+      'Authentication=; HttpOnly; Path=/; Max-Age=0',
+      'Refresh=; HttpOnly; Path=/; Max-Age=0',
+    ];
   }
 }

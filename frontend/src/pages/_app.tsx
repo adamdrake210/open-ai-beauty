@@ -1,29 +1,25 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import Script from "next/script";
-import { Yeseva_One, Josefin_Sans } from "@next/font/google";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import { MantineProvider } from "@mantine/core";
 
 import { useRouter } from "next/router";
 import * as gtag from "@/utils/gtag";
-import { trpc } from "@/utils/trpc";
 import config from "@/constants/next-seo.config";
 
-import "../styles/globals.css";
-
-const josefin = Josefin_Sans({
-  weight: ["100"],
-  subsets: ["latin"],
-});
-
-const yeseva = Yeseva_One({
-  weight: ["400"],
-  subsets: ["latin"],
-});
+import { theme } from "@/styles/theme";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
+  const [queryClient] = React.useState(() => new QueryClient());
+
   useEffect(() => {
     const handleRouteChange = (url: string) => {
       gtag.pageview(url);
@@ -55,20 +51,17 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           `,
         }}
       />
-      <style jsx global>
-        {`
-          :root {
-            --josefin-font: ${josefin.style.fontFamily};
-            --yeseva-font: ${yeseva.style.fontFamily};
-          }
-        `}
-      </style>
       <DefaultSeo {...config} />
-
-      <Component {...pageProps} />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
+            <Component {...pageProps} />
+          </MantineProvider>
+        </Hydrate>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </>
   );
 };
 
-export default trpc.withTRPC(MyApp);
+export default MyApp;

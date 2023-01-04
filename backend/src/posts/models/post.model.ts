@@ -1,32 +1,31 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { ApiProperty } from '@nestjs/swagger';
 import { BaseModel } from 'src/common/models/base.model';
 
-@ObjectType()
 export class Post extends BaseModel {
-  @Field()
+  @ApiProperty()
   title: string;
 
-  @Field(() => String, { nullable: true })
+  @ApiProperty({ nullable: true })
   content?: string | null;
 
-  @Field(() => Boolean)
+  @ApiProperty()
   published: boolean;
 
-  @Field()
+  @ApiProperty()
   author: string;
 
-  @Field()
+  @ApiProperty()
   imageUrl: string;
 
-  @Field()
+  @ApiProperty()
   poemRequest: string;
 
-  @Field()
+  @ApiProperty()
   poetInspiration: string;
 
-  @Field()
+  @ApiProperty()
   poemStyle: string;
 
-  @Field(() => Number, { defaultValue: 0 })
+  @ApiProperty({ default: 0 })
   likeCount: number;
 }
