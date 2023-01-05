@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { ABOUT, HOME, LOGIN, REGISTER } from "@/constants/routeConstants";
+import {
+  ABOUT,
+  HOME,
+  LOGIN,
+  PROFILE,
+  REGISTER,
+} from "@/constants/routeConstants";
 import { SITE_NAME } from "@/constants/constants";
 import {
   ActionIcon,
@@ -26,6 +32,13 @@ const menuItems = [
   {
     name: "About",
     href: ABOUT,
+  },
+];
+
+const userMenuItems = [
+  {
+    name: "Profile",
+    href: PROFILE,
   },
 ];
 
@@ -125,6 +138,25 @@ export const Navigation = () => {
                   <Menu.Dropdown>
                     <Menu.Label>User Menu</Menu.Label>
                     <Menu.Divider />
+                    {userMenuItems.map((item) => {
+                      return (
+                        <Link
+                          key={item.name}
+                          href={item.href}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <Menu.Item
+                            sx={{
+                              textTransform: "uppercase",
+                              fontSize: "1.2rem",
+                              fontWeight: 100,
+                            }}
+                          >
+                            {item.name}
+                          </Menu.Item>
+                        </Link>
+                      );
+                    })}
                     <Button
                       color="indigo"
                       variant="outline"
@@ -194,17 +226,38 @@ export const Navigation = () => {
                     </Link>
                   </Flex>
                 ) : (
-                  <Button
-                    color="indigo"
-                    variant="outline"
-                    onClick={handleLogout}
-                    ml={8}
-                    size="md"
-                    my={4}
-                    w={100}
-                  >
-                    Logout
-                  </Button>
+                  <>
+                    {userMenuItems.map((item) => {
+                      return (
+                        <Link
+                          key={item.name}
+                          href={item.href}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <Menu.Item
+                            sx={{
+                              textTransform: "uppercase",
+                              fontSize: "1.2rem",
+                              fontWeight: 100,
+                            }}
+                          >
+                            {item.name}
+                          </Menu.Item>
+                        </Link>
+                      );
+                    })}
+                    <Button
+                      color="indigo"
+                      variant="outline"
+                      onClick={handleLogout}
+                      ml={8}
+                      size="md"
+                      my={4}
+                      w={100}
+                    >
+                      Logout
+                    </Button>
+                  </>
                 )}
               </Menu.Dropdown>
             </Menu>
