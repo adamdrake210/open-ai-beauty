@@ -26,6 +26,6 @@ npx prisma studio
 
 ## Deployment
 
-For deploying on Heroku please use this command:
+For deploying on Heroku please use this command from the root level of the project:
 
 `git subtree push --prefix backend heroku main`

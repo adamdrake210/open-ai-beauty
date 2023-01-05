@@ -19,7 +19,7 @@ export const GoogleLoginButton = () => {
           text="signup_with"
           onSuccess={async (response) => {
             const googleAuthResponse = await fetch(
-              "http://localhost:3001/authentication/google",
+              `${process.env.NEXT_PUBLIC_API_URL}/authentication/google`,
               {
                 method: "POST",
                 headers: {
