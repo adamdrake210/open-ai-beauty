@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import { Box } from "@mantine/core";
 import { GetServerSideProps } from "next";
 
 import Layout from "@/layout/Layout";
@@ -8,7 +9,7 @@ import { LOGIN } from "@/constants/routeConstants";
 import { userFromRequest } from "@/utils/tokens";
 import { User } from "@/types/types";
 import UserProvider from "@/context/userContext";
-import { Box, Title } from "@mantine/core";
+import { ProfileContainer } from "@/components/user/profile/ProfileContainer";
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const data = await userFromRequest(req);
@@ -38,10 +39,8 @@ export default function UserProfile({ userId }: { userId: User["id"] }) {
         <link rel="icon" href={SITE_ICON} />
       </Head>
       <Layout>
-        <Box component="section" py="md">
-          <Title order={1} mb={24}>
-            User Profile
-          </Title>
+        <Box component="section" py="md" h="100vh">
+          <ProfileContainer />
         </Box>
       </Layout>
     </UserProvider>

@@ -103,7 +103,7 @@ export const LoginForm = () => {
         <Center>
           <Button
             type="submit"
-            color="indigo"
+            color="primary"
             radius="md"
             size="lg"
             mt={16}

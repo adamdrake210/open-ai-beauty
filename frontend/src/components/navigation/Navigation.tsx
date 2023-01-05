@@ -116,7 +116,7 @@ export const Navigation = () => {
                   </Link>
 
                   <Link href={LOGIN}>
-                    <Button color="indigo" size="md">
+                    <Button color="primary" size="md">
                       Login
                     </Button>
                   </Link>
@@ -158,7 +158,7 @@ export const Navigation = () => {
                       );
                     })}
                     <Button
-                      color="indigo"
+                      color="primary"
                       variant="outline"
                       onClick={handleLogout}
                       ml={8}
@@ -220,7 +220,7 @@ export const Navigation = () => {
                     </Link>
 
                     <Link href={LOGIN}>
-                      <Button color="indigo" size="md" w={150}>
+                      <Button color="primary" size="md" w={150}>
                         Login
                       </Button>
                     </Link>
@@ -247,7 +247,7 @@ export const Navigation = () => {
                       );
                     })}
                     <Button
-                      color="indigo"
+                      color="primary"
                       variant="outline"
                       onClick={handleLogout}
                       ml={8}

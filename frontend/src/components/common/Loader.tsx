@@ -8,7 +8,7 @@ type LoaderProps = {
 export const Loader = ({ loadingText }: LoaderProps) => {
   return (
     <Center sx={{ flexDirection: "column" }}>
-      <MantineLoader color="indigo" size="lg" />
+      <MantineLoader color="primary" size="lg" />
       <p>{loadingText}</p>
     </Center>
   );
