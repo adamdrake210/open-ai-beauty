@@ -1,5 +1,6 @@
-import { User } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
+import { RQ_USER_KEY } from "@/constants/constants";
+import { User } from "@/types/types";
 
 const fetchUser = async (id: any["id"]) => {
   if (!id) {
@@ -21,7 +22,7 @@ const fetchUser = async (id: any["id"]) => {
 
 const useGetUser = (id: string | null) => {
   return useQuery({
-    queryKey: ["user", id],
+    queryKey: [RQ_USER_KEY, id],
     queryFn: () => fetchUser(id),
   });
 };

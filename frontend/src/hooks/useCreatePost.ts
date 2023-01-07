@@ -1,4 +1,3 @@
-import ky from "ky-universal";
 import { useMutation } from "@tanstack/react-query";
 
 const createPost = async (subject: string) => {

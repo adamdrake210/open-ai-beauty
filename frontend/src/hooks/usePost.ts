@@ -1,6 +1,7 @@
 import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
 import { Post } from "@/types/types";
+import { RQ_POST_KEY } from "@/constants/constants";
 
 const fetchPost = async (id: any["id"]) => {
   const parsed = await ky(
@@ -11,7 +12,7 @@ const fetchPost = async (id: any["id"]) => {
 
 const usePost = (id: string) => {
   return useQuery({
-    queryKey: ["post", id],
+    queryKey: [RQ_POST_KEY, id],
     queryFn: () => fetchPost(id),
   });
 };

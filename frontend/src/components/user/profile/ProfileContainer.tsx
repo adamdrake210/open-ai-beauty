@@ -1,11 +1,13 @@
-import React from "react";
-import { Box, Button, Title } from "@mantine/core";
+import React, { useState } from "react";
+import { Box, Button, Modal, Text, Title } from "@mantine/core";
 
 import { UserContext, UserContextType } from "@/context/userContext";
 import { UserProfileInfo } from "./UserProfileInfo";
+import { UserProfileForm } from "./UserProfileForm";
 
 export const ProfileContainer = () => {
   const { user } = React.useContext(UserContext) as UserContextType;
+  const [opened, setOpened] = useState(false);
 
   return (
     <Box>
@@ -15,7 +17,21 @@ export const ProfileContainer = () => {
         lastName={user?.lastname || ""}
         email={user?.email || ""}
       />
-      <Button color="primary">Edit</Button>
+      <Button color="primary" onClick={() => setOpened(true)}>
+        Edit
+      </Button>
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        centered
+        title="Edit Profile Information"
+      >
+        {user ? (
+          <UserProfileForm user={user} setOpened={setOpened} />
+        ) : (
+          <Text color="red">Something went wrong. Please reload the page.</Text>
+        )}
+      </Modal>
     </Box>
   );
 };
