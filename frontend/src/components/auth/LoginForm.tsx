@@ -37,7 +37,8 @@ export const LoginForm = () => {
           const user = await data.json();
           setUser(user);
           reset();
-          router.push(CREATE_POST);
+          window.location.href = CREATE_POST;
+          // router.push(CREATE_POST);
         },
         onError: (error) => {
           console.error(error);
