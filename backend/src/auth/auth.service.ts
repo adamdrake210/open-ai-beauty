@@ -111,6 +111,10 @@ export class AuthService {
       this.jwtConfiguration.accessTokenTtl,
       payload
     );
+    console.log(
+      '🚀 ~ file: auth.service.ts:114 ~ AuthService ~ getCookieWithJwtToken ~ accessToken',
+      accessToken
+    );
     return `Authentication=${accessToken}; HttpOnly; Secure; Path=/; Max-Age=${this.jwtConfiguration.accessTokenTtl}`;
   }
 
