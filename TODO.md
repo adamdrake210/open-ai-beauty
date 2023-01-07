@@ -1,9 +1,9 @@
 # Todos
-- Create a profile page
-- Deploy both apps live (backend and frontend)
+- Fix the Google Auth not working in prod
+- Restyle pages page with Mantine.dev
 - Infinite queries for poems
-- Refine auth, update auth backend per course
-- Implement favorites
+- Implement favorites for user
+- Delete account option in profile
 - Change slugs to poem title with -
 - Email Feature - https://maizzle.com/
 - https://api.api-ninjas.com/v1/randomword
