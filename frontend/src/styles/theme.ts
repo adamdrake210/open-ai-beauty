@@ -26,23 +26,28 @@ export const theme: MantineThemeOverride = {
       color:
         theme.colorScheme === "dark"
           ? theme.colors.dark[0]
-          : theme.colors.gray[6],
+          : theme.colors.gray[7],
     },
     a: {
       textDecoration: "none",
       color:
         theme.colorScheme === "dark"
           ? theme.colors.dark[0]
-          : theme.colors.gray[6],
+          : theme.colors.gray[7],
       "&:hover": {
         color:
           theme.colorScheme === "dark"
             ? theme.colors.dark[2]
-            : theme.colors.gray[8],
+            : theme.colors.gray[6],
       },
     },
     p: {
       fontSize: "1.1rem",
+      marginBottom: 16,
+    },
+    li: {
+      fontSize: "1.1rem",
+      marginBottom: 8,
     },
   }),
 };

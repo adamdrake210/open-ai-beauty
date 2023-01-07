@@ -1,5 +1,6 @@
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
+import { Center } from "@mantine/core";
 
 type PageImageProps = {
   src: string;
@@ -8,14 +9,14 @@ type PageImageProps = {
 
 export const PageImage = ({ src, altText }: PageImageProps) => {
   return (
-    <div className="my-8">
+    <Center my={32}>
       <Image
         src={src}
         alt={altText}
-        width={500}
-        height={500}
-        className="rounded-lg shadow-xl"
+        width={400}
+        height={400}
+        style={{ borderRadius: "3%", boxShadow: "0 0 4px #555" }}
       />
-    </div>
+    </Center>
   );
 };
