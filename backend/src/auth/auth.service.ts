@@ -111,7 +111,7 @@ export class AuthService {
       this.jwtConfiguration.accessTokenTtl,
       payload
     );
-    return `Authentication=${accessToken}; HttpOnly; Path=/; Max-Age=${this.jwtConfiguration.accessTokenTtl}`;
+    return `Authentication=${accessToken}; HttpOnly; Secure; Path=/; Max-Age=${this.jwtConfiguration.accessTokenTtl}`;
   }
 
   public async getCookieWithJwtRefreshToken(userId: string) {
@@ -121,7 +121,7 @@ export class AuthService {
       this.jwtConfiguration.refreshTokenTtl,
       payload
     );
-    const cookie = `Refresh=${refreshToken}; HttpOnly; Path=/; Max-Age=${this.jwtConfiguration.refreshTokenTtl}`;
+    const cookie = `Refresh=${refreshToken}; HttpOnly; Secure; Path=/; Max-Age=${this.jwtConfiguration.refreshTokenTtl}`;
     return {
       cookie,
       token: refreshToken,
@@ -129,13 +129,13 @@ export class AuthService {
   }
 
   public getCookieForLogOut() {
-    return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
+    return `Authentication=; HttpOnly; Secure; Path=/; Max-Age=0`;
   }
 
   public getCookiesForLogOut() {
     return [
-      'Authentication=; HttpOnly; Path=/; Max-Age=0',
-      'Refresh=; HttpOnly; Path=/; Max-Age=0',
+      'Authentication=; HttpOnly; Secure; Path=/; Max-Age=0',
+      'Refresh=; HttpOnly; Secure; Path=/; Max-Age=0',
     ];
   }
 }
