@@ -4,13 +4,13 @@ import { NextSeo } from "next-seo";
 
 import Layout from "@/layout/Layout";
 import { PageImage } from "@/components/common/images/PageImage";
-import { QuoteBlock } from "@/components/common/QuoteBlock";
 import { CTAReadPoemsButton } from "@/components/common/buttons/CTAReadPoemsButton";
 import config from "@/constants/next-seo.config";
 import { SITE_ICON, SITE_URL } from "@/constants/constants";
 import { GetServerSideProps } from "next";
 import { userFromRequest } from "@/utils/tokens";
 import UserProvider from "@/context/userContext";
+import { Blockquote, Box, Title } from "@mantine/core";
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const data = await userFromRequest(req);
@@ -53,8 +53,10 @@ export default function WhatIsPoetry({ userId }: { userId: string | null }) {
         }}
       />
       <Layout>
-        <section className="p-2 max-w-xl mx-auto my-6 text-lg">
-          <h1 className="my-4 font-cursive">What is Poetry</h1>
+        <Box component="section" p={16} mx="auto" my={32} maw={800}>
+          <Title order={1} mb={32}>
+            What is Poetry
+          </Title>
           <p>
             Poetry is a type of literature that expresses ideas, emotions, and
             images through the use of rhythm, imagery, and word choice. It is
@@ -64,48 +66,69 @@ export default function WhatIsPoetry({ userId }: { userId: string | null }) {
             subject in greater depth.
           </p>
 
-          <h2>Different types of Poems</h2>
+          <Title order={2} mb={24}>
+            Different types of Poems
+          </Title>
           <p>
             There are different types of poems which come from all types of
             different cultures.
           </p>
-          <ol className="list-decimal pl-4">
-            <li className="mb-2">
-              <h3>Haiku</h3>A traditional Japanese form of poetry, usually
-              consisting of three lines with five syllables in the first line,
-              seven syllables in the second line, and five syllables in the
-              third line.
+          <ol>
+            <li>
+              <Title order={4} mb={8}>
+                Haiku
+              </Title>
+              A traditional Japanese form of poetry, usually consisting of three
+              lines with five syllables in the first line, seven syllables in
+              the second line, and five syllables in the third line.
             </li>
 
-            <li className="mb-2">
-              <h3>Limerick</h3> A five-line poem with a distinctive rhythm in
-              which the first, second, and fifth lines rhyme, while the third
-              and fourth lines rhyme with each other.
+            <li>
+              <Title order={4} mb={8}>
+                Limerick
+              </Title>
+              A five-line poem with a distinctive rhythm in which the first,
+              second, and fifth lines rhyme, while the third and fourth lines
+              rhyme with each other.
             </li>
 
-            <li className="mb-2">
-              <h3>Sonnet</h3> A fourteen-line poem usually written in iambic
-              pentameter with a particular rhyme scheme of abab cdcd efef gg.
+            <li>
+              <Title order={4} mb={8}>
+                Sonnet
+              </Title>
+              A fourteen-line poem usually written in iambic pentameter with a
+              particular rhyme scheme of abab cdcd efef gg.
             </li>
 
-            <li className="mb-2">
-              <h3>Free Verse</h3> A type of poetry that does not follow any
-              particular structure or rhyme scheme.
+            <li>
+              <Title order={4} mb={8}>
+                Free Verse
+              </Title>
+              A type of poetry that does not follow any particular structure or
+              rhyme scheme.
             </li>
 
-            <li className="mb-2">
-              <h3>Ballad</h3> A narrative poem with a repeated refrain and
-              simple rhyme scheme.
+            <li>
+              <Title order={4} mb={8}>
+                Ballad
+              </Title>
+              A narrative poem with a repeated refrain and simple rhyme scheme.
             </li>
 
-            <li className="mb-2">
-              <h3>Ode</h3> A lyric poem that is written in a formal style to
-              honor or praise a person, place, or event.
+            <li>
+              <Title order={4} mb={8}>
+                Ode
+              </Title>
+              A lyric poem that is written in a formal style to honor or praise
+              a person, place, or event.
             </li>
 
-            <li className="mb-2">
-              <h3>Epic</h3> A lengthy narrative poem that tells a story of
-              heroic deeds and events of great significance.
+            <li>
+              <Title order={4} mb={8}>
+                Epic
+              </Title>
+              A lengthy narrative poem that tells a story of heroic deeds and
+              events of great significance.
             </li>
           </ol>
 
@@ -114,32 +137,33 @@ export default function WhatIsPoetry({ userId }: { userId: string | null }) {
             altText="Poet sitting at his desk with the window open"
           />
 
-          <QuoteBlock
-            quote="Poetry can be
-            used to convey a single thought or emotion, or as a way to explore a
-            subject in greater depth."
-          />
+          <Blockquote cite="– Some AI">
+            Poetry can be used to convey a single thought or emotion, or as a
+            way to explore a subject in greater depth.
+          </Blockquote>
 
           {/* CTA Button to Poems */}
           <CTAReadPoemsButton />
 
-          <h2>Ten famous Poets throughout History</h2>
+          <Title order={2} mb={24}>
+            Ten famous Poets throughout History
+          </Title>
           <p>
             There have been many famous poets throughout history. Below is
             listed just a few which we are sure you will recognise at least a
             few names.
           </p>
-          <ol className="list-decimal pl-4">
-            <li className="mb-2">William Shakespeare (1564–1616)</li>
-            <li className="mb-2">Emily Dickinson (1830–1886)</li>
-            <li className="mb-2">Robert Frost (1874–1963)</li>
-            <li className="mb-2">Walt Whitman (1819–1892)</li>
-            <li className="mb-2">T.S. Eliot (1888–1965)</li>
-            <li className="mb-2">Maya Angelou (1928–2014)</li>
-            <li className="mb-2">William Wordsworth (1770–1850)</li>
-            <li className="mb-2">John Keats (1795–1821)</li>
-            <li className="mb-2">Sylvia Plath (1932–1963)</li>
-            <li className="mb-2">William Blake (1757–1827)</li>
+          <ol>
+            <li>William Shakespeare (1564–1616)</li>
+            <li>Emily Dickinson (1830–1886)</li>
+            <li>Robert Frost (1874–1963)</li>
+            <li>Walt Whitman (1819–1892)</li>
+            <li>T.S. Eliot (1888–1965)</li>
+            <li>Maya Angelou (1928–2014)</li>
+            <li>William Wordsworth (1770–1850)</li>
+            <li>John Keats (1795–1821)</li>
+            <li>Sylvia Plath (1932–1963)</li>
+            <li>William Blake (1757–1827)</li>
           </ol>
 
           <PageImage
@@ -150,10 +174,10 @@ export default function WhatIsPoetry({ userId }: { userId: string | null }) {
           {/* CTA Button to Poems */}
           <CTAReadPoemsButton />
 
-          <QuoteBlock
-            quote="Poetry is beautiful because it is a way to express emotions and
-            experiences through words."
-          />
+          <Blockquote cite="– Google">
+            Poetry is beautiful because it is a way to express emotions and
+            experiences through words.
+          </Blockquote>
 
           <p>
             Poetry is beautiful because it is a way to express emotions and
@@ -163,7 +187,7 @@ export default function WhatIsPoetry({ userId }: { userId: string | null }) {
             and poetic language. At its best, poetry can evoke powerful emotions
             and touch the human heart.
           </p>
-        </section>
+        </Box>
       </Layout>
     </UserProvider>
   );

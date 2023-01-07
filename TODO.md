@@ -1,7 +1,7 @@
 # Todos
 - Fix the Google Auth not working in prod
-- Restyle pages page with Mantine.dev
 - Infinite queries for poems
+- Fix errors on API responses showing correctly
 - Implement favorites for user
 - Delete account option in profile
 - Change slugs to poem title with -

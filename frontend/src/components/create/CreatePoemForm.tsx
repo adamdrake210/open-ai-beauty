@@ -1,12 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Box, Button, Input } from "@mantine/core";
 
 import { Loader } from "../common/Loader";
 import { handleUnknownError } from "@/utils/handleUnknownError";
 import { useRouter } from "next/router";
 import { POEMS } from "@/constants/routeConstants";
 import { useCreatePost } from "@/hooks/useCreatePost";
-import { Box, Button, Input } from "@mantine/core";
 
 export const CreatePoemForm = () => {
   const router = useRouter();
@@ -70,12 +70,10 @@ export const CreatePoemForm = () => {
       {isLoading && <Loader loadingText="Creating poem..." />}
       <Button
         type="submit"
-        // color="primary"
+        color="primary"
         disabled={isLoading}
-        // className="mt-2"
         size="md"
         radius="md"
-        color="grape"
       >
         Create Poem
       </Button>
