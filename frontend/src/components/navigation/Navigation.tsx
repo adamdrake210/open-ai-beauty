@@ -212,7 +212,7 @@ export const Navigation = () => {
 
                 {/* What to show depending on if user is logged in or not */}
                 {!user ? (
-                  <Flex direction="column">
+                  <Flex direction="column" align="center">
                     <Link href={REGISTER}>
                       <Button color="grape" size="md" mb={4} w={150}>
                         Register

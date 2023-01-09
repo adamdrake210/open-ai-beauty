@@ -1,6 +1,5 @@
 import React from "react";
-import Image from "next/image";
-import { Box, Divider, Flex, Text, Title } from "@mantine/core";
+import { Box, Divider, Flex, Image, Text, Title } from "@mantine/core";
 
 import { PoemParameters } from "./PoemParameters";
 import { LikeComponent } from "./LikeComponent";
@@ -30,9 +29,10 @@ export const Poem = ({ post }: PoemProps) => {
         <Image
           src={post.imageUrl}
           alt={`Image of ${post.title}`}
-          width={500}
-          height={500}
-          priority
+          fit="cover"
+          radius="md"
+          maw={500}
+          mah={500}
         />
       )}
       <Box mt={16} px={16}>

@@ -53,7 +53,7 @@ export default function WhatIsPoetry({ userId }: { userId: string | null }) {
         }}
       />
       <Layout>
-        <Box component="section" p={16} mx="auto" my={32} maw={800}>
+        <Box component="section" mx="auto" my={32} maw={800}>
           <Title order={1} mb={32}>
             What is Poetry
           </Title>

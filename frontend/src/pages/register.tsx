@@ -37,14 +37,7 @@ export default function RegisterPage() {
         <link rel="icon" href={SITE_ICON} />
       </Head>
       <Layout>
-        <Flex
-          py="md"
-          direction="column"
-          align="center"
-          maw="40%"
-          mx="auto"
-          mih="100vh"
-        >
+        <Flex py="md" direction="column" align="center" mx="auto" mih="100vh">
           <Title order={1} mb={24}>
             Sign Up!
           </Title>
