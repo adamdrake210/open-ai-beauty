@@ -1,7 +1,7 @@
 # Todos
+- Fix errors on API responses showing correctly
 - Fix the Google Auth not working in prod
 - Infinite queries for poems
-- Fix errors on API responses showing correctly
 - Implement favorites for user
 - Delete account option in profile
 - Change slugs to poem title with -

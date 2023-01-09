@@ -7,6 +7,7 @@ import { handleUnknownError } from "@/utils/handleUnknownError";
 import { useRouter } from "next/router";
 import { POEMS } from "@/constants/routeConstants";
 import { useCreatePost } from "@/hooks/useCreatePost";
+import { ErrorMessage } from "../ErrorMessage";
 
 export const CreatePoemForm = () => {
   const router = useRouter();
@@ -30,10 +31,6 @@ export const CreatePoemForm = () => {
           const { id } = await data.json();
           router.push(`${POEMS}/${id}`);
           reset();
-        },
-        onError: (error) => {
-          console.error(error);
-          alert("Failed to create poem");
         },
       });
     } catch (cause) {
@@ -77,11 +74,7 @@ export const CreatePoemForm = () => {
       >
         Create Poem
       </Button>
-      {isError && (
-        <div className="flex justify-center w-full my-4 mx-auto max-w-md p-2 bg-white rounded-lg">
-          <p className="text-red-500 m-0">{handleUnknownError(error)}</p>
-        </div>
-      )}
+      {isError && <ErrorMessage>{handleUnknownError(error)}</ErrorMessage>}
     </Box>
   );
 };

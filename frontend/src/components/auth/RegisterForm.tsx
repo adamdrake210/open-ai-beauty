@@ -7,6 +7,7 @@ import { handleUnknownError } from "@/utils/handleUnknownError";
 import { useRouter } from "next/router";
 import { CREATE_POST } from "@/constants/routeConstants";
 import { Box, Button, Center, Input } from "@mantine/core";
+import { ErrorMessage } from "../ErrorMessage";
 
 export const RegisterForm = () => {
   const router = useRouter();
@@ -58,10 +59,6 @@ export const RegisterForm = () => {
         onSuccess: () => {
           reset();
           router.push(CREATE_POST);
-        },
-        onError: (error) => {
-          console.error(error);
-          alert("Failed to register account");
         },
       });
     } catch (cause) {
@@ -169,11 +166,7 @@ export const RegisterForm = () => {
           Sign Up
         </Button>
       </Center>
-      {isError && (
-        <div className="flex justify-center w-full my-4 mx-auto max-w-md p-2 bg-white rounded-lg">
-          <p className="text-red-500 m-0">{handleUnknownError(error)}</p>
-        </div>
-      )}
+      {isError && <ErrorMessage>{handleUnknownError(error)}</ErrorMessage>}
     </Box>
   );
 };
