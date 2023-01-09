@@ -8,7 +8,12 @@ import { Anchor, Flex } from "@mantine/core";
 export const SocialLinks = () => {
   return (
     <Flex direction="column" justify="center" align="center" mt={48}>
-      <Flex justify="space-evenly" p={16} mx="auto" w="40%">
+      <Flex
+        justify="space-evenly"
+        p={16}
+        mx="auto"
+        w={{ base: "85%", sm: "40%" }}
+      >
         <a
           href="https://www.linkedin.com/in/adam-drake-ab065417/"
           target="_blank"
