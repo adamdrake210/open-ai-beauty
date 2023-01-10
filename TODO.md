@@ -1,5 +1,4 @@
 # Todos
-- Fix errors on API responses showing correctly
 - Fix the Google Auth not working in prod
 - Infinite queries for poems
 - Implement favorites for user
