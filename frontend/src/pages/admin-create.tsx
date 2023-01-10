@@ -12,11 +12,8 @@ import UserProvider from "@/context/userContext";
 import { Box, Title } from "@mantine/core";
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  console.log("req.cookies: ", req.cookies);
   const data = await userFromRequest(req);
-  console.log(
-    "🚀 ~ file: admin-create.tsx:16 ~ constgetServerSideProps:GetServerSideProps= ~ data",
-    data
-  );
 
   if (!data?.userId) {
     res.statusCode = 403;

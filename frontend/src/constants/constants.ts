@@ -14,6 +14,8 @@ export const SITE_ICON =
 
 export const TWITTER_HANDLE = "@FrontEndDrake";
 
+export const GENERIC_ERROR_MESSAGE = "Something went wrong. Please try again.";
+
 // API Constants
 export const API_URL_ENDPOINT =
   process.env.NODE_ENV === "production" ? SITE_URL : "http://localhost:3000";

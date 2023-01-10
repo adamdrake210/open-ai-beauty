@@ -1,13 +1,15 @@
 import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
 import { Post } from "@/types/types";
-import { RQ_POST_KEY } from "@/constants/constants";
+import { GENERIC_ERROR_MESSAGE, RQ_POST_KEY } from "@/constants/constants";
 
 const fetchPost = async (id: any["id"]) => {
-  const parsed = await ky(
-    `${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`
-  ).json();
-  return parsed as Post;
+  const response = await ky(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`);
+
+  if (!response.ok) {
+    throw new Error(GENERIC_ERROR_MESSAGE);
+  }
+  return (await response.json()) as Post;
 };
 
 const usePost = (id: string) => {

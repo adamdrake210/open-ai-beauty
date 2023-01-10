@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { RQ_USER_KEY } from "@/constants/constants";
+import { GENERIC_ERROR_MESSAGE, RQ_USER_KEY } from "@/constants/constants";
 import { User } from "@/types/types";
 
 const fetchUser = async (id: any["id"]) => {
@@ -16,6 +16,9 @@ const fetchUser = async (id: any["id"]) => {
       credentials: "include",
     }
   );
+  if (!response.ok) {
+    throw new Error(GENERIC_ERROR_MESSAGE);
+  }
 
   return (await response.json()) as User;
 };

@@ -8,6 +8,7 @@ import { CREATE_POST } from "@/constants/routeConstants";
 import { useLogin } from "@/hooks/useLogin";
 import { UserContext, UserContextType } from "@/context/userContext";
 import { Box, Button, Center, Flex, Input, Title } from "@mantine/core";
+import { ErrorMessage } from "../ErrorMessage";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -39,10 +40,6 @@ export const LoginForm = () => {
           reset();
           window.location.href = CREATE_POST;
           // router.push(CREATE_POST);
-        },
-        onError: (error) => {
-          console.error(error);
-          alert("Failed to login");
         },
       });
     } catch (cause) {
@@ -113,11 +110,7 @@ export const LoginForm = () => {
             Login
           </Button>
         </Center>
-        {isError && (
-          <div className="flex justify-center w-full my-4 mx-auto max-w-md p-2 bg-white rounded-lg">
-            <p className="text-red-500 m-0">{handleUnknownError(error)}</p>
-          </div>
-        )}
+        {isError && <ErrorMessage>{handleUnknownError(error)}</ErrorMessage>}
       </Box>
     </Flex>
   );
