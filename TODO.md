@@ -3,7 +3,6 @@
 - Implement favorites for user
 - Make a privacy policy and terms pages
 - Delete account option in profile
-- Change slugs to poem title with -
 - Why someone should sign up banner/modal
 - Google setup for links being tracked
 - Welcome email when signing up
