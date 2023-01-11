@@ -41,14 +41,14 @@ export default function PoemPage({ userId }: { userId: string | null }) {
   const router = useRouter();
 
   const {
-    query: { id },
+    query: { slug },
   } = router;
 
-  const { data, isLoading, isError } = usePost(id as string);
+  const { data, isLoading, isError } = usePost(slug as string);
 
   const title = data?.title || SITE_NAME;
   const description = data?.content || SITE_DESCRIPTION;
-  const url = `${SITE_URL}/poems/${id}`;
+  const url = `${SITE_URL}/poems/${slug}`;
 
   return (
     <UserProvider userId={userId}>

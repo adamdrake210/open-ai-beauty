@@ -2,9 +2,7 @@ import { GENERIC_ERROR_MESSAGE, RQ_POSTS_KEY } from "@/constants/constants";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 // *Warning - this is a hacky way to get the next cursor
-const fetchInfinitePosts = async ({
-  pageParam = "clcoj1mtm0264j50pwlp3tnh8",
-}) => {
+const fetchInfinitePosts = async ({ pageParam = undefined }) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/posts/list?limit=9&cursor=${pageParam}`
   );

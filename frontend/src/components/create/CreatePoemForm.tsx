@@ -1,16 +1,19 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Box, Button, Input } from "@mantine/core";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 
 import { Loader } from "../common/Loader";
 import { handleUnknownError } from "@/utils/handleUnknownError";
-import { useRouter } from "next/router";
 import { POEMS } from "@/constants/routeConstants";
 import { useCreatePost } from "@/hooks/useCreatePost";
 import { ErrorMessage } from "../ErrorMessage";
+import { RQ_POSTS_KEY } from "@/constants/constants";
 
 export const CreatePoemForm = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { mutate, isLoading, isError, error } = useCreatePost();
 
   const {
@@ -28,8 +31,9 @@ export const CreatePoemForm = () => {
     try {
       mutate(data.subject, {
         onSuccess: async (data) => {
-          const { id } = await data.json();
-          router.push(`${POEMS}/${id}`);
+          const { slug } = await data.json();
+          queryClient.invalidateQueries([RQ_POSTS_KEY]);
+          router.push(`${POEMS}/${slug}`);
           reset();
         },
       });

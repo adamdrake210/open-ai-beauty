@@ -30,8 +30,8 @@ export class PostsController {
     return this.postsService.getAllPublishedPosts({ limit, cursor });
   }
 
-  @Get(':id')
-  async getPost(@Param('id') id: string) {
-    return this.postsService.getPost({ id });
+  @Get(':slug')
+  async getPost(@Param('slug') slug: string) {
+    return this.postsService.getPost({ slug });
   }
 }

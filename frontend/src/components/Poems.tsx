@@ -39,7 +39,7 @@ export const Poems = () => {
           >
             {data?.pages?.map((page) => {
               return page.items?.map((post: Post) => (
-                <Link key={post.id} href={`/poems/${post.id}`}>
+                <Link key={post.slug} href={`/poems/${post.slug}`}>
                   <PostCard post={post} />
                 </Link>
               ));

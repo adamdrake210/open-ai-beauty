@@ -22,6 +22,7 @@ export type Post = {
   poetInspiration: string;
   poemStyle: string;
   likeCount: number;
+  slug: string;
 };
 
 export type Posts = {

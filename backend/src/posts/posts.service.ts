@@ -25,6 +25,7 @@ const defaultPoemRequestSelect = Prisma.validator<Prisma.PostSelect>()({
   createdAt: true,
   updatedAt: true,
   likeCount: true,
+  slug: true,
 });
 
 @Injectable()
@@ -85,7 +86,7 @@ export class PostsService {
 
   async getPost(postWhereUniqueInput: Prisma.PostWhereUniqueInput) {
     return this.prisma.post.findUnique({
-      where: { id: postWhereUniqueInput.id },
+      where: { slug: postWhereUniqueInput.slug },
     });
   }
 
@@ -93,22 +94,38 @@ export class PostsService {
     const limit = Number(input.limit) ?? 50;
     const { cursor } = input;
 
-    const items = await this.prisma.post.findMany({
-      select: defaultPoemRequestSelect,
-      // get an extra item at the end which we'll use as next cursor
-      take: limit + 1,
-      where: {
-        published: true,
-      },
-      cursor: cursor
-        ? {
-            id: cursor,
-          }
-        : undefined,
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+    // If no cursor is provided, get the first page of items. This is
+    // for infinite scrolling on the Frontend
+    let items;
+
+    if (cursor === 'undefined') {
+      items = await this.prisma.post.findMany({
+        select: defaultPoemRequestSelect,
+        // get an extra item at the end which we'll use as next cursor
+        take: limit + 1,
+        where: {
+          published: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+    } else {
+      items = await this.prisma.post.findMany({
+        select: defaultPoemRequestSelect,
+        // get an extra item at the end which we'll use as next cursor
+        take: limit + 1,
+        where: {
+          published: true,
+        },
+        cursor: {
+          id: cursor,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+    }
 
     let nextCursor: typeof cursor | undefined = undefined;
     if (items.length > limit) {

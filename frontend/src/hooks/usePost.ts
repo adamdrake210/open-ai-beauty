@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Post } from "@/types/types";
 import { GENERIC_ERROR_MESSAGE, RQ_POST_KEY } from "@/constants/constants";
 
-const fetchPost = async (id: any["id"]) => {
-  const response = await ky(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`);
+const fetchPost = async (slug: Post["slug"]) => {
+  const response = await ky(`${process.env.NEXT_PUBLIC_API_URL}/posts/${slug}`);
 
   if (!response.ok) {
     throw new Error(GENERIC_ERROR_MESSAGE);
@@ -12,10 +12,10 @@ const fetchPost = async (id: any["id"]) => {
   return (await response.json()) as Post;
 };
 
-const usePost = (id: string) => {
+const usePost = (slug: string) => {
   return useQuery({
-    queryKey: [RQ_POST_KEY, id],
-    queryFn: () => fetchPost(id),
+    queryKey: [RQ_POST_KEY, slug],
+    queryFn: () => fetchPost(slug),
   });
 };
 
