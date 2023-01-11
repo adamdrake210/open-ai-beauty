@@ -1,12 +1,20 @@
 # Todos
 - Fix the Google Auth not working in prod
 - Implement favorites for user
+- Make a privacy policy and terms pages
 - Delete account option in profile
-- Change slugs to poem title with -
+- Why someone should sign up banner/modal
+- Google setup for links being tracked
+- Welcome email when signing up
+- Notification to me when someone signs up
 - Email Feature - https://maizzle.com/
 - https://api.api-ninjas.com/v1/randomword
 - Whenever a poem is published an email sent out to distribution list of that poem
 - Potentially useful about Nextjs with Graphql: https://www.prisma.io/blog/fullstack-nextjs-graphql-prisma-2-fwpc6ds155#setting-up-apollo-client-in-nextjs
+
+# Pages Ideas/SEO
+- Emily Dickinson article
+- Article about using Open AI
 
 # Auth Task
 - Update tokens to send in cookies like Lazy twitter - Backend
