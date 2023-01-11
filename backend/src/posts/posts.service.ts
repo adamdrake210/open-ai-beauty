@@ -10,6 +10,7 @@ import {
   determinePoemStyle,
   determinePoetInspiration,
 } from './utils/generatingVariables';
+import { convertToSlug } from './utils/utils';
 
 const defaultPoemRequestSelect = Prisma.validator<Prisma.PostSelect>()({
   id: true,
@@ -77,6 +78,7 @@ export class PostsService {
         poetInspiration,
         poemStyle,
         published: true,
+        slug: convertToSlug(title),
       },
     });
   }

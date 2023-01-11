@@ -5,6 +5,9 @@ export class Post extends BaseModel {
   @ApiProperty()
   title: string;
 
+  @ApiProperty()
+  slug: string;
+
   @ApiProperty({ nullable: true })
   content?: string | null;
 
