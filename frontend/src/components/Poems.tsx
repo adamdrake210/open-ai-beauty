@@ -4,20 +4,12 @@ import { Button, Center, SimpleGrid } from "@mantine/core";
 
 import { Loader } from "./common/Loader";
 import { PostCard } from "./PostCard";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { Post } from "@/types/types";
 import { ErrorMessage } from "./ErrorMessage";
 import { handleUnknownError } from "@/utils/handleUnknownError";
+import { useInfinitePosts } from "@/hooks/useInfinitePosts";
 
 export const Poems = () => {
-  // *Warning - this is a hacky way to get the next cursor
-  const fetchProjects = async ({ pageParam = "clcoj1mtm0264j50pwlp3tnh8" }) => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/posts/list?limit=9&cursor=${pageParam}`
-    );
-    return res.json();
-  };
-
   const {
     data,
     error,
@@ -26,11 +18,7 @@ export const Poems = () => {
     isFetchingNextPage,
     isError,
     isLoading,
-  } = useInfiniteQuery({
-    queryKey: ["posts"],
-    queryFn: fetchProjects,
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
-  });
+  } = useInfinitePosts();
 
   return (
     <>
