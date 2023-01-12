@@ -15,7 +15,7 @@
 # Pages Ideas/SEO
 - Emily Dickinson article
 - Article about using Open AI
-
+he
 # Auth Task
 - Update tokens to send in cookies like Lazy twitter - Backend
 - https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/#basics-login Explains about auth and tokens (JWT)
