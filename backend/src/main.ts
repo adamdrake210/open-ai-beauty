@@ -7,7 +7,6 @@ import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 
 import type {
-  CorsConfig,
   NestConfig,
   SwaggerConfig,
 } from 'src/common/configs/config.interface';
@@ -28,7 +27,6 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
   const nestConfig = configService.get<NestConfig>('nest');
-  const corsConfig = configService.get<CorsConfig>('cors');
   const swaggerConfig = configService.get<SwaggerConfig>('swagger');
 
   // Swagger Api
@@ -44,17 +42,19 @@ async function bootstrap() {
 
     SwaggerModule.setup(swaggerConfig.path || 'api', app, document);
   }
+  app.use(cookieParser());
 
   // Cors
-  if (corsConfig.enabled) {
-    app.enableCors({
-      origin: [process.env.FRONTEND_URL, 'http://localhost:3000'],
-      credentials: true,
-      // methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    });
-  }
+  app.enableCors({
+    origin: [process.env.FRONTEND_URL, 'http://localhost:3000'],
+    credentials: true,
+    // methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  });
 
-  app.use(cookieParser());
+  app.use((req, res, next) => {
+    req.connection.proxySecure = true; // If i don't do this, it'll throw an error if i'm using secure == true and sameSite == 'none'
+    next();
+  });
 
   await app.listen(process.env.PORT || nestConfig.port || 3001);
 }
