@@ -50,6 +50,7 @@ export class AuthController {
     );
 
     res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie.cookie]);
+    res.header('Access-Control-Allow-Credentials', 'true');
     console.log(
       '🚀 ~ file: auth.controller.ts:53 ~ AuthController ~ login ~ res',
       res.getHeader('Set-Cookie')
