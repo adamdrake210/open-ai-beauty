@@ -115,7 +115,7 @@ export class AuthService {
       '🚀 ~ file: auth.service.ts:114 ~ AuthService ~ getCookieWithJwtToken ~ accessToken',
       accessToken
     );
-    return `Authentication=${accessToken};Path=/;HttpOnly;Secure;SameSite=None; Expires=${this.jwtConfiguration.accessTokenTtl}`;
+    return `Authentication=${accessToken};Path=/;HttpOnly;Secure;SameSite=None;Domain=ai-poetry.com; Expires=${this.jwtConfiguration.accessTokenTtl}`;
   }
 
   public async getCookieWithJwtRefreshToken(userId: string) {
@@ -125,7 +125,7 @@ export class AuthService {
       this.jwtConfiguration.refreshTokenTtl,
       payload
     );
-    const cookie = `Refresh=${refreshToken};Path=/;HttpOnly;Secure;SameSite=None; Expires=${this.jwtConfiguration.refreshTokenTtl}`;
+    const cookie = `Refresh=${refreshToken};Path=/;HttpOnly;Secure;SameSite=None;Domain=ai-poetry.com; Expires=${this.jwtConfiguration.refreshTokenTtl}`;
     return {
       cookie,
       token: refreshToken,
@@ -133,13 +133,13 @@ export class AuthService {
   }
 
   public getCookieForLogOut() {
-    return `Authentication=;Path=/;HttpOnly;Secure;SameSite=None; Expires=0`;
+    return `Authentication=;Path=/;HttpOnly;Secure;SameSite=None;Domain=ai-poetry.com; Expires=0`;
   }
 
   public getCookiesForLogOut() {
     return [
-      'Authentication=;Path=/;HttpOnly;Secure;SameSite=None; Expires=0',
-      'Refresh=;Path=/;HttpOnly;Secure;SameSite=None; Max-Age=0',
+      'Authentication=;Path=/;HttpOnly;Secure;SameSite=None;Domain=ai-poetry.com; Expires=0',
+      'Refresh=;Path=/;HttpOnly;Secure;SameSite=None;Domain=ai-poetry.com; Max-Age=0',
     ];
   }
 }
