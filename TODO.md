@@ -1,5 +1,5 @@
 # Todos
-- Fix the Google Auth not working in prod
+- refresh cookies working properly
 - Implement favorites for user
 - Make a privacy policy and terms pages
 - Delete account option in profile

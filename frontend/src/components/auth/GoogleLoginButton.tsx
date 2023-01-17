@@ -2,7 +2,7 @@ import React from "react";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { useRouter } from "next/router";
 import { UserContext, UserContextType } from "@/context/userContext";
-import { CREATE_POST } from "@/constants/routeConstants";
+import { HOME } from "@/constants/routeConstants";
 import { Center, Flex, Title } from "@mantine/core";
 
 export const GoogleLoginButton = () => {
@@ -34,7 +34,7 @@ export const GoogleLoginButton = () => {
             const user = await googleAuthResponse.json();
 
             setUser(user);
-            router.push(CREATE_POST);
+            router.push(HOME);
           }}
         />
       </GoogleOAuthProvider>
