@@ -1,13 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Box, Button, Center, Flex, Input, Title } from "@mantine/core";
 
 import { Loader } from "../common/Loader";
 import { handleUnknownError } from "@/utils/handleUnknownError";
 import { useRouter } from "next/router";
-import { CREATE_POST } from "@/constants/routeConstants";
+import { HOME } from "@/constants/routeConstants";
 import { useLogin } from "@/hooks/useLogin";
 import { UserContext, UserContextType } from "@/context/userContext";
-import { Box, Button, Center, Flex, Input, Title } from "@mantine/core";
 import { ErrorMessage } from "../ErrorMessage";
 
 export const LoginForm = () => {
@@ -38,8 +38,7 @@ export const LoginForm = () => {
           const user = await data.json();
           setUser(user);
           reset();
-          window.location.href = CREATE_POST;
-          // router.push(CREATE_POST);
+          router.push(HOME);
         },
       });
     } catch (cause) {
