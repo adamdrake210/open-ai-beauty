@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { GetServerSideProps } from "next";
+import cookies from "next-cookies";
 
 import Layout from "@/layout/Layout";
 import { CreatePoemForm } from "@/components/create/CreatePoemForm";
@@ -11,12 +12,13 @@ import { User } from "@/types/types";
 import UserProvider from "@/context/userContext";
 import { Box, Title } from "@mantine/core";
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  console.log("req.cookies: ", req.cookies);
-  const data = await userFromRequest(req);
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const c = cookies(ctx);
+  console.log("req.cookies: ", c);
+  const data = await userFromRequest(ctx.req);
 
   if (!data?.userId) {
-    res.statusCode = 403;
+    ctx.res.statusCode = 403;
     return {
       redirect: {
         destination: LOGIN,
