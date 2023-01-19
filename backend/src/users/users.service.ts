@@ -123,6 +123,7 @@ export class UsersService {
     await this.prisma.user.delete({
       where,
     });
+
     return 'User deleted';
   }
 

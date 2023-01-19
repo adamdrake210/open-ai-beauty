@@ -1,7 +1,9 @@
 # Todos
 - refresh cookies working properly
+- Auth HOC?
 - Implement favorites for user
 - Make a privacy policy and terms pages
+- Make a cookies banner
 - Delete account option in profile
 - Why someone should sign up banner/modal
 - Google setup for links being tracked
