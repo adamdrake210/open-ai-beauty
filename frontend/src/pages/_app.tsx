@@ -9,6 +9,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { MantineProvider } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
 
 import { useRouter } from "next/router";
 import * as gtag from "@/utils/gtag";
@@ -55,7 +56,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-            <Component {...pageProps} />
+            <NotificationsProvider>
+              <Component {...pageProps} />
+            </NotificationsProvider>
           </MantineProvider>
         </Hydrate>
         <ReactQueryDevtools />

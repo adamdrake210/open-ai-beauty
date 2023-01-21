@@ -5,7 +5,7 @@ import { UserContext, UserContextType } from "@/context/userContext";
 import { UserProfileInfo } from "./UserProfileInfo";
 import { UserProfileForm } from "./UserProfileForm";
 
-export const ProfileContainer = () => {
+export const UserProfileInfoContainer = () => {
   const { user } = React.useContext(UserContext) as UserContextType;
   const [opened, setOpened] = useState(false);
 
