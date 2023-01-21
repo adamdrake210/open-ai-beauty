@@ -1,11 +1,12 @@
 # Todos
+- Set up proper registration process
 - refresh cookies working properly
 - Auth HOC?
 - Implement favorites for user
 - Make a privacy policy and terms pages
 - Make a cookies banner
-- Delete account option in profile
 - Why someone should sign up banner/modal
+- Avatar image when no profile image available
 - Google setup for links being tracked
 - Welcome email when signing up
 - Notification to me when someone signs up
