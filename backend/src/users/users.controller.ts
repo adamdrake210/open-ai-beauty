@@ -47,8 +47,16 @@ export class UsersController {
   async delete(@Param('id') id: string, @Res() res: Response) {
     const deleteMessage = await this.usersService.deleteUser({ id });
     res.header('Set-Cookie', [
-      `Refresh=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`,
-      `Authentication=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`,
+      `Refresh=; path=/; ${
+        process.env.NODE_ENV === 'production'
+          ? `Domain=${process.env.DOMAIN};`
+          : ''
+      } expires=Thu, 01 Jan 1970 00:00:00 GMT`,
+      `Authentication=; path=/; ${
+        process.env.NODE_ENV === 'production'
+          ? `Domain=${process.env.DOMAIN};`
+          : ''
+      } expires=Thu, 01 Jan 1970 00:00:00 GMT`,
     ]);
     return res.send({ message: deleteMessage });
   }

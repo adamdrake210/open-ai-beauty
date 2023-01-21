@@ -16,6 +16,7 @@ import * as gtag from "@/utils/gtag";
 import config from "@/constants/next-seo.config";
 
 import { theme } from "@/styles/theme";
+import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
@@ -58,6 +59,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
             <NotificationsProvider>
               <Component {...pageProps} />
+              <CookieConsentBanner />
             </NotificationsProvider>
           </MantineProvider>
         </Hydrate>
