@@ -21,7 +21,12 @@ export const API_URL_ENDPOINT =
   process.env.NODE_ENV === "production" ? SITE_URL : "http://localhost:3000";
 
 // React Query Constants
-
 export const RQ_USER_KEY = "user";
 export const RQ_POSTS_KEY = "posts";
 export const RQ_POST_KEY = "post";
+
+// Cookie Constants
+export const LOCAL_STORAGE = {
+  COOKIE_CONSENT_TIMESTAMP: "cookie_consent_timestamp",
+};
+export const COOKIE_CONSENT_EXPIRY = 1000 * 60 * 60 * 24 * 365;
