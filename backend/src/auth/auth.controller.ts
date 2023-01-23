@@ -31,10 +31,6 @@ export class AuthController {
   @Post('register')
   async register(@Body() registrationData: SignupInput, @Res() res: Response) {
     const user = await this.authService.createUser(registrationData);
-    console.log(
-      '🚀 ~ file: auth.controller.ts:34 ~ AuthController ~ register ~ user',
-      user
-    );
     const [accessTokenCookie, refreshTokenCookie] = await Promise.all([
       this.authService.getCookieWithJwtToken(user.id),
       this.authService.getCookieWithJwtRefreshToken(user.id),
@@ -48,7 +44,6 @@ export class AuthController {
     res.header('Set-Cookie', [accessTokenCookie, refreshTokenCookie.cookie]);
     user.password = undefined;
     user.currentHashedRefreshToken = undefined;
-    console.log('res: ', res.header);
     return res.send(user);
   }
 

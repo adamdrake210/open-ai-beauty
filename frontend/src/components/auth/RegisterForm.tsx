@@ -1,42 +1,22 @@
 import React from "react";
-import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { showNotification } from "@mantine/notifications";
+import { useRouter } from "next/router";
 
 import { Loader } from "../common/Loader";
 import { handleUnknownError } from "@/utils/handleUnknownError";
-import { useRouter } from "next/router";
 import { Box, Button, Center, Flex, Input, Title } from "@mantine/core";
 import { ErrorMessage } from "../ErrorMessage";
 import { UserContext, UserContextType } from "@/context/userContext";
 import { HOME } from "@/constants/routeConstants";
-import { showNotification } from "@mantine/notifications";
+import { useRegistration } from "@/hooks/useRegistration";
 
 export const RegisterForm = () => {
   const [passwordError, setPasswordError] = React.useState("");
   const { setUser } = React.useContext(UserContext) as UserContextType;
   const router = useRouter();
 
-  const { mutate, isLoading, isError, error } = useMutation({
-    mutationFn: async ({
-      firstname,
-      lastname,
-      email,
-      password,
-    }: {
-      firstname: string | null;
-      lastname: string | null;
-      email: string;
-      password: string;
-    }) => {
-      return fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ firstname, lastname, email, password }),
-      });
-    },
-  });
+  const { mutate, isLoading, isError, error } = useRegistration();
 
   const {
     register,
@@ -44,15 +24,15 @@ export const RegisterForm = () => {
     reset,
     formState: { errors },
   } = useForm<{
-    firstname: string | null;
-    lastname: string | null;
+    firstname: string;
+    lastname: string;
     email: string;
     password: string;
     confirmpassword?: string;
   }>({
     defaultValues: {
-      firstname: null,
-      lastname: null,
+      firstname: "",
+      lastname: "",
       email: "",
       password: "",
       confirmpassword: "",
@@ -70,10 +50,6 @@ export const RegisterForm = () => {
       mutate(data, {
         onSuccess: async (data) => {
           const user = await data.json();
-          console.log(
-            "🚀 ~ file: RegisterForm.tsx:73 ~ onSuccess: ~ user",
-            user
-          );
           setUser(user);
           reset();
           showNotification({
