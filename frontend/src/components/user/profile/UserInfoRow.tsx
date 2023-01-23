@@ -8,7 +8,12 @@ type UserInfoRowProps = {
 
 export const UserInfoRow = ({ title, value }: UserInfoRowProps) => {
   return (
-    <Flex w="25%" justify="space-between" mb={8} sx={{ fontSize: "1.1rem" }}>
+    <Flex
+      w={{ base: "80%", md: "30%" }}
+      justify="space-between"
+      mb={8}
+      sx={{ fontSize: "1.1rem" }}
+    >
       <Title order={5}>{title}</Title>
       <Text>{value}</Text>
     </Flex>

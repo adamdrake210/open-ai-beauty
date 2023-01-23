@@ -5,12 +5,15 @@ import { useForm } from "react-hook-form";
 import { Loader } from "../common/Loader";
 import { handleUnknownError } from "@/utils/handleUnknownError";
 import { useRouter } from "next/router";
-import { CREATE_POST } from "@/constants/routeConstants";
 import { Box, Button, Center, Flex, Input, Title } from "@mantine/core";
 import { ErrorMessage } from "../ErrorMessage";
+import { UserContext, UserContextType } from "@/context/userContext";
+import { HOME } from "@/constants/routeConstants";
+import { showNotification } from "@mantine/notifications";
 
 export const RegisterForm = () => {
   const [passwordError, setPasswordError] = React.useState("");
+  const { setUser } = React.useContext(UserContext) as UserContextType;
   const router = useRouter();
 
   const { mutate, isLoading, isError, error } = useMutation({
@@ -65,9 +68,19 @@ export const RegisterForm = () => {
     }
     try {
       mutate(data, {
-        onSuccess: () => {
+        onSuccess: async (data) => {
+          const user = await data.json();
+          console.log(
+            "🚀 ~ file: RegisterForm.tsx:73 ~ onSuccess: ~ user",
+            user
+          );
+          setUser(user);
           reset();
-          router.push(CREATE_POST);
+          showNotification({
+            title: "Account Created!",
+            message: "Your account has been successfully created.",
+          });
+          router.push(HOME);
         },
       });
     } catch (cause) {

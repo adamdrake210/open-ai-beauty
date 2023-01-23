@@ -7,7 +7,7 @@ import {
   HttpStatus,
   Inject,
 } from '@nestjs/common';
-import { ConfigService, ConfigType } from '@nestjs/config';
+import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { PasswordService } from './password.service';
 import { SignupInput } from './dto/signup.input';
@@ -23,7 +23,6 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly prisma: PrismaService,
     private readonly passwordService: PasswordService,
-    private readonly configService: ConfigService,
     private readonly hashingService: HashingService,
     @Inject(jwtConfig.KEY)
     private readonly jwtConfiguration: ConfigType<typeof jwtConfig>
