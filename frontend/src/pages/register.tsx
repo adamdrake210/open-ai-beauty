@@ -9,6 +9,7 @@ import { userFromRequest } from "@/utils/tokens";
 import { HOME } from "@/constants/routeConstants";
 import UserProvider from "@/context/userContext";
 import { Flex, Title } from "@mantine/core";
+import { GoogleLoginButton } from "@/components/auth/GoogleLoginButton";
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const data = await userFromRequest(req);
@@ -41,6 +42,7 @@ export default function RegisterPage() {
           <Title order={1} mb={24}>
             Sign Up!
           </Title>
+          <GoogleLoginButton isRegister />
           <RegisterForm />
         </Flex>
       </Layout>

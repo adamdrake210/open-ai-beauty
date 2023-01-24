@@ -1,4 +1,4 @@
-import { Flex, Text, Title } from "@mantine/core";
+import { Flex, Title } from "@mantine/core";
 import React from "react";
 import { UserInfoRow } from "./UserInfoRow";
 
