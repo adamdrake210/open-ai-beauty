@@ -1,33 +1,19 @@
 import React from "react";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
+import { GetServerSideProps } from "next";
+import { Blockquote, Box, Title } from "@mantine/core";
 
 import Layout from "@/layout/Layout";
 import { PageImage } from "@/components/common/images/PageImage";
 import { CTAReadPoemsButton } from "@/components/common/buttons/CTAReadPoemsButton";
 import config from "@/constants/next-seo.config";
 import { SITE_ICON, SITE_URL } from "@/constants/constants";
-import { GetServerSideProps } from "next";
-import { userFromRequest } from "@/utils/tokens";
 import UserProvider from "@/context/userContext";
-import { Blockquote, Box, Title } from "@mantine/core";
+import { checkForUser } from "@/utils/auth/checkForUser";
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const data = await userFromRequest(req);
-
-  if (!data?.userId) {
-    return {
-      props: {
-        userId: null,
-      },
-    };
-  }
-
-  return {
-    props: {
-      userId: data?.userId,
-    },
-  };
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  return await checkForUser(ctx);
 };
 
 export default function WhatIsPoetry({ userId }: { userId: string | null }) {

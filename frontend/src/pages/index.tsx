@@ -7,24 +7,10 @@ import { Poems } from "@/components/Poems";
 import { SITE_ICON, SITE_NAME } from "@/constants/constants";
 import UserProvider from "@/context/userContext";
 import { GetServerSideProps } from "next";
-import { userFromRequest } from "@/utils/tokens";
+import { checkForUser } from "@/utils/auth/checkForUser";
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const data = await userFromRequest(req);
-
-  if (!data?.userId) {
-    return {
-      props: {
-        userId: null,
-      },
-    };
-  }
-
-  return {
-    props: {
-      userId: data?.userId,
-    },
-  };
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  return await checkForUser(ctx);
 };
 
 function Home({ userId }: { userId: string | null }) {
