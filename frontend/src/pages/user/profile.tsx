@@ -5,31 +5,14 @@ import { GetServerSideProps } from "next";
 
 import Layout from "@/layout/Layout";
 import { SITE_ICON } from "@/constants/constants";
-import { LOGIN } from "@/constants/routeConstants";
-import { userFromRequest } from "@/utils/tokens";
 import { User } from "@/types/types";
 import UserProvider from "@/context/userContext";
 import { UserProfileInfoContainer } from "@/components/user/profile/UserProfileInfoContainer";
 import { DeleteProfileContainer } from "@/components/user/profile/DeleteProfileContainer";
+import { ensureAuth } from "@/utils/auth/ensureAuth";
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const data = await userFromRequest(req);
-
-  if (!data?.userId) {
-    res.statusCode = 403;
-    return {
-      redirect: {
-        destination: LOGIN,
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      userId: data?.userId,
-    },
-  };
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  return ensureAuth(ctx);
 };
 
 export default function UserProfile({ userId }: { userId: User["id"] }) {

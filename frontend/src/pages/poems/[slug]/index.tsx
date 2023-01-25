@@ -16,25 +16,11 @@ import { Loader } from "@/components/common/Loader";
 import { Poem } from "@/components/Poem";
 import { usePost } from "@/hooks/usePost";
 import { GetServerSideProps } from "next";
-import { userFromRequest } from "@/utils/tokens";
 import UserProvider from "@/context/userContext";
+import { checkForUser } from "@/utils/auth/checkForUser";
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const data = await userFromRequest(req);
-
-  if (!data?.userId) {
-    return {
-      props: {
-        userId: null,
-      },
-    };
-  }
-
-  return {
-    props: {
-      userId: data?.userId,
-    },
-  };
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  return await checkForUser(ctx);
 };
 
 export default function PoemPage({ userId }: { userId: string | null }) {

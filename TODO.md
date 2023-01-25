@@ -1,7 +1,5 @@
 # Todos
-- Set up proper registration process
 - refresh cookies working properly
-- Auth HOC?
 - Implement favorites for user
 - Make a privacy policy and terms pages
 - Why someone should sign up banner/modal

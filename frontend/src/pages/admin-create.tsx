@@ -1,34 +1,17 @@
 import React from "react";
 import Head from "next/head";
 import { GetServerSideProps } from "next";
+import { Box, Title } from "@mantine/core";
 
 import Layout from "@/layout/Layout";
 import { CreatePoemForm } from "@/components/create/CreatePoemForm";
 import { SITE_ICON } from "@/constants/constants";
-import { LOGIN } from "@/constants/routeConstants";
-import { userFromRequest } from "@/utils/tokens";
 import { User } from "@/types/types";
 import UserProvider from "@/context/userContext";
-import { Box, Title } from "@mantine/core";
+import { ensureAuth } from "@/utils/auth/ensureAuth";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const data = await userFromRequest(ctx.req);
-
-  if (!data?.userId) {
-    ctx.res.statusCode = 403;
-    return {
-      redirect: {
-        destination: LOGIN,
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      userId: data?.userId,
-    },
-  };
+  return ensureAuth(ctx);
 };
 
 export default function AdminArea({ userId }: { userId: User["id"] }) {
