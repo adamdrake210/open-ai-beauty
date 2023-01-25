@@ -5,14 +5,26 @@ import { useRouter } from "next/router";
 
 import { Loader } from "../common/Loader";
 import { handleUnknownError } from "@/utils/handleUnknownError";
-import { Box, Button, Center, Flex, Input, Title } from "@mantine/core";
+import {
+  Anchor,
+  Box,
+  Button,
+  Center,
+  Checkbox,
+  Flex,
+  Input,
+  Text,
+  Title,
+} from "@mantine/core";
 import { ErrorMessage } from "../ErrorMessage";
 import { UserContext, UserContextType } from "@/context/userContext";
-import { HOME } from "@/constants/routeConstants";
+import { HOME, PRIVACY_POLICY, TERMS } from "@/constants/routeConstants";
 import { useRegistration } from "@/hooks/useRegistration";
+import Link from "next/link";
 
 export const RegisterForm = () => {
   const [passwordError, setPasswordError] = React.useState("");
+  const [termsAgreement, setTermsAgreement] = React.useState(false);
   const { setUser } = React.useContext(UserContext) as UserContextType;
   const router = useRouter();
 
@@ -184,6 +196,21 @@ export const RegisterForm = () => {
           />
         </Input.Wrapper>
 
+        <Box>
+          <Checkbox
+            checked={termsAgreement}
+            disabled={isLoading}
+            onClick={() => setTermsAgreement(!termsAgreement)}
+            label={
+              <Text>
+                By creating an account, you agree to our{" "}
+                <Link href={TERMS}>Terms of Service</Link> and{" "}
+                <Link href={PRIVACY_POLICY}>Privacy Policy</Link>.
+              </Text>
+            }
+          />
+        </Box>
+
         {isLoading && <Loader loadingText="Registering..." />}
         <Center>
           <Button
@@ -192,7 +219,7 @@ export const RegisterForm = () => {
             radius="md"
             size="lg"
             mt={16}
-            disabled={isLoading}
+            disabled={isLoading || !termsAgreement}
           >
             Sign Up
           </Button>

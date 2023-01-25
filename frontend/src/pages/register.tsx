@@ -40,7 +40,7 @@ export default function RegisterPage() {
       <Layout>
         <Flex py="md" direction="column" align="center" mx="auto" mih="100vh">
           <Title order={1} mb={24}>
-            Sign Up!
+            Sign Up
           </Title>
           <GoogleLoginButton isRegister />
           <RegisterForm />
