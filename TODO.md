@@ -1,7 +1,7 @@
 # Todos
+- Make a privacy policy and terms pages
 - refresh cookies working properly
 - Implement favorites for user
-- Make a privacy policy and terms pages
 - Why someone should sign up banner/modal
 - Avatar image when no profile image available
 - Google setup for links being tracked
