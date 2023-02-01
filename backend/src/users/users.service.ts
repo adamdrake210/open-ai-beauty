@@ -19,6 +19,7 @@ const defaultSelectUser = {
   pictureUrl: true,
   firstname: true,
   lastname: true,
+  favoritePosts: true,
   updatedAt: true,
   createdAt: true,
 };
@@ -157,6 +158,68 @@ export class UsersService {
   async removeRefreshToken(userId: string) {
     return this.updateUser(userId, {
       currentHashedRefreshToken: null,
+    });
+  }
+
+  // Favorites
+  async addFavorite(userId: string, favoriteId: string) {
+    const userFavorites = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        favoritePosts: true,
+      },
+    });
+
+    if (userFavorites.favoritePosts.includes(favoriteId)) {
+      throw new HttpException(
+        'Post is already in favorites',
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
+    return this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        favoritePosts: [...userFavorites.favoritePosts, favoriteId],
+      },
+      select: {
+        favoritePosts: true,
+      },
+    });
+  }
+
+  async removeFavorite(userId: string, favoriteId: string) {
+    const userFavorites = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        favoritePosts: true,
+      },
+    });
+
+    if (!userFavorites.favoritePosts.includes(favoriteId)) {
+      throw new HttpException('Post is not a favorite', HttpStatus.BAD_REQUEST);
+    }
+
+    const updatedFavorites = userFavorites.favoritePosts.filter(
+      (id) => id !== favoriteId
+    );
+
+    return this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        favoritePosts: updatedFavorites,
+      },
+      select: {
+        favoritePosts: true,
+      },
     });
   }
 }

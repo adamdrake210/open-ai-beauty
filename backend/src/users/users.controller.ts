@@ -20,6 +20,25 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  // Favorites
+  @Post('favorites')
+  async addFavorite(
+    @Body() addFavoriteBody: { userId: string; postId: string }
+  ) {
+    const { userId, postId } = addFavoriteBody;
+
+    return this.usersService.addFavorite(userId, postId);
+  }
+
+  @Patch('favorites')
+  async removeFavorite(
+    @Body() removeFavoriteBody: { userId: string; postId: string }
+  ) {
+    const { userId, postId } = removeFavoriteBody;
+    return this.usersService.removeFavorite(userId, postId);
+  }
+
+  // Users
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.user({ id });

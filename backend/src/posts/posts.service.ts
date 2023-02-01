@@ -24,7 +24,6 @@ const defaultPoemRequestSelect = Prisma.validator<Prisma.PostSelect>()({
   poemStyle: true,
   createdAt: true,
   updatedAt: true,
-  likeCount: true,
   slug: true,
 });
 

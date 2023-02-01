@@ -1,7 +1,7 @@
 # Todos
-- Make a privacy policy and terms pages
-- refresh cookies working properly
 - Implement favorites for user
+- refresh cookies working properly
+- Make terms pages
 - Why someone should sign up banner/modal
 - Avatar image when no profile image available
 - Google setup for links being tracked
@@ -15,7 +15,11 @@
 # Pages Ideas/SEO
 - Emily Dickinson article
 - Article about using Open AI
-he
+
+# Favorites
+
+- user needs list of favorites (post ids)
+- Post to show if favorited when user sees it
 # Auth Task
 - Update tokens to send in cookies like Lazy twitter - Backend
 - https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/#basics-login Explains about auth and tokens (JWT)
@@ -29,7 +33,7 @@ https://github.com/notiz-dev/nestjs-prisma-starter
 - Postgres in docker:
 - Use Prisma https://wanago.io/2021/03/29/api-nestjs-prisma-postgresql/
 - Set up Apis
-- Add OAuth - Google, Github, Email Password
+- Add OAuth - Github
 - Email:
   - https://mailpace.com/#pricing - SMTP server, use NodeMailer
   - https://developers.sendinblue.com/reference/createemailcampaign-1 Possibly?

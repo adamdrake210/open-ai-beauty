@@ -19,6 +19,7 @@ model User {
   currentHashedRefreshToken String?
   googleId  String?  @unique
   pictureUrl String?
+  favoritePosts String[]
 }
 
 model Post {
@@ -34,5 +35,4 @@ model Post {
   poemRequest String
   poetInspiration String
   poemStyle String
-  likeCount Int @default(0)
 }
