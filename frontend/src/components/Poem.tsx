@@ -2,14 +2,15 @@ import React from "react";
 import { Box, Divider, Flex, Image, Text, Title } from "@mantine/core";
 
 import { PoemParameters } from "./PoemParameters";
-import { LikeComponent } from "./LikeComponent";
-import { Post } from "@/types/types";
+import { Post, User } from "@/types/types";
+import { Favorite } from "./Favorite";
 
 type PoemProps = {
   post: Post;
+  userId: User["id"] | null;
 };
 
-export const Poem = ({ post }: PoemProps) => {
+export const Poem = ({ post, userId }: PoemProps) => {
   const replaceWhiteSpace = (str: string | null | undefined) =>
     str?.replaceAll(/\n\n/g, "\n").replaceAll(/\n/g, "<br />");
 
@@ -45,7 +46,7 @@ export const Poem = ({ post }: PoemProps) => {
           }}
         />
         <p>By {post?.author}</p>
-        <LikeComponent id={post.id} count={post.likeCount} />
+        {userId && <Favorite postId={post.id} />}
         <Divider my="sm" variant="solid" />
       </Box>
 

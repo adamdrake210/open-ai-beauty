@@ -76,7 +76,13 @@ export default function PoemPage({ userId }: { userId: string | null }) {
               {isError ? (
                 <p>Something went wrong!</p>
               ) : (
-                <>{data ? <Poem post={data} /> : <p>No post found</p>}</>
+                <>
+                  {data ? (
+                    <Poem post={data} userId={userId} />
+                  ) : (
+                    <p>No post found</p>
+                  )}
+                </>
               )}
             </>
           )}

@@ -3,10 +3,11 @@ export type User = {
   createdAt: Date;
   updatedAt: Date;
   email: string;
-  googleId: string | null;
-  pictureUrl: string | null;
   firstname: string | null;
   lastname: string | null;
+  googleId: string | null;
+  pictureUrl: string | null;
+  favoritePosts: string[];
 };
 
 export type Post = {
@@ -14,6 +15,7 @@ export type Post = {
   createdAt: Date;
   updatedAt: Date;
   title: string;
+  slug: string | null;
   content: string;
   imageUrl: string | null;
   published: boolean;
@@ -21,8 +23,6 @@ export type Post = {
   poemRequest: string;
   poetInspiration: string;
   poemStyle: string;
-  likeCount: number;
-  slug: string;
 };
 
 export type Posts = {

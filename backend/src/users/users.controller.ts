@@ -6,11 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import RequestWithUser from 'src/auth/interfaces/requestWithUser.interface';
 import { ChangePasswordInput } from './dto/change-password.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UsersService } from './users.service';
@@ -23,18 +25,23 @@ export class UsersController {
   // Favorites
   @Post('favorites')
   async addFavorite(
-    @Body() addFavoriteBody: { userId: string; postId: string }
+    @Req() request: RequestWithUser,
+    @Body() addFavoriteBody: { postId: string }
   ) {
-    const { userId, postId } = addFavoriteBody;
+    const { postId } = addFavoriteBody;
+    const userId = request.user.id;
 
     return this.usersService.addFavorite(userId, postId);
   }
 
   @Patch('favorites')
   async removeFavorite(
-    @Body() removeFavoriteBody: { userId: string; postId: string }
+    @Req() request: RequestWithUser,
+    @Body() removeFavoriteBody: { postId: string }
   ) {
-    const { userId, postId } = removeFavoriteBody;
+    const { postId } = removeFavoriteBody;
+    const userId = request.user.id;
+
     return this.usersService.removeFavorite(userId, postId);
   }
 
