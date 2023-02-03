@@ -1,5 +1,4 @@
 # Todos
-- Implement favorites for user
 - refresh cookies working properly
 - Make terms pages
 - Why someone should sign up banner/modal
