@@ -20,6 +20,9 @@ export class UserEntity implements User {
   lastname: string;
 
   @ApiProperty()
+  favoritePosts: string[];
+
+  @ApiProperty()
   id: string;
 
   @ApiProperty({ required: false, nullable: true })

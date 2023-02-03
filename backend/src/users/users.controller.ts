@@ -6,11 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import RequestWithUser from 'src/auth/interfaces/requestWithUser.interface';
 import { ChangePasswordInput } from './dto/change-password.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UsersService } from './users.service';
@@ -20,6 +22,30 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  // Favorites added to user object for now. Array of slugs from posts.
+  @Post('favorites')
+  async addFavorite(
+    @Req() request: RequestWithUser,
+    @Body() addFavoriteBody: { slug: string }
+  ) {
+    const { slug } = addFavoriteBody;
+    const userId = request.user.id;
+
+    return this.usersService.addFavorite(userId, slug);
+  }
+
+  @Patch('favorites')
+  async removeFavorite(
+    @Req() request: RequestWithUser,
+    @Body() removeFavoriteBody: { slug: string }
+  ) {
+    const { slug } = removeFavoriteBody;
+    const userId = request.user.id;
+
+    return this.usersService.removeFavorite(userId, slug);
+  }
+
+  // Users
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.user({ id });
