@@ -22,7 +22,7 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // Favorites
+  // Favorites added to user object for now. Array of slugs from posts.
   @Post('favorites')
   async addFavorite(
     @Req() request: RequestWithUser,
