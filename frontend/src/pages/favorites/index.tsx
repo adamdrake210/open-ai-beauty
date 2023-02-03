@@ -24,7 +24,7 @@ export default function FavoritesPage({ userId }: { userId: User["id"] }) {
       <Layout>
         <Box component="section" py="md" h="100vh">
           <Title order={1} mb="md">
-            Favorites
+            Your Favorites
           </Title>
           <FavoritesContainer />
         </Box>

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 
 import {
   ABOUT,
+  FAVORITES,
   HOME,
   LOGIN,
   PROFILE,
@@ -89,6 +90,20 @@ export const Navigation = () => {
           {/* This is the menu for desktop */}
           <Box hidden={isSmDown}>
             <Flex align="center" justify="center">
+              {user && (
+                <Link href={FAVORITES}>
+                  <Text
+                    mr={16}
+                    mt={8}
+                    sx={{
+                      textTransform: "uppercase",
+                      fontSize: "1.5rem",
+                    }}
+                  >
+                    Favorites
+                  </Text>
+                </Link>
+              )}
               {menuItems.map((item) => {
                 return (
                   <Link href={item.href} key={item.name}>
@@ -122,53 +137,55 @@ export const Navigation = () => {
                   </Link>
                 </>
               ) : (
-                <Menu shadow="md" width={150} position="bottom-end">
-                  <Menu.Target>
-                    {/* Avatar click to open user menu */}
-                    <ActionIcon>
-                      <Avatar
-                        alt="User avatar"
-                        src={
-                          user.pictureUrl ||
-                          "https://via.placeholder.com/40.png"
-                        }
-                      />
-                    </ActionIcon>
-                  </Menu.Target>
-                  <Menu.Dropdown>
-                    <Menu.Label>User Menu</Menu.Label>
-                    <Menu.Divider />
-                    {userMenuItems.map((item) => {
-                      return (
-                        <Link
-                          key={item.name}
-                          href={item.href}
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          <Menu.Item
-                            sx={{
-                              textTransform: "uppercase",
-                              fontSize: "1.2rem",
-                              fontWeight: 100,
-                            }}
+                <>
+                  <Menu shadow="md" width={150} position="bottom-end">
+                    <Menu.Target>
+                      {/* Avatar click to open user menu */}
+                      <ActionIcon>
+                        <Avatar
+                          alt="User avatar"
+                          src={
+                            user.pictureUrl ||
+                            "https://via.placeholder.com/40.png"
+                          }
+                        />
+                      </ActionIcon>
+                    </Menu.Target>
+                    <Menu.Dropdown>
+                      <Menu.Label>User Menu</Menu.Label>
+                      <Menu.Divider />
+                      {userMenuItems.map((item) => {
+                        return (
+                          <Link
+                            key={item.name}
+                            href={item.href}
+                            onClick={() => setIsMenuOpen(false)}
                           >
-                            {item.name}
-                          </Menu.Item>
-                        </Link>
-                      );
-                    })}
-                    <Button
-                      color="primary"
-                      variant="outline"
-                      onClick={handleLogout}
-                      ml={8}
-                      size="md"
-                      my={4}
-                    >
-                      Logout
-                    </Button>
-                  </Menu.Dropdown>
-                </Menu>
+                            <Menu.Item
+                              sx={{
+                                textTransform: "uppercase",
+                                fontSize: "1.2rem",
+                                fontWeight: 100,
+                              }}
+                            >
+                              {item.name}
+                            </Menu.Item>
+                          </Link>
+                        );
+                      })}
+                      <Button
+                        color="primary"
+                        variant="outline"
+                        onClick={handleLogout}
+                        ml={8}
+                        size="md"
+                        my={4}
+                      >
+                        Logout
+                      </Button>
+                    </Menu.Dropdown>
+                  </Menu>
+                </>
               )}
             </Flex>
           </Box>
@@ -188,6 +205,19 @@ export const Navigation = () => {
 
               <Menu.Dropdown>
                 <Menu.Label>Site Menu</Menu.Label>
+                {user && (
+                  <Link href={FAVORITES} onClick={() => setIsMenuOpen(false)}>
+                    <Menu.Item
+                      sx={{
+                        textTransform: "uppercase",
+                        fontSize: "1.2rem",
+                        fontWeight: 100,
+                      }}
+                    >
+                      Favorites
+                    </Menu.Item>
+                  </Link>
+                )}
 
                 {menuItems.map((item) => {
                   return (

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ActionIcon, Center } from "@mantine/core";
+import { ActionIcon, Center, Flex, Title } from "@mantine/core";
 import { IconHeart } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 
@@ -47,10 +47,11 @@ export const Favorite = ({ postSlug, postTitle }: FavoriteProps) => {
   };
 
   return (
-    <Center>
+    <Flex justify="center" align="center" direction="column">
+      <Title order={5}>Add to Favorites</Title>
       <ActionIcon onClick={handleFavoriteChoice}>
         <IconHeart fill={favoritedPost ? "red" : "white"} />
       </ActionIcon>
-    </Center>
+    </Flex>
   );
 };
