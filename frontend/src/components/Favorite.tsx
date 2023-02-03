@@ -8,11 +8,11 @@ import { useAddFavorite } from "@/hooks/useAddFavorite";
 import { useRemoveFavorite } from "@/hooks/useRemoveFavorite";
 
 type FavoriteProps = {
-  postId: string;
+  postSlug: string;
   postTitle: string;
 };
 
-export const Favorite = ({ postId, postTitle }: FavoriteProps) => {
+export const Favorite = ({ postSlug, postTitle }: FavoriteProps) => {
   const [favoritedPost, setFavoritedPost] = React.useState(false);
   const { user } = React.useContext(UserContext) as UserContextType;
 
@@ -21,23 +21,23 @@ export const Favorite = ({ postId, postTitle }: FavoriteProps) => {
 
   useEffect(() => {
     if (user) {
-      const isLiked = user.favoritePosts.includes(postId);
+      const isLiked = user.favoritePosts.includes(postSlug);
       if (isLiked) {
         setFavoritedPost(true);
       }
     }
-  }, [user, postId]);
+  }, [user, postSlug]);
 
   const handleFavoriteChoice = () => {
     if (favoritedPost) {
-      mutateRemoveFavorite(postId);
+      mutateRemoveFavorite(postSlug);
       setFavoritedPost(false);
       showNotification({
         title: "Removed from Favorites!",
         message: `${postTitle} has been removed from your favorites.`,
       });
     } else {
-      mutateAddFavorite(postId);
+      mutateAddFavorite(postSlug);
       setFavoritedPost(true);
       showNotification({
         title: "Added to Favorites!",

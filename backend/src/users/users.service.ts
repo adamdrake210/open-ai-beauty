@@ -162,7 +162,7 @@ export class UsersService {
   }
 
   // Favorites
-  async addFavorite(userId: string, favoriteId: string) {
+  async addFavorite(userId: string, favoriteSlug: string) {
     const userFavorites = await this.prisma.user.findUnique({
       where: {
         id: userId,
@@ -172,7 +172,7 @@ export class UsersService {
       },
     });
 
-    if (userFavorites.favoritePosts.includes(favoriteId)) {
+    if (userFavorites.favoritePosts.includes(favoriteSlug)) {
       throw new HttpException(
         'Post is already in favorites',
         HttpStatus.BAD_REQUEST
@@ -184,7 +184,7 @@ export class UsersService {
         id: userId,
       },
       data: {
-        favoritePosts: [...userFavorites.favoritePosts, favoriteId],
+        favoritePosts: [...userFavorites.favoritePosts, favoriteSlug],
       },
       select: {
         favoritePosts: true,
@@ -192,7 +192,7 @@ export class UsersService {
     });
   }
 
-  async removeFavorite(userId: string, favoriteId: string) {
+  async removeFavorite(userId: string, favoriteSlug: string) {
     const userFavorites = await this.prisma.user.findUnique({
       where: {
         id: userId,
@@ -202,12 +202,12 @@ export class UsersService {
       },
     });
 
-    if (!userFavorites.favoritePosts.includes(favoriteId)) {
+    if (!userFavorites.favoritePosts.includes(favoriteSlug)) {
       throw new HttpException('Post is not a favorite', HttpStatus.BAD_REQUEST);
     }
 
     const updatedFavorites = userFavorites.favoritePosts.filter(
-      (id) => id !== favoriteId
+      (id) => id !== favoriteSlug
     );
 
     return this.prisma.user.update({

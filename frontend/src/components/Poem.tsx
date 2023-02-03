@@ -46,7 +46,7 @@ export const Poem = ({ post, userId }: PoemProps) => {
           }}
         />
         <p>By {post?.author}</p>
-        {userId && <Favorite postId={post.id} postTitle={post.title} />}
+        {userId && <Favorite postSlug={post.slug!} postTitle={post.title} />}
         <Divider my="sm" variant="solid" />
       </Box>
 

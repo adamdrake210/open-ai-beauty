@@ -26,23 +26,23 @@ export class UsersController {
   @Post('favorites')
   async addFavorite(
     @Req() request: RequestWithUser,
-    @Body() addFavoriteBody: { postId: string }
+    @Body() addFavoriteBody: { slug: string }
   ) {
-    const { postId } = addFavoriteBody;
+    const { slug } = addFavoriteBody;
     const userId = request.user.id;
 
-    return this.usersService.addFavorite(userId, postId);
+    return this.usersService.addFavorite(userId, slug);
   }
 
   @Patch('favorites')
   async removeFavorite(
     @Req() request: RequestWithUser,
-    @Body() removeFavoriteBody: { postId: string }
+    @Body() removeFavoriteBody: { slug: string }
   ) {
-    const { postId } = removeFavoriteBody;
+    const { slug } = removeFavoriteBody;
     const userId = request.user.id;
 
-    return this.usersService.removeFavorite(userId, postId);
+    return this.usersService.removeFavorite(userId, slug);
   }
 
   // Users

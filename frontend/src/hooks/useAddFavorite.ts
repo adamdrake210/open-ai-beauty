@@ -1,7 +1,7 @@
 import { GENERIC_ERROR_MESSAGE } from "@/constants/constants";
 import { useMutation } from "@tanstack/react-query";
 
-const addFavorite = async (postId: string) => {
+const addFavorite = async (slug: string) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/users/favorites`,
     {
@@ -10,7 +10,7 @@ const addFavorite = async (postId: string) => {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify({ postId }),
+      body: JSON.stringify({ slug }),
     }
   );
   if (!response.ok) {
@@ -21,7 +21,7 @@ const addFavorite = async (postId: string) => {
 
 const useAddFavorite = () => {
   return useMutation({
-    mutationFn: (postId: string) => addFavorite(postId),
+    mutationFn: (slug: string) => addFavorite(slug),
   });
 };
 
