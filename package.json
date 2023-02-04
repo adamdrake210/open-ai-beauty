@@ -1,0 +1,16 @@
+{
+  "name": "@ai-poetry",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "all:update": "pnpm -r update -i -L",
+    "clean": "find ./ -name node_modules -type d -exec rm -rf {} +"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nx": "^15.6.3"
+  }
+}

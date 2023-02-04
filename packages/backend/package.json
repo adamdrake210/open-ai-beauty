@@ -1,23 +1,13 @@
 {
-  "name": "nestjs-prisma-client-starter",
-  "version": "0.0.1",
-  "description": "NestJS Prisma Client Starter Project",
-  "author": "Marc Stammerjohann",
+  "name": "@ai-poetry/backend",
+  "version": "1.0.0",
+  "description": "NestJS Backend for AI Poetry",
   "license": "MIT",
   "keywords": [
     "nestjs",
-    "prisma",
-    "prisma client",
     "typescript",
     "passport"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/fivethree-team/nestjs-prisma-client-example.git"
-  },
-  "bugs": {
-    "url": "https://github.com/fivethree-team/nestjs-prisma-client-example/issues"
-  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
